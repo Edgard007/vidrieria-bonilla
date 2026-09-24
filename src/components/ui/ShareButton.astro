@@ -7,15 +7,14 @@ import { UI } from '@/i18n/ui';
 interface Props {
   locale: Locale;
   title: string;
-  variant?: 'light' | 'deep' | 'compact';
   class?: string;
 }
 
-const { locale, title, variant = 'light', class: className } = Astro.props;
+const { locale, title, class: className } = Astro.props;
 const ui = UI[locale];
 ---
 
-<span class:list={['share', `share--${variant}`, className]} data-share>
+<span class:list={['share', className]} data-share>
   <button
     type="button"
     class="share__button"
@@ -23,10 +22,9 @@ const ui = UI[locale];
     data-share-title={title}
     data-copied={ui.share.copied}
     data-failed={ui.share.failed}
-    aria-label={variant === 'compact' ? ui.share.label : undefined}
   >
     <Share2 aria-hidden="true" />
-    {variant !== 'compact' && <span>{ui.share.button}</span>}
+    <span>{ui.share.button}</span>
   </button>
   <span class="share__status" role="status" aria-live="polite" data-share-status></span>
 </span>
@@ -72,8 +70,8 @@ const ui = UI[locale];
 
 <style>
   .share {
-    position: relative;
     display: inline-flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--space-3);
   }
@@ -83,20 +81,19 @@ const ui = UI[locale];
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-    min-width: 44px;
     min-height: 44px;
     padding: 0 var(--space-4);
-    border: 1px solid var(--color-outline-strong);
+    border: 1px solid var(--color-deep-line);
     border-radius: var(--radius-sm);
-    background: var(--color-surface-raised);
-    color: var(--color-on-surface);
+    background: transparent;
+    color: var(--color-on-deep);
     font-size: var(--text-label);
     font-weight: 620;
     transition: border-color var(--dur-feedback) var(--ease-out);
   }
 
   .share__button:hover {
-    border-color: var(--color-on-surface);
+    border-color: var(--color-on-deep);
   }
 
   .share__button :global(svg) {
@@ -104,39 +101,9 @@ const ui = UI[locale];
     height: 18px;
   }
 
-  .share--deep .share__button {
-    border-color: var(--color-deep-line);
-    background: transparent;
-    color: var(--color-on-deep);
-  }
-
-  .share--deep .share__button:hover {
-    border-color: var(--color-on-deep);
-  }
-
-  .share--compact .share__button {
-    padding: 0;
-    width: 48px;
-    height: 48px;
-  }
-
   .share__status {
+    color: var(--color-accent-on-deep);
     font-size: var(--text-sm);
     font-weight: 600;
-  }
-
-  .share--compact .share__status {
-    position: absolute;
-    bottom: calc(100% + var(--space-2));
-    right: 0;
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-sm);
-    background: var(--color-deep);
-    color: var(--color-on-deep);
-    white-space: nowrap;
-  }
-
-  .share--compact .share__status:empty {
-    display: none;
   }
 </style>

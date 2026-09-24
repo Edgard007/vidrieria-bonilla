@@ -3,7 +3,6 @@ import { ChevronRight, MessageCircle, Plus, TriangleAlert } from '@lucide/astro'
 
 import InlineContent from '@/components/legal/InlineContent.astro';
 import Button from '@/components/ui/Button.astro';
-import ShareButton from '@/components/ui/ShareButton.astro';
 import { COMPANY } from '@/config/company';
 import { getLegalDocument } from '@/i18n/legal/documents';
 import type { Locale } from '@/i18n/locales';
@@ -191,7 +190,6 @@ const cells = (cell: unknown) => (Array.isArray(cell) ? cell : [cell]);
             </>
           ))}
         </p>
-        <ShareButton locale={locale} title={ui.legal.titles[page]} />
       </footer>
     </div>
   </div>
