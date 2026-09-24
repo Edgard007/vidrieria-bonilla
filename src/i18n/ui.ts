@@ -124,7 +124,7 @@ type UiStrings = {
     onThisPage: string;
   };
   summary: { title: string; keyPoints: string; label: string };
-  share: { button: string; copied: string; failed: string; label: string; call: string };
+  share: { button: string; copied: string; failed: string; call: string };
   notFound: { heading: string; title: string; body: string; back: string };
 };
 
@@ -337,7 +337,6 @@ export const UI: Record<Locale, UiStrings> = {
       button: 'Compartir',
       copied: 'Enlace copiado',
       failed: 'No se pudo compartir. Copie la dirección de la página.',
-      label: 'Compartir esta página',
       call: 'Llamar',
     },
     notFound: {
@@ -554,7 +553,6 @@ export const UI: Record<Locale, UiStrings> = {
       button: 'Share',
       copied: 'Link copied',
       failed: 'Could not share. Copy the page address instead.',
-      label: 'Share this page',
       call: 'Call',
     },
     notFound: {
