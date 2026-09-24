@@ -16,14 +16,17 @@ const controller: LegalDocument['sections'][number] = {
   heading: 'Quién es el responsable',
   blocks: [
     {
-      list: [
-        ['Nombre comercial: ', name],
-        ['Titular: ', fact(legal.legalName, L)],
-        ['NIT: ', fact(legal.taxId, L)],
-        ['Dirección: ', fullAddress()],
-        ['Correo: ', email],
-        ['Teléfono y WhatsApp: ', phone],
-      ],
+      table: {
+        head: ['Dato', 'Detalle'],
+        rows: [
+          ['Nombre comercial', name],
+          ['Titular', fact(legal.legalName, L)],
+          ['NIT', fact(legal.taxId, L)],
+          ['Dirección', fullAddress()],
+          ['Correo', email],
+          ['Teléfono y WhatsApp', phone],
+        ],
+      },
     },
   ],
 };
@@ -34,6 +37,32 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
       `Esta política explica qué datos personales trata ${name} cuando usted visita este sitio o nos pide una cotización, y cómo puede ejercer sus derechos según la `,
       LAWS.dataProtection.es,
       '.',
+    ],
+    summary:
+      'Solo pedimos los datos necesarios para responder su cotización, no los usamos para publicidad y usted puede pedir que los corrijamos o borremos cuando quiera.',
+    keyPoints: [
+      ['Pedimos nombre, teléfono, servicio y detalle; el correo es opcional.'],
+      ['Usamos los datos solo para responder y, si nos contrata, coordinar el trabajo.'],
+      ['No enviamos publicidad ni vendemos sus datos.'],
+      ['Algunos servicios, como WhatsApp y Gmail, guardan datos fuera de El Salvador.'],
+      ['Puede ejercer sus derechos escribiendo a ', email, '.'],
+    ],
+    faq: [
+      {
+        question: '¿Qué datos piden al cotizar?',
+        answer:
+          'Nombre, teléfono o WhatsApp, el servicio que le interesa y el detalle de lo que necesita. El correo electrónico es opcional.',
+      },
+      {
+        question: '¿Usan mis datos para enviarme publicidad?',
+        answer:
+          'No. Solo los usamos para responder su solicitud y, si nos contrata, coordinar el trabajo. No vendemos ni cedemos sus datos.',
+      },
+      {
+        question: '¿Cómo pido que borren mis datos?',
+        answer:
+          'Escríbanos por correo o WhatsApp indicando qué dato quiere borrar. Respondemos en un máximo de 20 días hábiles.',
+      },
     ],
     sections: [
       controller,
@@ -64,11 +93,8 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         heading: 'Para qué los usamos',
         blocks: [
           {
-            list: [
-              ['Responder su consulta y preparar la cotización que pidió.'],
-              [
-                'Coordinar la fabricación, la entrega o la reparación si usted contrata el trabajo.',
-              ],
+            paragraph: [
+              'Usamos sus datos para responder su consulta, preparar la cotización que pidió y, si contrata el trabajo, coordinar la fabricación, la entrega o la reparación.',
             ],
           },
           {
@@ -95,35 +121,21 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Para recibir y contestar su mensaje usamos servicios de terceros que pueden guardar los datos en servidores fuera de El Salvador, principalmente en Estados Unidos:',
-            ],
-          },
-          {
-            list: [
-              [
-                'WhatsApp, de WhatsApp LLC (Meta Platforms), si nos escribe por ese medio o usa el botón de WhatsApp del formulario.',
-              ],
-              ['Gmail, de Google LLC, donde recibimos los correos.'],
-              [
-                'El servicio que entrega el formulario por correo, si está activo: ',
-                {
-                  pending: {
-                    es: 'Nombre y país del proveedor del formulario',
-                    en: 'Form provider name and country',
-                  },
+              'Para recibir y contestar su mensaje usamos servicios de terceros que pueden guardar los datos en servidores fuera de El Salvador, principalmente en Estados Unidos: WhatsApp, de WhatsApp LLC (Meta Platforms), si nos escribe por ese medio o usa el botón de WhatsApp del formulario; Gmail, de Google LLC, donde recibimos los correos; el servicio que entrega el formulario por correo, si está activo (',
+              {
+                pending: {
+                  es: 'Nombre y país del proveedor del formulario',
+                  en: 'Form provider name and country',
                 },
-                '.',
-              ],
-              [
-                'El proveedor de alojamiento del sitio: ',
-                {
-                  pending: {
-                    es: 'Nombre y país del proveedor de alojamiento',
-                    en: 'Hosting provider name and country',
-                  },
+              },
+              '); y el proveedor de alojamiento del sitio (',
+              {
+                pending: {
+                  es: 'Nombre y país del proveedor de alojamiento',
+                  en: 'Hosting provider name and country',
                 },
-                '.',
-              ],
+              },
+              ').',
             ],
           },
           {
@@ -209,6 +221,31 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
   terms: {
     intro: [
       `Estos términos regulan el uso de este sitio web y las solicitudes de cotización que se hacen a ${name} por medio de él. Al usar el sitio usted los acepta.`,
+    ],
+    summary:
+      'Una respuesta por WhatsApp o teléfono es orientativa: el precio y el plazo quedan fijos cuando usted acepta la cotización escrita.',
+    keyPoints: [
+      ['El sitio es informativo; no vende en línea ni recibe pagos.'],
+      ['La cotización escrita detalla medidas, materiales, precio con impuestos y plazo.'],
+      ['El precio aceptado no cambia salvo que usted pida cambios.'],
+      ['Las fotos, el logotipo y los textos pertenecen a la vidriería.'],
+      ['Los reclamos se atienden por ', whatsapp, ' o correo, y ante la ', LAWS.defensoria, '.'],
+    ],
+    faq: [
+      {
+        question: '¿Una respuesta por WhatsApp es una cotización formal?',
+        answer:
+          'No. Es orientativa hasta que le entreguemos una cotización por escrito con medidas, materiales, precio y plazo.',
+      },
+      {
+        question: '¿Puede cambiar el precio después de aceptar la cotización?',
+        answer: 'No, salvo que usted pida cambios en las medidas, los materiales o el diseño.',
+      },
+      {
+        question: '¿Dónde presento un reclamo?',
+        answer:
+          'Escríbanos por correo o WhatsApp y le daremos un número de seguimiento. También puede acudir a la Defensoría del Consumidor.',
+      },
     ],
     sections: [
       controller,
@@ -341,31 +378,71 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
     intro: [
       'Una cookie es un pequeño archivo que un sitio guarda en su navegador. Este sitio no usa ninguna, ni propia ni de terceros, y por eso no le muestra un aviso para aceptarlas.',
     ],
+    summary:
+      'Este sitio no usa cookies propias ni de terceros, por eso no le pide que acepte ninguna.',
+    keyPoints: [
+      ['No hay cookies propias ni de terceros.'],
+      ['No usamos herramientas de analítica, seguimiento ni publicidad.'],
+      ['Las tipografías se sirven desde nuestro propio servidor.'],
+      ['No hay mapas, videos ni redes sociales incrustados.'],
+      ['Si algún día agregamos cookies no esenciales, pediremos su consentimiento antes.'],
+    ],
+    faq: [
+      {
+        question: '¿Este sitio usa cookies?',
+        answer: 'No. El sitio no guarda cookies ni datos en el almacenamiento de su navegador.',
+      },
+      {
+        question: '¿Por qué no aparece un aviso de cookies?',
+        answer:
+          'Porque no hay cookies que aceptar. Si en el futuro agregamos alguna no esencial, le pediremos su consentimiento antes de activarla.',
+      },
+      {
+        question: '¿Qué pasa si abro WhatsApp, Facebook o Google Maps desde el sitio?',
+        answer:
+          'Sale de nuestro sitio y esos servicios pueden usar sus propias cookies, según sus políticas.',
+      },
+    ],
     sections: [
       {
         id: 'inventario',
         heading: 'Qué tecnologías intervienen',
         blocks: [
           {
-            list: [
-              [
-                'Tipografías: se sirven desde nuestro propio servidor. No se conectan a Google Fonts ni a otros servicios.',
+            table: {
+              head: ['Tecnología', 'Cómo funciona en este sitio', '¿Usa cookies?'],
+              rows: [
+                [
+                  'Tipografías',
+                  'Se sirven desde nuestro propio servidor, sin Google Fonts ni otros servicios.',
+                  'No',
+                ],
+                [
+                  'Analítica y publicidad',
+                  'No usamos herramientas de medición, seguimiento ni publicidad.',
+                  'No',
+                ],
+                [
+                  'Mapas, videos y redes sociales',
+                  'No hay contenido incrustado; los enlaces a WhatsApp, Facebook y Google Maps solo se abren si usted hace clic.',
+                  'No',
+                ],
+                [
+                  'Almacenamiento del navegador',
+                  'El sitio no guarda datos en localStorage, sessionStorage ni similares.',
+                  'No',
+                ],
+                [
+                  'Formulario',
+                  [
+                    'Los datos solo salen al pulsar enviar, hacia WhatsApp o el servicio indicado en la ',
+                    privacyPolicy,
+                    '.',
+                  ],
+                  'No',
+                ],
               ],
-              [
-                'Analítica y publicidad: no usamos ninguna herramienta de medición, seguimiento ni publicidad.',
-              ],
-              [
-                'Mapas, videos y redes sociales: no hay contenido incrustado. Los enlaces a WhatsApp, Facebook y Google Maps solo se abren si usted hace clic.',
-              ],
-              [
-                'Almacenamiento del navegador: el sitio no guarda datos en localStorage, sessionStorage ni similares.',
-              ],
-              [
-                'Formulario: los datos solo salen de su navegador cuando usted pulsa enviar, hacia WhatsApp o hacia el servicio de envío de formularios indicado en la ',
-                privacyPolicy,
-                '.',
-              ],
-            ],
+            },
           },
         ],
       },
@@ -400,17 +477,40 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
       LAWS.consumer.es,
       '.',
     ],
+    summary:
+      'Como casi todo se fabrica a la medida, fabricamos cuando usted acepta la cotización escrita y respondemos si el trabajo tiene defectos o no coincide con lo cotizado.',
+    keyPoints: [
+      ['Empezamos a fabricar cuando usted acepta la cotización escrita.'],
+      ['Puede cancelar avisándonos por escrito.'],
+      ['Si contrató a distancia, puede retractarse en ocho días si el servicio no ha comenzado.'],
+      ['Reparamos o cambiamos sin costo los defectos que sean nuestros.'],
+      ['Los reembolsos se pagan por el mismo medio, en un máximo de 15 días.'],
+    ],
+    faq: [
+      {
+        question: '¿Puedo cancelar un pedido?',
+        answer:
+          'Sí, avisándonos por escrito. Si contrató completamente a distancia, puede retractarse en los ocho días siguientes, salvo que el servicio ya haya comenzado.',
+      },
+      {
+        question: '¿Qué pasa si el trabajo tiene defectos?',
+        answer:
+          'Revisamos el trabajo y lo reparamos o cambiamos sin costo si el defecto es nuestro. Si la reparación no lo resuelve, usted elige entre cambio, rebaja o devolución.',
+      },
+      {
+        question: '¿Cuánto tarda un reembolso?',
+        answer:
+          'Cuando corresponde, devolvemos el dinero por el mismo medio de pago en un máximo de 15 días.',
+      },
+    ],
     sections: [
       {
         id: 'alcance',
         heading: 'A qué se aplica',
         blocks: [
           {
-            list: [
-              [
-                'Productos fabricados a la medida: ventanas, puertas de vidrio, espejos y piezas personalizadas.',
-              ],
-              ['Servicios de reparación, como el cambio de vidrio de retrovisores.'],
+            paragraph: [
+              'Se aplica a los productos fabricados a la medida (ventanas, puertas de vidrio, espejos y piezas personalizadas) y a los servicios de reparación, como el cambio de vidrio de retrovisores.',
             ],
           },
         ],

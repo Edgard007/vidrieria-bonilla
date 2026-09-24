@@ -3,6 +3,7 @@ import '@/styles/global.css';
 
 import { Font } from 'astro:assets';
 
+import MobileActionBar from '@/components/navigation/MobileActionBar.astro';
 import SiteFooter from '@/components/navigation/SiteFooter.astro';
 import SiteHeader from '@/components/navigation/SiteHeader.astro';
 import Seo from '@/components/seo/Seo.astro';
@@ -17,9 +18,10 @@ interface Props {
   title: string;
   description: string;
   isNoIndex?: boolean;
+  schemas?: Record<string, unknown>[];
 }
 
-const { locale, page, title, description, isNoIndex } = Astro.props;
+const { locale, page, title, description, isNoIndex, schemas = [] } = Astro.props;
 const ui = UI[locale];
 ---
 
@@ -48,6 +50,7 @@ const ui = UI[locale];
       title={title}
       description={description}
       isNoIndex={isNoIndex ?? false}
+      schemas={schemas}
     />
   </head>
   <body>
@@ -59,6 +62,7 @@ const ui = UI[locale];
       <slot />
     </main>
     <SiteFooter locale={locale} />
+    <MobileActionBar locale={locale} shareTitle={title} />
     <script>
       import '@/scripts/motion';
     </script>

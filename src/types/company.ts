@@ -78,6 +78,15 @@ export type OpeningHours = {
   display: Localized;
 };
 
+/** Section anchors on the home page that summary points link to. */
+export type SummarySection =
+  'about' | 'products' | 'materials' | 'process' | 'work' | 'faq' | 'contact';
+
+export type SummaryPoint = {
+  section: SummarySection;
+  text: Localized;
+};
+
 export type FaqItem = {
   question: Localized;
   answer: Localized;

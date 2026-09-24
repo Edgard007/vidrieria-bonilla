@@ -103,9 +103,19 @@ type UiStrings = {
     rights: (year: number, name: string) => string;
     noCookies: string;
     createdBy: string;
+    logoAlt: (name: string) => string;
   };
   legal: {
     titles: Record<LegalPageKey, string>;
+    metaTitles: Record<LegalPageKey, string>;
+    breadcrumbLabel: string;
+    legalHub: string;
+    summaryTitle: string;
+    keyPoints: string;
+    ctaText: string;
+    ctaButton: string;
+    faqTitle: string;
+    seeAlso: string;
     descriptions: Record<LegalPageKey, (name: string) => string>;
     lastUpdated: string;
     pendingLabel: string;
@@ -113,8 +123,9 @@ type UiStrings = {
     backHome: string;
     onThisPage: string;
   };
-  meta: { homeTitle: (name: string, tagline: string) => string };
-  notFound: { title: string; body: string; back: string };
+  summary: { title: string; keyPoints: string; label: string };
+  share: { button: string; copied: string; failed: string; label: string; call: string };
+  notFound: { heading: string; title: string; body: string; back: string };
 };
 
 export const UI: Record<Locale, UiStrings> = {
@@ -281,8 +292,23 @@ export const UI: Record<Locale, UiStrings> = {
       rights: (year, name) => `© ${year} ${name}`,
       noCookies: 'Este sitio no usa cookies ni herramientas de seguimiento.',
       createdBy: 'Sitio web creado por',
+      logoAlt: (name) => `Logo de ${name}`,
     },
     legal: {
+      metaTitles: {
+        privacy: 'Privacidad y protección de datos',
+        terms: 'Condiciones de uso y cotizaciones',
+        cookies: 'Uso de cookies en este sitio',
+        refunds: 'Anticipos, garantías y devoluciones',
+      },
+      breadcrumbLabel: 'Ruta de navegación',
+      legalHub: 'Legal',
+      summaryTitle: 'En resumen',
+      keyPoints: 'Puntos clave',
+      ctaText: '¿Tiene dudas sobre este documento? Escríbanos y se las aclaramos.',
+      ctaButton: 'Preguntar por WhatsApp',
+      faqTitle: 'Preguntas frecuentes',
+      seeAlso: 'Consulte también',
       titles: {
         privacy: 'Política de privacidad',
         terms: 'Términos y condiciones',
@@ -291,10 +317,13 @@ export const UI: Record<Locale, UiStrings> = {
       },
       descriptions: {
         privacy: (name) =>
-          `Qué datos recoge ${name}, para qué los usa y cómo ejercer sus derechos.`,
-        terms: (name) => `Condiciones de uso del sitio web y de las cotizaciones de ${name}.`,
-        cookies: () => `Este sitio no usa cookies. Detalle de las tecnologías que sí intervienen.`,
-        refunds: () => `Cómo funcionan anticipos, cancelaciones, devoluciones y garantías.`,
+          `Qué datos pide ${name} al cotizar, para qué los usa, quién más interviene y cómo ejercer sus derechos según la ley de El Salvador.`,
+        terms: (name) =>
+          `Condiciones de uso del sitio de ${name}: cómo funcionan las cotizaciones, el precio aceptado, la propiedad de las fotos y los reclamos.`,
+        cookies: () =>
+          `Este sitio no usa cookies propias ni de terceros. Vea qué tecnologías intervienen y por qué no le pedimos que acepte ninguna.`,
+        refunds: () =>
+          `Cómo funcionan anticipos, cancelaciones, devoluciones, garantías y reembolsos en trabajos de vidrio y aluminio hechos a la medida.`,
       },
       lastUpdated: 'Última actualización',
       pendingLabel: 'Pendiente de confirmar',
@@ -303,8 +332,16 @@ export const UI: Record<Locale, UiStrings> = {
       backHome: 'Volver al inicio',
       onThisPage: 'En esta página',
     },
-    meta: { homeTitle: (name, tagline) => `${name} | ${tagline}` },
+    summary: { title: 'En resumen', keyPoints: 'Cinco puntos clave', label: 'Resumen' },
+    share: {
+      button: 'Compartir',
+      copied: 'Enlace copiado',
+      failed: 'No se pudo compartir. Copie la dirección de la página.',
+      label: 'Compartir esta página',
+      call: 'Llamar',
+    },
     notFound: {
+      heading: 'No encontramos esta página',
       title: 'Página no encontrada',
       body: 'La dirección que buscó no existe o cambió.',
       back: 'Ir al inicio',
@@ -472,8 +509,23 @@ export const UI: Record<Locale, UiStrings> = {
       rights: (year, name) => `© ${year} ${name}`,
       noCookies: 'This site uses no cookies or tracking tools.',
       createdBy: 'Website by',
+      logoAlt: (name) => `${name} logo`,
     },
     legal: {
+      metaTitles: {
+        privacy: 'Privacy and data protection',
+        terms: 'Terms of use and quotes',
+        cookies: 'Use of cookies on this site',
+        refunds: 'Deposits, warranties and returns',
+      },
+      breadcrumbLabel: 'Breadcrumb',
+      legalHub: 'Legal',
+      summaryTitle: 'In short',
+      keyPoints: 'Key points',
+      ctaText: 'Questions about this document? Message us and we will clear them up.',
+      ctaButton: 'Ask on WhatsApp',
+      faqTitle: 'Frequently asked questions',
+      seeAlso: 'See also',
       titles: {
         privacy: 'Privacy policy',
         terms: 'Terms and conditions',
@@ -481,10 +533,14 @@ export const UI: Record<Locale, UiStrings> = {
         refunds: 'Refunds, returns and cancellations',
       },
       descriptions: {
-        privacy: (name) => `What data ${name} collects, why, and how to exercise your rights.`,
-        terms: (name) => `Terms of use for the ${name} website and its quotes.`,
-        cookies: () => `This site uses no cookies. Details of the technologies that are involved.`,
-        refunds: () => `How deposits, cancellations, returns and warranties work.`,
+        privacy: (name) =>
+          `What data ${name} asks for when you request a quote, what it is used for, who else is involved and how to exercise your rights.`,
+        terms: (name) =>
+          `Terms of use for the ${name} website: how quotes work, what an accepted price means, who owns the photos and how to complain.`,
+        cookies: () =>
+          `This site uses no first-party or third-party cookies. See which technologies are involved and why you are never asked to accept any.`,
+        refunds: () =>
+          `How deposits, cancellations, returns, warranties and refunds work for made-to-measure glass and aluminium work.`,
       },
       lastUpdated: 'Last updated',
       pendingLabel: 'Pending confirmation',
@@ -493,8 +549,16 @@ export const UI: Record<Locale, UiStrings> = {
       backHome: 'Back to home',
       onThisPage: 'On this page',
     },
-    meta: { homeTitle: (name, tagline) => `${name} | ${tagline}` },
+    summary: { title: 'In short', keyPoints: 'Five key points', label: 'Summary' },
+    share: {
+      button: 'Share',
+      copied: 'Link copied',
+      failed: 'Could not share. Copy the page address instead.',
+      label: 'Share this page',
+      call: 'Call',
+    },
     notFound: {
+      heading: 'We could not find this page',
       title: 'Page not found',
       body: 'The address you requested does not exist or has moved.',
       back: 'Go to home',

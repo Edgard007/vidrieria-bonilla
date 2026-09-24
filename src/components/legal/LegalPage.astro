@@ -1,15 +1,16 @@
 ---
-import { ArrowLeft, TriangleAlert } from '@lucide/astro';
+import { ChevronRight, MessageCircle, Plus, TriangleAlert } from '@lucide/astro';
 
 import InlineContent from '@/components/legal/InlineContent.astro';
+import Button from '@/components/ui/Button.astro';
+import ShareButton from '@/components/ui/ShareButton.astro';
 import { COMPANY } from '@/config/company';
-import { LEGAL_EN } from '@/i18n/legal/en';
-import { LEGAL_ES } from '@/i18n/legal/es';
-import type { LegalDocument } from '@/i18n/legal/types';
+import { getLegalDocument } from '@/i18n/legal/documents';
 import type { Locale } from '@/i18n/locales';
-import { pathFor, type LegalPageKey } from '@/i18n/routes';
+import { isLegalPage, PAGE_KEYS, pathFor, type LegalPageKey } from '@/i18n/routes';
 import { UI } from '@/i18n/ui';
 import { formatDate } from '@/lib/localize';
+import { whatsappUrl } from '@/lib/whatsapp';
 
 interface Props {
   locale: Locale;
@@ -18,21 +19,63 @@ interface Props {
 
 const { locale, page } = Astro.props;
 const ui = UI[locale];
-const DOCUMENTS: Record<Locale, Record<LegalPageKey, LegalDocument>> = {
-  es: LEGAL_ES,
-  en: LEGAL_EN,
-};
-const doc = DOCUMENTS[locale][page];
+const doc = getLegalDocument(locale, page);
+const related = PAGE_KEYS.filter(isLegalPage).filter((key) => key !== page);
+const cells = (cell: unknown) => (Array.isArray(cell) ? cell : [cell]);
 ---
 
 <article class="legal container">
-  <a class="legal__back" href={pathFor('home', locale)}>
-    <ArrowLeft aria-hidden="true" />
-    {ui.legal.backHome}
-  </a>
+  <nav class="breadcrumb" aria-label={ui.legal.breadcrumbLabel}>
+    <ol role="list">
+      <li>
+        <a href={pathFor('home', locale)}>{ui.nav.home}</a>
+      </li>
+      <li aria-hidden="true">
+        <ChevronRight />
+      </li>
+      <li>
+        <span>{ui.legal.legalHub}</span>
+      </li>
+      <li aria-hidden="true">
+        <ChevronRight />
+      </li>
+      <li>
+        <span aria-current="page">{ui.legal.titles[page]}</span>
+      </li>
+    </ol>
+  </nav>
 
   <header class="legal__header">
     <h1 class="legal__title">{ui.legal.titles[page]}</h1>
+    <p class="legal__intro">
+      <InlineContent parts={doc.intro} locale={locale} />
+    </p>
+    <div class="legal__cta">
+      <p>{ui.legal.ctaText}</p>
+      <Button
+        href={whatsappUrl(COMPANY.contact.whatsappE164, COMPANY.contact.whatsappGreeting[locale])}
+        isExternal
+      >
+        <MessageCircle aria-hidden="true" />
+        {ui.legal.ctaButton}
+      </Button>
+    </div>
+  </header>
+
+  <section class="legal__summary" aria-labelledby="legal-summary-title">
+    <h2 id="legal-summary-title">{ui.legal.summaryTitle}</h2>
+    <p class="legal__summary-text">{doc.summary}</p>
+    <h3>{ui.legal.keyPoints}</h3>
+    <ol class="legal__points" role="list">
+      {doc.keyPoints.map((point) => (
+        <li>
+          <InlineContent parts={point} locale={locale} />
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <div class="legal__meta">
     <p class="legal__updated">
       {ui.legal.lastUpdated}:{' '}
       <time datetime={COMPANY.legal.lastUpdated}>
@@ -43,22 +86,22 @@ const doc = DOCUMENTS[locale][page];
       <TriangleAlert aria-hidden="true" />
       <span>{ui.legal.draftNotice}</span>
     </p>
-    <p class="legal__intro">
-      <InlineContent parts={doc.intro} locale={locale} />
-    </p>
-  </header>
+  </div>
 
   <div class="legal__layout">
     <nav class="legal__toc" aria-labelledby="legal-toc-title">
-      <h2 id="legal-toc-title" class="legal__toc-title">
+      <p id="legal-toc-title" class="legal__toc-title">
         {ui.legal.onThisPage}
-      </h2>
+      </p>
       <ol role="list">
         {doc.sections.map((section) => (
           <li>
             <a href={`#${section.id}`}>{section.heading}</a>
           </li>
         ))}
+        <li>
+          <a href="#legal-faq">{ui.legal.faqTitle}</a>
+        </li>
       </ol>
     </nav>
 
@@ -66,57 +109,131 @@ const doc = DOCUMENTS[locale][page];
       {doc.sections.map((section) => (
         <section id={section.id} aria-labelledby={`${section.id}-title`}>
           <h2 id={`${section.id}-title`}>{section.heading}</h2>
-          {section.blocks.map((block) =>
-            'paragraph' in block ? (
-              <p>
-                <InlineContent parts={block.paragraph} locale={locale} />
-              </p>
-            ) : (
-              <ul>
-                {block.list.map((item) => (
-                  <li>
-                    <InlineContent parts={item} locale={locale} />
-                  </li>
-                ))}
-              </ul>
-            ),
-          )}
+          {section.blocks.map((block) => {
+            if ('paragraph' in block) {
+              return (
+                <p>
+                  <InlineContent parts={block.paragraph} locale={locale} />
+                </p>
+              );
+            }
+            if ('list' in block) {
+              return (
+                <ul>
+                  {block.list.map((item) => (
+                    <li>
+                      <InlineContent parts={item} locale={locale} />
+                    </li>
+                  ))}
+                </ul>
+              );
+            }
+            return (
+              <div class="legal__table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      {block.table.head.map((heading) => (
+                        <th scope="col">{heading}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {block.table.rows.map((row) => (
+                      <tr>
+                        {row.map((cell, index) =>
+                          index === 0 ? (
+                            <th scope="row">
+                              <InlineContent parts={cells(cell)} locale={locale} />
+                            </th>
+                          ) : (
+                            <td>
+                              <InlineContent parts={cells(cell)} locale={locale} />
+                            </td>
+                          ),
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            );
+          })}
         </section>
       ))}
+
+      <section id="legal-faq" class="legal__faq" aria-labelledby="legal-faq-title">
+        <h2 id="legal-faq-title">{ui.legal.faqTitle}</h2>
+        {doc.faq.map((item) => (
+          <details class="legal__faq-item" name="legal-faq">
+            <summary>
+              <h3>{item.question}</h3>
+              <Plus aria-hidden="true" />
+            </summary>
+            <p>{item.answer}</p>
+          </details>
+        ))}
+      </section>
+
+      <footer class="legal__footer">
+        <p class="legal__related">
+          {ui.legal.seeAlso}:{' '}
+          {related.map((key, index) => (
+            <>
+              <a href={pathFor(key, locale)}>{ui.legal.titles[key]}</a>
+              {index < related.length - 2
+                ? ', '
+                : index === related.length - 2
+                  ? locale === 'es'
+                    ? ' y '
+                    : ' and '
+                  : '.'}
+            </>
+          ))}
+        </p>
+        <ShareButton locale={locale} title={ui.legal.titles[page]} />
+      </footer>
     </div>
   </div>
 </article>
 
 <style>
   .legal {
-    padding-block: var(--space-6) var(--space-9);
+    padding-block: var(--space-5) var(--space-9);
   }
 
-  .legal__back {
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+    padding: 0;
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-sm);
+    list-style: none;
+  }
+
+  .breadcrumb a {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
     min-height: 44px;
     color: var(--color-primary);
-    font-size: var(--text-label);
-    font-weight: 620;
-    text-decoration: none;
+    font-weight: 600;
   }
 
-  .legal__back :global(svg) {
-    width: 18px;
-    height: 18px;
-    transition: transform var(--dur-state) var(--ease-out);
+  .breadcrumb :global(svg) {
+    width: 14px;
+    height: 14px;
   }
 
-  .legal__back:hover :global(svg) {
-    transform: translateX(-3px);
+  .breadcrumb [aria-current='page'] {
+    color: var(--color-on-surface);
+    font-weight: 600;
   }
 
   .legal__header {
     max-width: 48rem;
-    padding-block: var(--space-6) var(--space-7);
-    border-bottom: 1px solid var(--color-outline);
+    padding-block: var(--space-4) var(--space-6);
   }
 
   .legal__title {
@@ -125,8 +242,78 @@ const doc = DOCUMENTS[locale][page];
     font-stretch: 114%;
   }
 
+  .legal__intro {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+  }
+
+  .legal__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-5);
+    margin-top: var(--space-5);
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-raised);
+  }
+
+  .legal__cta p {
+    flex: 1 1 16rem;
+    font-weight: 560;
+  }
+
+  .legal__summary {
+    max-width: 48rem;
+    padding: var(--space-5) var(--space-6);
+    border-left: 1px solid var(--color-accent);
+    background: var(--color-accent-soft);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  }
+
+  .legal__summary h2 {
+    color: var(--color-accent-strong);
+    font-size: var(--text-label);
+    font-weight: 680;
+    font-stretch: 100%;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .legal__summary-text {
+    margin-top: var(--space-2);
+    font-size: var(--text-lg);
+    font-weight: 560;
+  }
+
+  .legal__summary h3 {
+    margin-top: var(--space-4);
+    font-size: var(--text-label);
+    font-weight: 650;
+    font-stretch: 100%;
+  }
+
+  .legal__points {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    padding-left: 1.3em;
+  }
+
+  .legal__points li::marker {
+    color: var(--color-accent-strong);
+    font-weight: 700;
+  }
+
+  .legal__meta {
+    max-width: 48rem;
+    margin-top: var(--space-6);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-outline);
+  }
+
   .legal__updated {
-    margin-top: var(--space-3);
     color: var(--color-on-surface-muted);
     font-size: var(--text-label);
   }
@@ -134,7 +321,7 @@ const doc = DOCUMENTS[locale][page];
   .legal__draft {
     display: flex;
     gap: var(--space-3);
-    margin-top: var(--space-5);
+    margin-top: var(--space-3);
     padding: var(--space-4);
     border: 1px solid var(--color-outline-strong);
     border-radius: var(--radius-sm);
@@ -148,11 +335,6 @@ const doc = DOCUMENTS[locale][page];
     flex: none;
     margin-top: 0.1em;
     color: var(--color-primary);
-  }
-
-  .legal__intro {
-    margin-top: var(--space-5);
-    font-size: var(--text-lg);
   }
 
   .legal__layout {
@@ -173,7 +355,6 @@ const doc = DOCUMENTS[locale][page];
     color: var(--color-on-surface-muted);
     font-size: var(--text-label);
     font-weight: 620;
-    font-stretch: 100%;
   }
 
   .legal__toc ol {
@@ -196,10 +377,11 @@ const doc = DOCUMENTS[locale][page];
   }
 
   .legal__body {
+    min-width: 0;
     max-width: 68ch;
   }
 
-  .legal__body section + section {
+  .legal__body > section + section {
     margin-top: var(--space-7);
   }
 
@@ -211,7 +393,8 @@ const doc = DOCUMENTS[locale][page];
 
   .legal__body p + p,
   .legal__body p + ul,
-  .legal__body ul + p {
+  .legal__body ul + p,
+  .legal__body p + .legal__table-wrap {
     margin-top: var(--space-3);
   }
 
@@ -230,6 +413,97 @@ const doc = DOCUMENTS[locale][page];
     overflow-wrap: anywhere;
   }
 
+  .legal__table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-sm);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-label);
+  }
+
+  th,
+  td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-outline);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  thead th {
+    background: var(--color-surface-glass);
+    font-weight: 650;
+  }
+
+  tbody th {
+    font-weight: 620;
+  }
+
+  .legal__faq-item {
+    border-bottom: 1px solid var(--color-outline);
+  }
+
+  .legal__faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 56px;
+    padding-block: var(--space-3);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .legal__faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .legal__faq-item h3 {
+    font-size: var(--text-md);
+    font-weight: 620;
+    font-stretch: 104%;
+  }
+
+  .legal__faq-item summary :global(svg) {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    color: var(--color-primary);
+    transition: rotate var(--dur-state) var(--ease-out);
+  }
+
+  .legal__faq-item[open] summary :global(svg) {
+    rotate: 45deg;
+  }
+
+  .legal__faq-item p {
+    padding-bottom: var(--space-4);
+    color: var(--color-on-surface-muted);
+  }
+
+  .legal__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-outline);
+  }
+
+  .legal__related {
+    flex: 1 1 20rem;
+    font-size: var(--text-label);
+  }
+
   @media (max-width: 56rem) {
     .legal__layout {
       grid-template-columns: minmax(0, 1fr);
@@ -241,6 +515,16 @@ const doc = DOCUMENTS[locale][page];
       border: 1px solid var(--color-outline);
       border-radius: var(--radius-lg);
       background: var(--color-surface-raised);
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .legal__summary {
+      padding: var(--space-4);
+    }
+
+    .legal__cta :global(.button) {
+      width: 100%;
     }
   }
 </style>
