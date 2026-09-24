@@ -1,0 +1,134 @@
+---
+import type { ElevationKind } from '@/types/company';
+
+interface Props {
+  kind: ElevationKind;
+  class?: string;
+}
+
+const { kind, class: className } = Astro.props;
+
+/*
+ * Fabrication-style elevations drawn from exact geometry. Every stroke uses pathLength="1" so the
+ * draw-in animation works with a single dash value regardless of the real path length.
+ */
+type Shape = { d: string; tone?: 'frame' | 'glass' | 'dimension' | 'reflection' };
+
+const SHAPES: Record<ElevationKind, Shape[]> = {
+  window: [
+    { d: 'M44 40 H196 V172 H44 Z', tone: 'frame' },
+    { d: 'M52 48 H122 V164 H52 Z', tone: 'glass' },
+    { d: 'M118 52 H188 V164 H118 Z', tone: 'glass' },
+    { d: 'M52 106 H122 M118 106 H188 M87 48 V164 M153 52 V164', tone: 'glass' },
+    { d: 'M62 150 L78 134 M128 150 L150 128', tone: 'reflection' },
+    { d: 'M44 22 H196 M44 16 V28 M196 16 V28', tone: 'dimension' },
+    { d: 'M214 40 V172 M208 40 H220 M208 172 H220', tone: 'dimension' },
+  ],
+  door: [
+    { d: 'M78 24 H162 V184 H78 Z', tone: 'frame' },
+    { d: 'M86 32 H154 V176 H86 Z', tone: 'glass' },
+    { d: 'M146 92 V116', tone: 'frame' },
+    { d: 'M78 54 H72 M78 150 H72', tone: 'frame' },
+    { d: 'M60 184 H180', tone: 'frame' },
+    { d: 'M96 150 L128 118 M102 170 L142 130', tone: 'reflection' },
+    { d: 'M78 12 H162 M78 6 V18 M162 6 V18', tone: 'dimension' },
+    { d: 'M180 24 V176 M174 24 H186 M174 176 H186', tone: 'dimension' },
+  ],
+  mirror: [
+    { d: 'M76 180 V88 A44 44 0 0 1 164 88 V180 Z', tone: 'frame' },
+    { d: 'M84 172 V88 A36 36 0 0 1 156 88 V172 Z', tone: 'glass' },
+    { d: 'M96 132 L130 98 M104 156 L146 114', tone: 'reflection' },
+    { d: 'M60 180 H180', tone: 'frame' },
+    { d: 'M76 26 H164 M76 20 V32 M164 20 V32', tone: 'dimension' },
+    { d: 'M186 44 V180 M180 44 H192 M180 180 H192', tone: 'dimension' },
+  ],
+  'car-mirror': [
+    {
+      d: 'M58 70 Q60 52 82 50 H178 Q196 52 192 76 L180 138 Q176 156 156 158 H86 Q66 156 62 138 Z',
+      tone: 'frame',
+    },
+    {
+      d: 'M72 76 Q74 62 90 62 H170 Q182 64 180 80 L170 132 Q167 145 152 146 H92 Q78 145 75 132 Z',
+      tone: 'glass',
+    },
+    { d: 'M100 128 L136 92 M122 136 L150 108', tone: 'reflection' },
+    { d: 'M122 158 V184 M104 184 H140', tone: 'frame' },
+    { d: 'M58 30 H192 M58 24 V36 M192 24 V36', tone: 'dimension' },
+  ],
+  custom: [
+    { d: 'M40 70 H140 V180 H40 Z', tone: 'frame' },
+    { d: 'M100 36 H200 V146 H100 Z', tone: 'glass' },
+    { d: 'M100 70 H140 V146 H100 Z', tone: 'glass' },
+    { d: 'M54 162 L82 134 M150 128 L184 94', tone: 'reflection' },
+    { d: 'M100 20 H200 M100 14 V26 M200 14 V26', tone: 'dimension' },
+    { d: 'M24 70 V180 M18 70 H30 M18 180 H30', tone: 'dimension' },
+  ],
+};
+---
+
+<svg
+  class:list={['elevation', className]}
+  viewBox="0 0 240 200"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  {SHAPES[kind].map((shape, index) => (
+    <path
+      d={shape.d}
+      pathLength="1"
+      class={`elevation__${shape.tone ?? 'frame'}`}
+      style={`--stroke-index: ${index}`}
+    />
+  ))}
+</svg>
+
+<style>
+  .elevation {
+    width: 100%;
+    height: auto;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    overflow: visible;
+  }
+
+  path {
+    stroke: var(--elevation-stroke, var(--color-linework));
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .elevation__frame {
+    stroke: var(--elevation-frame, var(--color-on-surface));
+    stroke-width: 1.75;
+  }
+
+  .elevation__glass {
+    stroke: var(--elevation-glass, var(--color-primary));
+  }
+
+  .elevation__reflection {
+    stroke: var(--elevation-glass, var(--color-primary));
+    opacity: 0.55;
+  }
+
+  .elevation__dimension {
+    stroke-width: 1.25;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Parents opt in with .is-drawing to run the draw-in once. */
+    :global(.is-drawing) path {
+      animation: elevation-draw var(--dur-focal) var(--ease-out) both;
+      animation-delay: calc(var(--stroke-index) * 70ms);
+    }
+  }
+
+  @keyframes elevation-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+  }
+</style>

@@ -1,0 +1,137 @@
+---
+import { Plus } from '@lucide/astro';
+
+import { COMPANY } from '@/config/company';
+import type { Locale } from '@/i18n/locales';
+import { UI } from '@/i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = UI[locale];
+const section = ui.sections.faq;
+---
+
+<section id={section.id} class="section faq" aria-labelledby="faq-title">
+  <div class="container faq__grid">
+    <div class="faq__title">
+      <span class="accent-rule" aria-hidden="true"></span>
+      <h2 id="faq-title" class="section-title">
+        {section.title}
+      </h2>
+    </div>
+    <div class="faq__list" data-reveal="stagger">
+      {COMPANY.faq.map((item) => (
+        <details class="faq__item" name="faq" data-reveal-item>
+          <summary>
+            <span>{item.question[locale]}</span>
+            <Plus aria-hidden="true" />
+          </summary>
+          <div class="faq__answer">
+            <p>{item.answer[locale]}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-5);
+    align-items: start;
+  }
+
+  .faq__title {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-6));
+    grid-column: 1 / span 4;
+  }
+
+  .faq__title h2 {
+    max-width: 11ch;
+  }
+
+  .faq__list {
+    grid-column: 6 / span 7;
+    border-top: 1px solid var(--color-outline);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-outline);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 64px;
+    padding-block: var(--space-4);
+    font-size: var(--text-lg);
+    font-weight: 620;
+    font-stretch: 106%;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary :global(svg) {
+    width: 22px;
+    height: 22px;
+    flex: none;
+    color: var(--color-primary);
+    transition: rotate var(--dur-state) var(--ease-out);
+  }
+
+  .faq__item[open] summary :global(svg) {
+    rotate: 45deg;
+  }
+
+  summary:hover span {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+
+  .faq__answer p {
+    max-width: 62ch;
+    padding-bottom: var(--space-5);
+    color: var(--color-on-surface-muted);
+  }
+
+  /* Height animates where ::details-content is supported; elsewhere the panel opens instantly. */
+  .faq__item::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size var(--dur-layout) var(--ease-out),
+      content-visibility var(--dur-layout) allow-discrete;
+  }
+
+  .faq__item[open]::details-content {
+    block-size: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq__item::details-content {
+      transition-duration: 1ms;
+    }
+  }
+
+  @media (max-width: 60rem) {
+    .faq__title,
+    .faq__list {
+      position: static;
+      grid-column: 1 / -1;
+      max-width: none;
+    }
+  }
+</style>

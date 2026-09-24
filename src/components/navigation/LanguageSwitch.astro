@@ -1,0 +1,98 @@
+---
+import { LOCALES, LOCALE_META, type Locale } from '@/i18n/locales';
+import { pathFor, type PageKey } from '@/i18n/routes';
+import { UI } from '@/i18n/ui';
+
+interface Props {
+  locale: Locale;
+  page: PageKey;
+  /** Shows the visible "Idioma / Language" label, used inside the mobile menu. */
+  isLabelled?: boolean;
+}
+
+const { locale, page, isLabelled = false } = Astro.props;
+const ui = UI[locale];
+---
+
+<div class="language-switch" role="group" aria-label={ui.nav.languageLabel}>
+  {isLabelled && <span class="language-switch__label">{ui.nav.languageLabel}</span>}
+  <ul role="list">
+    {LOCALES.map((option) => (
+      <li>
+        {option === locale ? (
+          <span
+            class="language-switch__option is-current"
+            aria-current="true"
+            lang={LOCALE_META[option].htmlLang}
+          >
+            <abbr title={LOCALE_META[option].label}>{option.toUpperCase()}</abbr>
+          </span>
+        ) : (
+          <a
+            class="language-switch__option"
+            href={pathFor(page, option)}
+            hreflang={LOCALE_META[option].htmlLang}
+            lang={LOCALE_META[option].htmlLang}
+            aria-label={LOCALE_META[option].label}
+          >
+            {option.toUpperCase()}
+          </a>
+        )}
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .language-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .language-switch__label {
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-label);
+    font-weight: 560;
+  }
+
+  ul {
+    display: inline-flex;
+    padding: 3px;
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-full);
+    background: var(--color-surface-raised);
+    list-style: none;
+  }
+
+  .language-switch__option {
+    display: inline-grid;
+    place-items: center;
+    min-width: 44px;
+    min-height: 40px;
+    padding-inline: var(--space-3);
+    border-radius: var(--radius-full);
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-sm);
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition:
+      background-color var(--dur-feedback) var(--ease-out),
+      color var(--dur-feedback) var(--ease-out);
+  }
+
+  a.language-switch__option:hover {
+    background: var(--color-surface-glass);
+    color: var(--color-on-surface);
+  }
+
+  .is-current {
+    background: var(--color-deep);
+    color: var(--color-on-deep);
+  }
+
+  abbr {
+    text-decoration: none;
+  }
+</style>

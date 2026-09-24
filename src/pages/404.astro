@@ -1,0 +1,58 @@
+---
+import { COMPANY } from '@/config/company';
+import { DEFAULT_LOCALE } from '@/i18n/locales';
+import { pathFor } from '@/i18n/routes';
+import { UI } from '@/i18n/ui';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+
+const ui = UI[DEFAULT_LOCALE];
+const en = UI.en;
+---
+
+<BaseLayout
+  locale={DEFAULT_LOCALE}
+  page="home"
+  title={`${ui.notFound.title} | ${COMPANY.name}`}
+  description={ui.notFound.body}
+  isNoIndex
+>
+  <section class="not-found container">
+    <h1>{ui.notFound.title}</h1>
+    <p>{ui.notFound.body}</p>
+    <p lang="en" class="not-found__en">
+      {en.notFound.title}. {en.notFound.body}
+    </p>
+    <div class="not-found__actions">
+      <Button href={pathFor('home', 'es')}>{ui.notFound.back}</Button>
+      <Button href={pathFor('home', 'en')} variant="secondary" lang="en">
+        {en.notFound.back}
+      </Button>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    align-content: center;
+    gap: var(--space-4);
+    min-height: 60dvh;
+    padding-block: var(--space-9);
+  }
+
+  h1 {
+    font-size: var(--text-h2);
+  }
+
+  .not-found__en {
+    color: var(--color-on-surface-muted);
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+</style>

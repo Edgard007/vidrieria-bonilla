@@ -1,0 +1,344 @@
+---
+import { getImage, Picture } from 'astro:assets';
+import { Expand } from '@lucide/astro';
+
+import Lightbox from '@/components/gallery/Lightbox.astro';
+import { COMPANY } from '@/config/company';
+import type { Locale } from '@/i18n/locales';
+import { UI } from '@/i18n/ui';
+import type { ProductCategory } from '@/types/company';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = UI[locale];
+const section = ui.sections.work;
+
+const items = await Promise.all(
+  COMPANY.gallery.map(async (item) => {
+    const full = await getImage({ src: item.src, width: 1600, format: 'webp', quality: 82 });
+    return {
+      src: item.src,
+      category: item.category,
+      fullSrc: full.src,
+      alt: item.alt[locale],
+      caption: item.caption[locale],
+    };
+  }),
+);
+
+const categories = [...new Set(items.map((item) => item.category))] as ProductCategory[];
+---
+
+<section id={section.id} class="section gallery" aria-labelledby="work-title">
+  <div class="container">
+    <header class="gallery__header" data-reveal="rise">
+      <div>
+        <span class="accent-rule" aria-hidden="true"></span>
+        <h2 id="work-title" class="section-title">
+          {section.title}
+        </h2>
+        {section.lede && <p class="section-lede">{section.lede}</p>}
+      </div>
+      <div
+        class="gallery__filters"
+        role="group"
+        aria-label={ui.work.filterLabel}
+        data-gallery-filters
+        hidden
+      >
+        <button type="button" class="chip" data-filter="all" aria-pressed="true">
+          {ui.work.all}
+        </button>
+        {categories.map((category) => (
+          <button type="button" class="chip" data-filter={category} aria-pressed="false">
+            {ui.products.categories[category]}
+          </button>
+        ))}
+      </div>
+    </header>
+
+    <ul class="gallery__grid" role="list" data-gallery>
+      {items.map((item, index) => (
+        <li
+          class="tile"
+          data-category={item.category}
+          data-index={index}
+          style={`view-transition-name: work-tile-${index}`}
+        >
+          <a
+            class="tile__link skeleton"
+            href={item.fullSrc}
+            data-gallery-index={index}
+            data-full={item.fullSrc}
+            data-alt={item.alt}
+            data-caption={item.caption}
+          >
+            <Picture
+              src={item.src}
+              alt={item.alt}
+              formats={['avif', 'webp']}
+              widths={[320, 480, 720]}
+              sizes="(min-width: 64rem) 30vw, (min-width: 36rem) 46vw, 92vw"
+              class="tile__photo"
+            />
+            <span class="tile__caption">
+              <span>{item.caption}</span>
+              <Expand aria-hidden="true" />
+            </span>
+            <span class="visually-hidden">, {ui.gallery.open}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="gallery__more">
+      <button
+        type="button"
+        class="gallery__more-button"
+        data-gallery-more
+        data-label-more={ui.work.showMore}
+        data-label-less={ui.work.showLess}
+        aria-expanded="false"
+        hidden
+      >
+        {ui.work.showMore}
+      </button>
+    </div>
+  </div>
+  {items[0] && <Lightbox locale={locale} initial={{ src: items[0].fullSrc, alt: items[0].alt }} />}
+</section>
+
+<script>
+  import { animate, stagger } from 'motion';
+
+  const INITIAL_COUNT = 12;
+  const grid = document.querySelector<HTMLElement>('[data-gallery]');
+  const filters = document.querySelector<HTMLElement>('[data-gallery-filters]');
+  const more = document.querySelector<HTMLButtonElement>('[data-gallery-more]');
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (grid && filters && more) {
+    const tiles = Array.from(grid.querySelectorAll<HTMLElement>('.tile'));
+    let filter = 'all';
+    let isExpanded = false;
+
+    const render = (): void => {
+      const matching = tiles.filter((tile) => filter === 'all' || tile.dataset.category === filter);
+      tiles.forEach((tile) => {
+        const position = matching.indexOf(tile);
+        tile.hidden = position === -1 || (!isExpanded && position >= INITIAL_COUNT);
+      });
+      more.hidden = matching.length <= INITIAL_COUNT;
+      more.textContent = (isExpanded ? more.dataset.labelLess : more.dataset.labelMore) ?? '';
+      more.setAttribute('aria-expanded', String(isExpanded));
+    };
+
+    // Filtering reflows the mosaic; a view transition glides tiles to their new places.
+    const update = (change: () => void): void => {
+      if (!isReducedMotion && 'startViewTransition' in document) {
+        document.startViewTransition(() => {
+          change();
+          render();
+        });
+      } else {
+        change();
+        render();
+      }
+    };
+
+    filters.hidden = false;
+    render();
+
+    filters.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((button) => {
+      button.addEventListener('click', () => {
+        update(() => {
+          filter = button.dataset.filter ?? 'all';
+          isExpanded = false;
+          filters
+            .querySelectorAll('[data-filter]')
+            .forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+        });
+      });
+    });
+
+    more.addEventListener('click', () => {
+      const wasExpanded = isExpanded;
+      isExpanded = !isExpanded;
+      render();
+      if (!wasExpanded && !isReducedMotion) {
+        const revealed = tiles.filter(
+          (tile) => !tile.hidden && Number(tile.dataset.index) >= INITIAL_COUNT,
+        );
+        animate(
+          revealed,
+          { opacity: [0, 1], transform: ['translateY(24px)', 'translateY(0px)'] },
+          { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: stagger(0.05) },
+        );
+      }
+    });
+  }
+</script>
+
+<style>
+  .gallery__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-5);
+    margin-bottom: var(--space-7);
+  }
+
+  .gallery__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .gallery__filters[hidden] {
+    display: none;
+  }
+
+  .chip {
+    min-height: 44px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-full);
+    background: var(--color-surface-raised);
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-label);
+    font-weight: 600;
+    transition:
+      background-color var(--dur-feedback) var(--ease-out),
+      color var(--dur-feedback) var(--ease-out),
+      border-color var(--dur-feedback) var(--ease-out);
+  }
+
+  .chip:hover {
+    border-color: var(--color-outline-strong);
+    color: var(--color-on-surface);
+  }
+
+  .chip[aria-pressed='true'] {
+    border-color: var(--color-deep);
+    background: var(--color-deep);
+    color: var(--color-on-deep);
+  }
+
+  /* A column mosaic keeps every photo at its own proportions, so nothing is cropped. */
+  .gallery__grid {
+    columns: 2;
+    column-gap: var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 56rem) {
+    .gallery__grid {
+      columns: 3;
+      column-gap: var(--space-4);
+    }
+  }
+
+  .tile {
+    margin-bottom: var(--space-3);
+    break-inside: avoid;
+  }
+
+  .tile[hidden] {
+    display: none;
+  }
+
+  .tile__link {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-glass);
+    color: var(--color-on-deep);
+    text-decoration: none;
+    outline-offset: 4px;
+  }
+
+  .tile__link :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Feedback lives on the frame: a caption band slides up, the photo itself stays still. */
+  .tile__caption {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: color-mix(in oklab, var(--color-deep) 88%, transparent);
+    font-size: var(--text-label);
+    font-weight: 560;
+    line-height: 1.3;
+    transform: translateY(101%);
+    transition: transform var(--dur-state) var(--ease-out);
+  }
+
+  .tile__caption :global(svg) {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    color: var(--color-accent-on-deep);
+  }
+
+  .tile__link:hover .tile__caption,
+  .tile__link:focus-visible .tile__caption {
+    transform: none;
+  }
+
+  .tile__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgb(255 255 255 / 0);
+    border-radius: inherit;
+    transition: border-color var(--dur-state) var(--ease-out);
+    pointer-events: none;
+  }
+
+  .tile__link:hover::after {
+    border-color: var(--color-accent-on-deep);
+  }
+
+  @media (hover: none) {
+    .tile__caption {
+      transform: none;
+    }
+  }
+
+  .gallery__more {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-5);
+  }
+
+  .gallery__more-button {
+    min-height: 48px;
+    padding: 0 var(--space-6);
+    border: 1px solid var(--color-outline-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-raised);
+    color: var(--color-on-surface);
+    font-weight: 620;
+    transition: border-color var(--dur-feedback) var(--ease-out);
+  }
+
+  .gallery__more-button:hover {
+    border-color: var(--color-on-surface);
+  }
+
+  .gallery__more-button[hidden] {
+    display: none;
+  }
+</style>
