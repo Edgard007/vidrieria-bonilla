@@ -69,21 +69,23 @@ const categories = [...new Set(items.map((item) => item.category))] as ProductCa
           style={`view-transition-name: work-tile-${index}`}
         >
           <a
-            class="tile__link skeleton"
+            class="tile__link"
             href={item.fullSrc}
             data-gallery-index={index}
             data-full={item.fullSrc}
             data-alt={item.alt}
             data-caption={item.caption}
           >
-            <Picture
-              src={item.src}
-              alt={item.alt}
-              formats={['avif', 'webp']}
-              widths={[320, 480, 720]}
-              sizes="(min-width: 64rem) 30vw, (min-width: 36rem) 46vw, 92vw"
-              class="tile__photo"
-            />
+            <span class="tile__media skeleton">
+              <Picture
+                src={item.src}
+                alt={item.alt}
+                formats={['avif', 'webp']}
+                widths={[320, 480, 720]}
+                sizes="(min-width: 64rem) 30vw, (min-width: 36rem) 46vw, 92vw"
+                class="tile__photo"
+              />
+            </span>
             <span class="tile__caption">
               <span>{item.caption}</span>
               <Expand aria-hidden="true" />
@@ -263,6 +265,12 @@ const categories = [...new Set(items.map((item) => item.category))] as ProductCa
     outline-offset: 4px;
   }
 
+  .tile__media {
+    display: block;
+    overflow: clip;
+    border-radius: var(--radius-lg);
+  }
+
   .tile__link :global(img) {
     width: 100%;
     height: auto;
@@ -311,9 +319,30 @@ const categories = [...new Set(items.map((item) => item.category))] as ProductCa
     border-color: var(--color-accent-on-deep);
   }
 
-  @media (hover: none) {
+  /* On touch screens and narrow columns the caption moves below the photo so it is never clipped and
+     never covers the work. */
+  @media (hover: none), (max-width: 56rem) {
+    .tile__link {
+      overflow: visible;
+      background: none;
+      color: var(--color-on-surface);
+    }
+
+    .tile__link::after {
+      display: none;
+    }
+
     .tile__caption {
+      position: static;
+      padding: var(--space-2) var(--space-1) 0;
+      background: none;
+      color: var(--color-on-surface-muted);
+      font-size: var(--text-sm);
       transform: none;
+    }
+
+    .tile__caption :global(svg) {
+      display: none;
     }
   }
 

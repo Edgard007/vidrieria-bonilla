@@ -601,9 +601,16 @@ const photos = hero.photos;
     }
   }
 
+  /* Tablet and phone: the photo spans the full column, the vertical dimension line is dropped so the
+     frame stays centred, and vertical spacing tightens so the photo appears sooner. */
   @media (max-width: 60rem) {
+    .hero {
+      padding-block: var(--space-5) var(--space-7);
+    }
+
     .hero__grid {
       min-height: 0;
+      gap: var(--space-6);
     }
 
     .hero__copy,
@@ -611,22 +618,42 @@ const photos = hero.photos;
       grid-column: 1 / -1;
     }
 
+    .hero__title {
+      max-width: 16ch;
+    }
+
     .hero__visual {
-      max-width: 34rem;
+      padding: 30px 0 0;
+    }
+
+    .hero__dimension--width {
+      right: 0;
+    }
+
+    .hero__dimension--height {
+      display: none;
     }
 
     .hero__slide :global(img) {
-      aspect-ratio: 5 / 4;
+      aspect-ratio: 16 / 10;
     }
   }
 
-  @media (max-width: 30rem) {
-    .hero__visual {
-      padding: 30px 26px 0 0;
+  @media (max-width: 36rem) {
+    .hero__lede {
+      margin-top: var(--space-4);
+    }
+
+    .hero__actions {
+      margin-top: var(--space-5);
     }
 
     .hero__actions > :global(.button) {
       width: 100%;
+    }
+
+    .hero__slide :global(img) {
+      aspect-ratio: 4 / 3;
     }
   }
 </style>

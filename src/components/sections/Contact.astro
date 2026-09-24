@@ -256,6 +256,12 @@ const { contact, address, hours, social } = COMPANY;
     }
   }
 
+  @media (max-width: 36rem) {
+    .contact__aside :global(.contact__whatsapp) {
+      width: 100%;
+    }
+  }
+
   @media (max-width: 26rem) {
     .channel {
       grid-template-columns: minmax(0, 1fr);
