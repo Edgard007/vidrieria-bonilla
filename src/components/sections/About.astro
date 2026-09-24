@@ -1,0 +1,229 @@
+---
+import { Picture } from 'astro:assets';
+import { MapPin } from '@lucide/astro';
+
+import Button from '@/components/ui/Button.astro';
+import { COMPANY } from '@/config/company';
+import type { Locale } from '@/i18n/locales';
+import { UI } from '@/i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = UI[locale];
+const section = ui.sections.about;
+const { about, address } = COMPANY;
+const statements = [
+  { id: 'mission', label: ui.about.mission, text: about.mission[locale] },
+  { id: 'vision', label: ui.about.vision, text: about.vision[locale] },
+];
+---
+
+<section id={section.id} class="section about surface-deep" aria-labelledby="about-title">
+  <div class="container">
+    <header class="about__header">
+      <div data-reveal="mask" class="about__title-wrap">
+        <span class="accent-rule" aria-hidden="true"></span>
+        <h2 id="about-title" class="section-title">
+          <span class="line-mask">
+            <span data-reveal-line>{section.title}</span>
+          </span>
+        </h2>
+      </div>
+      <div class="about__intro" data-reveal="rise">
+        <p>{about.intro[locale]}</p>
+        <address class="about__address">
+          <MapPin aria-hidden="true" />
+          <span>
+            {address.street}
+            <br />
+            {address.district}, {address.municipality}, {address.country}
+          </span>
+        </address>
+        <Button href={address.mapsUrl} isExternal variant="on-deep">
+          {ui.about.visit}
+        </Button>
+      </div>
+    </header>
+
+    <div
+      class="statements"
+      aria-label={ui.about.statementsLabel}
+      role="group"
+      data-reveal="stagger"
+    >
+      {statements.map((statement) => (
+        <article class="statement" data-reveal-item aria-labelledby={`statement-${statement.id}`}>
+          <h3 id={`statement-${statement.id}`} class="statement__label">
+            {statement.label}
+          </h3>
+          <p class="statement__text">{statement.text}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="about__photos">
+      <figure class="about__photo about__photo--wide skeleton" data-reveal="frame">
+        <Picture
+          src={about.featurePhoto.src}
+          alt={about.featurePhoto.alt[locale]}
+          formats={['avif', 'webp']}
+          widths={[560, 860, 1200]}
+          sizes="(min-width: 60rem) 58vw, 92vw"
+        />
+      </figure>
+      <figure class="about__photo about__photo--narrow skeleton" data-reveal="frame">
+        <Picture
+          src={about.photo.src}
+          alt={about.photo.alt[locale]}
+          formats={['avif', 'webp']}
+          widths={[420, 640, 900]}
+          sizes="(min-width: 60rem) 34vw, 92vw"
+        />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__header {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-5);
+    align-items: end;
+  }
+
+  .about__title-wrap {
+    grid-column: 1 / span 5;
+  }
+
+  .line-mask {
+    display: block;
+    overflow: clip;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+  }
+
+  .line-mask > span {
+    display: block;
+  }
+
+  .about__intro {
+    grid-column: 7 / span 6;
+    color: var(--color-on-deep);
+    font-size: var(--text-lg);
+  }
+
+  .about__address {
+    display: flex;
+    gap: var(--space-3);
+    margin-block: var(--space-5);
+    color: var(--color-on-deep-muted);
+    font-size: var(--text-md);
+    font-style: normal;
+  }
+
+  .about__address :global(svg) {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    margin-top: 0.2em;
+    color: var(--color-accent-on-deep);
+  }
+
+  .statements {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-block: var(--space-8);
+    border-block: 1px solid var(--color-deep-line);
+  }
+
+  .statement {
+    padding: var(--space-7) var(--space-6) var(--space-7) 0;
+  }
+
+  .statement + .statement {
+    padding-left: var(--space-6);
+    border-left: 1px solid var(--color-deep-line);
+  }
+
+  .statement__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-accent-on-deep);
+    font-size: var(--text-h3);
+    font-weight: 720;
+    font-stretch: 114%;
+  }
+
+  .statement__label::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-xs);
+    background: currentColor;
+    transform: rotate(45deg);
+  }
+
+  .statement__text {
+    max-width: 46ch;
+    margin-top: var(--space-4);
+    color: var(--color-on-deep);
+    font-size: var(--text-statement);
+    line-height: 1.5;
+  }
+
+  .about__photos {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-4);
+    align-items: end;
+  }
+
+  .about__photo {
+    overflow: clip;
+    border-radius: var(--radius-lg);
+  }
+
+  .about__photo :global(img) {
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+
+  .about__photo--wide :global(img) {
+    aspect-ratio: 4 / 3;
+  }
+
+  .about__photo--narrow :global(img) {
+    aspect-ratio: 4 / 3;
+  }
+
+  @media (max-width: 60rem) {
+    .about__title-wrap,
+    .about__intro {
+      grid-column: 1 / -1;
+    }
+
+    .statements {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .statement,
+    .statement + .statement {
+      padding: var(--space-6) 0;
+      border-left: 0;
+    }
+
+    .statement + .statement {
+      border-top: 1px solid var(--color-deep-line);
+    }
+
+    .about__photos {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,562 @@
+---
+import {
+  CircleAlert,
+  CircleCheck,
+  LoaderCircle,
+  Mail,
+  MessageCircle,
+  Phone,
+  Send,
+} from '@lucide/astro';
+import { PUBLIC_FORM_ENDPOINT } from 'astro:env/client';
+
+import FormField from '@/components/forms/FormField.astro';
+import Button from '@/components/ui/Button.astro';
+import { COMPANY } from '@/config/company';
+import type { Locale } from '@/i18n/locales';
+import { pathFor } from '@/i18n/routes';
+import { UI } from '@/i18n/ui';
+import { QUOTE_FIELD_LIMITS } from '@/lib/quote-form';
+import { whatsappUrl } from '@/lib/whatsapp';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = UI[locale];
+const form = ui.form;
+const endpoint = PUBLIC_FORM_ENDPOINT ?? '';
+const isEmailDelivery = endpoint.length > 0;
+const consent = form.privacy(COMPANY.name);
+
+const i18nPayload = {
+  errors: form.errors,
+  summary: { one: form.errorSummary(1), many: form.errorSummary(2).replace('2', '{count}') },
+  template: form.whatsappTemplate,
+  greeting: COMPANY.contact.whatsappGreeting[locale],
+  services: Object.fromEntries(
+    COMPANY.products.map((product) => [product.id, product.name[locale]]),
+  ),
+  whatsappPhone: COMPANY.contact.whatsappE164,
+};
+---
+
+<form
+  class="quote-form"
+  method="post"
+  action={isEmailDelivery ? endpoint : undefined}
+  novalidate
+  data-quote-form
+  data-endpoint={endpoint}
+  data-i18n={JSON.stringify(i18nPayload)}
+  aria-describedby="quote-form-intro"
+>
+  <p id="quote-form-intro" class="quote-form__intro">
+    {ui.contact.formIntro}
+  </p>
+
+  <div class="quote-form__summary" role="alert" tabindex="-1" data-error-summary hidden>
+    <CircleAlert aria-hidden="true" />
+    <p data-error-summary-text></p>
+  </div>
+
+  <div class="quote-form__row">
+    <FormField
+      id="quote-name"
+      name="name"
+      label={form.name}
+      autocomplete="name"
+      required
+      maxlength={QUOTE_FIELD_LIMITS.name.max}
+    />
+    <FormField
+      id="quote-phone"
+      name="phone"
+      type="tel"
+      label={form.phone}
+      hint={form.phoneHint}
+      autocomplete="tel"
+      inputmode="tel"
+      required
+      maxlength={QUOTE_FIELD_LIMITS.phone.max}
+    />
+  </div>
+
+  <FormField
+    id="quote-email"
+    name="email"
+    type="email"
+    label={form.email}
+    optionalLabel={form.optional}
+    autocomplete="email"
+    maxlength={QUOTE_FIELD_LIMITS.email.max}
+  />
+
+  <FormField id="quote-service" name="service" as="select" label={form.service} required>
+    <option value="" selected disabled>
+      {form.servicePlaceholder}
+    </option>
+    {COMPANY.products.map((product) => (
+      <option value={product.id}>{product.name[locale]}</option>
+    ))}
+  </FormField>
+
+  <FormField
+    id="quote-message"
+    name="message"
+    as="textarea"
+    label={form.message}
+    hint={form.messageHint}
+    required
+    maxlength={QUOTE_FIELD_LIMITS.message.max}
+  />
+
+  <div class="quote-form__honeypot" aria-hidden="true">
+    <label for="quote-website">{form.honeypot}</label>
+    <input id="quote-website" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <input type="hidden" name="locale" value={locale} />
+
+  <div class="quote-form__consent" data-field="hasAcceptedPrivacy">
+    <input
+      id="quote-privacy"
+      name="hasAcceptedPrivacy"
+      type="checkbox"
+      value="yes"
+      required
+      aria-describedby="quote-privacy-error"
+    />
+    <label for="quote-privacy">
+      {consent.before}
+      <a href={pathFor('privacy', locale)}>{consent.link}</a>
+      {consent.after}
+    </label>
+    <p id="quote-privacy-error" class="field-error" data-error-for="hasAcceptedPrivacy" hidden></p>
+  </div>
+
+  <div class="quote-form__submit">
+    <Button type="submit" size="lg" data-submit>
+      <span class="quote-form__submit-idle">
+        {isEmailDelivery ? <Send aria-hidden="true" /> : <MessageCircle aria-hidden="true" />}
+        {isEmailDelivery ? form.submitEmail : form.submitWhatsapp}
+      </span>
+      <span class="quote-form__submit-busy">
+        <LoaderCircle aria-hidden="true" class="spin" />
+        {form.sending}
+      </span>
+    </Button>
+    {!isEmailDelivery && <p class="quote-form__note">{form.whatsappNote}</p>}
+  </div>
+
+  <div class="quote-form__status" role="status" aria-live="polite" data-status>
+    <div class="notice notice--success" data-status-success hidden>
+      <CircleCheck aria-hidden="true" />
+      <p>{isEmailDelivery ? form.success : form.whatsappOpened}</p>
+    </div>
+    <div class="notice notice--error" data-status-error hidden>
+      <CircleAlert aria-hidden="true" />
+      <div>
+        <p>
+          <strong>{form.failure}</strong> {form.failureFallback}
+        </p>
+        <ul class="notice__links" role="list">
+          <li>
+            <a
+              href={whatsappUrl(
+                COMPANY.contact.whatsappE164,
+                COMPANY.contact.whatsappGreeting[locale],
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <MessageCircle aria-hidden="true" /> WhatsApp {COMPANY.contact.phoneDisplay}
+            </a>
+          </li>
+          <li>
+            <a href={`tel:${COMPANY.contact.phoneE164}`}>
+              <Phone aria-hidden="true" /> {COMPANY.contact.phoneDisplay}
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${COMPANY.contact.email}`}>
+              <Mail aria-hidden="true" /> {COMPANY.contact.email}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+  import {
+    hasErrors,
+    validateQuote,
+    type QuoteErrorCode,
+    type QuoteErrors,
+    type QuoteFieldName,
+    type QuoteFormValues,
+  } from '@/lib/quote-form';
+  import { whatsappUrl } from '@/lib/whatsapp';
+
+  type I18n = {
+    errors: Record<QuoteErrorCode, string>;
+    summary: { one: string; many: string };
+    template: Record<'name' | 'phone' | 'email' | 'service' | 'message', string>;
+    greeting: string;
+    services: Record<string, string>;
+    whatsappPhone: string;
+  };
+
+  const FIELD_ORDER: QuoteFieldName[] = [
+    'name',
+    'phone',
+    'email',
+    'service',
+    'message',
+    'hasAcceptedPrivacy',
+  ];
+
+  function parseI18n(raw: string | undefined): I18n | null {
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw) as I18n;
+    } catch (error) {
+      console.error('Quote form: invalid i18n payload', error);
+      return null;
+    }
+  }
+
+  function setupForm(form: HTMLFormElement): void {
+    const i18n = parseI18n(form.dataset.i18n);
+    if (!i18n) return;
+
+    const endpoint = form.dataset.endpoint ?? '';
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]');
+    const summary = form.querySelector<HTMLElement>('[data-error-summary]');
+    const summaryText = form.querySelector<HTMLElement>('[data-error-summary-text]');
+    const success = form.querySelector<HTMLElement>('[data-status-success]');
+    const failure = form.querySelector<HTMLElement>('[data-status-error]');
+    let hasAttemptedSubmit = false;
+
+    const readValues = (): QuoteFormValues => {
+      const data = new FormData(form);
+      const text = (key: string): string => {
+        const value = data.get(key);
+        return typeof value === 'string' ? value : '';
+      };
+      return {
+        name: text('name'),
+        phone: text('phone'),
+        email: text('email'),
+        service: text('service'),
+        message: text('message'),
+        hasAcceptedPrivacy: data.get('hasAcceptedPrivacy') === 'yes',
+      };
+    };
+
+    const renderErrors = (errors: QuoteErrors): void => {
+      FIELD_ORDER.forEach((field) => {
+        const control = form.elements.namedItem(field);
+        const message = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+        const code = errors[field];
+        if (control instanceof HTMLElement) {
+          control.toggleAttribute('aria-invalid', Boolean(code));
+          if (code) control.setAttribute('aria-invalid', 'true');
+        }
+        if (message) {
+          message.textContent = code ? i18n.errors[code] : '';
+          message.hidden = !code;
+        }
+      });
+    };
+
+    const showStatus = (state: 'idle' | 'success' | 'error'): void => {
+      if (success) success.hidden = state !== 'success';
+      if (failure) failure.hidden = state !== 'error';
+    };
+
+    const setBusy = (isBusy: boolean): void => {
+      form.toggleAttribute('data-busy', isBusy);
+      form.setAttribute('aria-busy', String(isBusy));
+      if (submit) submit.disabled = isBusy;
+    };
+
+    const buildWhatsappMessage = (values: QuoteFormValues): string => {
+      const t = i18n.template;
+      const lines = [
+        i18n.greeting,
+        '',
+        `${t.name}: ${values.name.trim()}`,
+        `${t.phone}: ${values.phone.trim()}`,
+        values.email.trim() ? `${t.email}: ${values.email.trim()}` : '',
+        `${t.service}: ${i18n.services[values.service] ?? values.service}`,
+        `${t.message}: ${values.message.trim()}`,
+      ];
+      return lines.filter((line, index) => line !== '' || index === 1).join('\n');
+    };
+
+    const sendToEndpoint = async (): Promise<boolean> => {
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) console.error(`Quote form: endpoint answered ${response.status}`);
+        return response.ok;
+      } catch (error) {
+        console.error('Quote form: request failed', error);
+        return false;
+      }
+    };
+
+    form.addEventListener('input', (event) => {
+      if (!hasAttemptedSubmit) return;
+      const target = event.target;
+      if (target instanceof HTMLElement && target.closest('[data-field]')) {
+        renderErrors(validateQuote(readValues()));
+      }
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      hasAttemptedSubmit = true;
+      showStatus('idle');
+
+      const honeypot = form.elements.namedItem('_gotcha');
+      if (honeypot instanceof HTMLInputElement && honeypot.value !== '') return;
+
+      const values = readValues();
+      const errors = validateQuote(values);
+      renderErrors(errors);
+
+      if (hasErrors(errors)) {
+        const count = Object.keys(errors).length;
+        if (summary && summaryText) {
+          summaryText.textContent =
+            count === 1 ? i18n.summary.one : i18n.summary.many.replace('{count}', String(count));
+          summary.hidden = false;
+        }
+        const first = FIELD_ORDER.find((field) => errors[field]);
+        const control = first ? form.elements.namedItem(first) : null;
+        if (control instanceof HTMLElement) control.focus();
+        return;
+      }
+
+      if (summary) summary.hidden = true;
+
+      if (!endpoint) {
+        const url = whatsappUrl(i18n.whatsappPhone, buildWhatsappMessage(values));
+        // `noopener` in the features string makes window.open return null, so detach manually.
+        const opened = window.open(url, '_blank');
+        if (opened) opened.opener = null;
+        else window.location.href = url;
+        showStatus('success');
+        return;
+      }
+
+      setBusy(true);
+      const isSent = await sendToEndpoint();
+      setBusy(false);
+
+      if (isSent) {
+        form.reset();
+        hasAttemptedSubmit = false;
+        showStatus('success');
+      } else {
+        showStatus('error');
+      }
+    });
+
+    // Service links elsewhere on the page preselect the matching option.
+    document.querySelectorAll<HTMLAnchorElement>('[data-quote-service]').forEach((link) => {
+      link.addEventListener('click', () => {
+        const select = form.elements.namedItem('service');
+        if (select instanceof HTMLSelectElement && link.dataset.quoteService) {
+          select.value = link.dataset.quoteService;
+        }
+      });
+    });
+  }
+
+  document.querySelectorAll<HTMLFormElement>('[data-quote-form]').forEach(setupForm);
+</script>
+
+<style>
+  .quote-form {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .quote-form__intro {
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-label);
+  }
+
+  .quote-form__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .quote-form__summary,
+  .notice {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid currentColor;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-raised);
+    font-size: var(--text-label);
+  }
+
+  .quote-form__summary[hidden],
+  .notice[hidden] {
+    display: none;
+  }
+
+  .quote-form__summary,
+  .notice--error {
+    color: var(--color-error);
+  }
+
+  .notice--success {
+    color: var(--color-success);
+  }
+
+  .quote-form__summary :global(svg),
+  .notice > :global(svg) {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    margin-top: 0.15em;
+  }
+
+  .notice p,
+  .quote-form__summary p {
+    color: var(--color-on-surface);
+  }
+
+  .notice__links {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  .notice__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .notice__links :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .quote-form__honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .quote-form__consent {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-2) var(--space-3);
+    align-items: start;
+    font-size: var(--text-label);
+  }
+
+  .quote-form__consent input {
+    width: 22px;
+    height: 22px;
+    margin-top: 0.1em;
+  }
+
+  .quote-form__consent input[aria-invalid='true'] {
+    outline: 2px solid var(--color-error);
+    outline-offset: 2px;
+  }
+
+  .quote-form__consent .field-error {
+    grid-column: 2;
+  }
+
+  .field-error {
+    color: var(--color-error);
+    font-size: var(--text-label);
+    font-weight: 560;
+  }
+
+  .quote-form__submit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-5);
+  }
+
+  .quote-form__note {
+    flex: 1 1 16rem;
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-sm);
+  }
+
+  .quote-form__submit-idle,
+  .quote-form__submit-busy {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .quote-form__submit-busy,
+  .quote-form[data-busy] .quote-form__submit-idle {
+    display: none;
+  }
+
+  .quote-form[data-busy] .quote-form__submit-busy {
+    display: inline-flex;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .spin {
+      animation: spin 900ms linear infinite;
+    }
+
+    .notice:not([hidden]) {
+      animation: notice-in var(--dur-layout) var(--ease-out);
+    }
+  }
+
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  @keyframes notice-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .quote-form__row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .quote-form__submit :global(.button) {
+      width: 100%;
+    }
+  }
+</style>

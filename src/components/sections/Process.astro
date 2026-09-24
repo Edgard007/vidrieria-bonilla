@@ -1,0 +1,158 @@
+---
+import { Hammer, MessagesSquare, Ruler, Wrench } from '@lucide/astro';
+
+import { COMPANY } from '@/config/company';
+import type { Locale } from '@/i18n/locales';
+import { UI } from '@/i18n/ui';
+import type { ProcessStep } from '@/types/company';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = UI[locale];
+const section = ui.sections.process;
+const steps: readonly ProcessStep[] = COMPANY.process;
+const ICONS = { advice: MessagesSquare, measure: Ruler, fabrication: Hammer, installation: Wrench };
+---
+
+<section id={section.id} class="section process" aria-labelledby="process-title">
+  <div class="container">
+    <header class="process__header" data-reveal="rise">
+      <span class="accent-rule" aria-hidden="true"></span>
+      <h2 id="process-title" class="section-title">
+        {section.title}
+      </h2>
+      {section.lede && <p class="section-lede">{section.lede}</p>}
+    </header>
+
+    <div class="process__track">
+      <span class="process__rail" aria-hidden="true">
+        <span class="process__rail-fill" data-scroll-line></span>
+      </span>
+      <ol class="process__steps" role="list" data-reveal="stagger">
+        {steps.map((step, index) => {
+          const Icon = ICONS[step.id];
+          return (
+            <li class="step" data-reveal-item>
+              <span class="step__marker" aria-hidden="true">
+                <Icon />
+              </span>
+              <p class="step__index">{ui.process.stepLabel(index + 1, steps.length)}</p>
+              <h3 class="step__title">{step.title[locale]}</h3>
+              <p class="step__body">{step.body[locale]}</p>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .process__track {
+    position: relative;
+  }
+
+  /* The rail runs behind the markers and fills as the section scrolls through the viewport. */
+  .process__rail {
+    position: absolute;
+    top: 27px;
+    left: 28px;
+    right: calc((100% - 3 * var(--space-6)) / 4 - 28px);
+    height: 2px;
+    background: var(--color-outline);
+  }
+
+  .process__rail-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent);
+    transform-origin: left;
+  }
+
+  .process__steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-6);
+    padding: 0;
+    list-style: none;
+  }
+
+  .step__marker {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    color: var(--color-accent-ink);
+  }
+
+  .step__marker :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+
+  .step__index {
+    margin-top: var(--space-5);
+    color: var(--color-accent-ink);
+    font-size: var(--text-sm);
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .step__title {
+    margin-top: var(--space-2);
+    font-size: var(--text-h3);
+    font-weight: 700;
+    font-stretch: 112%;
+  }
+
+  .step__body {
+    max-width: 30ch;
+    margin-top: var(--space-2);
+    color: var(--color-on-surface-muted);
+  }
+
+  @media (max-width: 56rem) {
+    .process__rail {
+      top: 28px;
+      bottom: 28px;
+      left: 27px;
+      right: auto;
+      width: 2px;
+      height: auto;
+    }
+
+    .process__rail-fill {
+      transform-origin: top;
+    }
+
+    .process__steps {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr);
+      column-gap: var(--space-5);
+    }
+
+    .step__marker {
+      grid-row: 1 / span 3;
+    }
+
+    .step__index {
+      margin-top: var(--space-1);
+    }
+  }
+</style>

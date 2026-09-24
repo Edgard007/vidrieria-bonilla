@@ -1,0 +1,57 @@
+---
+import { COMPANY } from '@/config/company';
+import { LOCALES, LOCALE_META, DEFAULT_LOCALE, type Locale } from '@/i18n/locales';
+import { pathFor, type PageKey } from '@/i18n/routes';
+import { localBusinessJsonLd } from '@/lib/structured-data';
+
+interface Props {
+  locale: Locale;
+  page: PageKey;
+  title: string;
+  description: string;
+  /** Pages that should not be indexed (404). */
+  isNoIndex?: boolean;
+}
+
+const { locale, page, title, description, isNoIndex = false } = Astro.props;
+const site = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(pathFor(page, locale), site).href;
+const ogImage = new URL('/og-image.jpg', site).href;
+const jsonLd = page === 'home' ? localBusinessJsonLd(locale, site) : null;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{isNoIndex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+{!isNoIndex &&
+  LOCALES.map((alt) => (
+    <link
+      rel="alternate"
+      hreflang={LOCALE_META[alt].htmlLang}
+      href={new URL(pathFor(page, alt), site).href}
+    />
+  ))}
+{!isNoIndex && (
+  <link
+    rel="alternate"
+    hreflang="x-default"
+    href={new URL(pathFor(page, DEFAULT_LOCALE), site).href}
+  />
+)}
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={COMPANY.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={COMPANY.name} />
+<meta property="og:locale" content={LOCALE_META[locale].ogLocale} />
+{LOCALES.filter((alt) => alt !== locale).map((alt) => (
+  <meta property="og:locale:alternate" content={LOCALE_META[alt].ogLocale} />
+))}
+<meta name="twitter:card" content="summary_large_image" />
+
+{jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)}></script>}
