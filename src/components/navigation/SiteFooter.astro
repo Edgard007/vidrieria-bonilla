@@ -36,6 +36,7 @@ const { contact, address, social } = COMPANY;
         <p class="site-footer__line" lang="en">
           {COMPANY.logoLine}
         </p>
+        <ShareButton locale={locale} title={COMPANY.name} class="site-footer__share" />
       </div>
     </div>
 
@@ -82,7 +83,6 @@ const { contact, address, social } = COMPANY;
   <div class="container site-footer__base">
     <p>{ui.footer.rights(year, COMPANY.name)}</p>
     <p>{ui.footer.noCookies}</p>
-    <ShareButton locale={locale} title={COMPANY.name} variant="deep" class="site-footer__share" />
     <p class="site-footer__credit">
       {ui.footer.createdBy}{' '}
       <a href={SITE_CREATOR.url} target="_blank" rel="noopener author">
@@ -125,6 +125,10 @@ const { contact, address, social } = COMPANY;
   .site-footer__tagline {
     margin-top: var(--space-1);
     color: var(--color-on-deep-muted);
+  }
+
+  .site-footer :global(.site-footer__share) {
+    margin-top: var(--space-5);
   }
 
   .site-footer__line {
