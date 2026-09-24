@@ -34,7 +34,7 @@ const whatsappHref = whatsappUrl(
     <a class="brand" href={pathFor('home', locale)} aria-label={`${COMPANY.name}, ${ui.nav.home}`}>
       <Image
         src={COMPANY.logo}
-        alt=""
+        alt={ui.footer.logoAlt(COMPANY.name)}
         width={44}
         height={44}
         densities={[1, 2]}

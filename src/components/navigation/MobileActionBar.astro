@@ -1,0 +1,98 @@
+---
+import { MessageCircle, Phone } from '@lucide/astro';
+
+import ShareButton from '@/components/ui/ShareButton.astro';
+import { COMPANY } from '@/config/company';
+import type { Locale } from '@/i18n/locales';
+import { UI } from '@/i18n/ui';
+import { whatsappUrl } from '@/lib/whatsapp';
+
+interface Props {
+  locale: Locale;
+  shareTitle: string;
+}
+
+const { locale, shareTitle } = Astro.props;
+const ui = UI[locale];
+const { contact } = COMPANY;
+---
+
+<div class="action-bar" role="region" aria-label={ui.contact.channelsTitle}>
+  <a class="action-bar__call" href={`tel:${contact.phoneE164}`}>
+    <Phone aria-hidden="true" />
+    <span>
+      {ui.share.call} <span class="tabular">{contact.phoneDisplay}</span>
+    </span>
+  </a>
+  <a
+    class="action-bar__whatsapp"
+    href={whatsappUrl(contact.whatsappE164, contact.whatsappGreeting[locale])}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={ui.cta.whatsapp}
+  >
+    <MessageCircle aria-hidden="true" />
+  </a>
+  <ShareButton locale={locale} title={shareTitle} variant="compact" />
+</div>
+
+<style>
+  /* Phones only: a fixed call bar, so calling is one tap from anywhere on the page. */
+  .action-bar {
+    display: none;
+  }
+
+  @media (max-width: 52rem) {
+    .action-bar {
+      position: fixed;
+      inset: auto 0 0 0;
+      z-index: 40;
+      display: flex;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--gutter) calc(var(--space-2) + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--color-outline);
+      background: color-mix(in oklab, var(--color-surface) 94%, transparent);
+      backdrop-filter: saturate(1.4) blur(10px);
+      transition: transform var(--dur-state) var(--ease-out);
+    }
+
+    :global(.is-menu-open) .action-bar {
+      transform: translateY(110%);
+    }
+
+    :global(body) {
+      padding-bottom: calc(64px + env(safe-area-inset-bottom));
+    }
+  }
+
+  .action-bar__call {
+    display: inline-flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 48px;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .action-bar__whatsapp {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex: none;
+    border: 1px solid var(--color-outline-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-raised);
+    color: var(--color-on-surface);
+  }
+
+  .action-bar :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+</style>

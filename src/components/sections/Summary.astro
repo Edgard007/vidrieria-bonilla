@@ -1,0 +1,136 @@
+---
+import { ArrowDownRight } from '@lucide/astro';
+
+import { COMPANY } from '@/config/company';
+import type { Locale } from '@/i18n/locales';
+import { UI } from '@/i18n/ui';
+import type { SummaryPoint } from '@/types/company';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = UI[locale];
+const { summary } = COMPANY;
+const points: readonly SummaryPoint[] = summary.points;
+---
+
+<section class="summary" aria-labelledby="summary-title">
+  <div class="container summary__grid">
+    <div class="summary__lead" data-reveal="rise">
+      <h2 id="summary-title" class="summary__title">
+        {ui.summary.title}
+      </h2>
+      <p class="summary__intro">{summary.intro[locale]}</p>
+    </div>
+    <div class="summary__points">
+      <h3 class="summary__points-title">{ui.summary.keyPoints}</h3>
+      <ol class="summary__list" role="list" data-reveal="stagger">
+        {points.map((point) => (
+          <li class="summary__item" data-reveal-item>
+            <a href={`#${ui.sections[point.section].id}`}>
+              <span>{point.text[locale]}</span>
+              <ArrowDownRight aria-hidden="true" />
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .summary {
+    padding-block: var(--space-7);
+    border-top: 1px solid var(--color-outline);
+    background: var(--color-surface-raised);
+  }
+
+  .summary__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-6) var(--space-8);
+    align-items: start;
+  }
+
+  .summary__title {
+    color: var(--color-accent-ink);
+    font-size: var(--text-label);
+    font-weight: 680;
+    font-stretch: 100%;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .summary__intro {
+    margin-top: var(--space-3);
+    font-size: var(--text-h3);
+    font-weight: 560;
+    font-stretch: 104%;
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+
+  .summary__points-title {
+    margin-bottom: var(--space-3);
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-label);
+    font-weight: 650;
+    font-stretch: 100%;
+  }
+
+  .summary__list {
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-outline);
+  }
+
+  .summary__item a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 52px;
+    padding: var(--space-3) 0 var(--space-3) var(--space-5);
+    border-bottom: 1px solid var(--color-outline);
+    position: relative;
+    color: var(--color-on-surface);
+    text-decoration: none;
+    transition: color var(--dur-feedback) var(--ease-out);
+  }
+
+  .summary__item a::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-xs);
+    background: var(--color-accent);
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .summary__item a:hover {
+    color: var(--color-primary);
+  }
+
+  .summary__item :global(svg) {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    color: var(--color-primary);
+    transition: transform var(--dur-state) var(--ease-out);
+  }
+
+  .summary__item a:hover :global(svg) {
+    transform: translate(2px, 2px);
+  }
+
+  @media (max-width: 56rem) {
+    .summary__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

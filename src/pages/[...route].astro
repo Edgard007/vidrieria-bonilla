@@ -10,10 +10,18 @@ import Hero from '@/components/sections/Hero.astro';
 import Materials from '@/components/sections/Materials.astro';
 import Process from '@/components/sections/Process.astro';
 import Products from '@/components/sections/Products.astro';
+import Summary from '@/components/sections/Summary.astro';
 import { COMPANY } from '@/config/company';
-import { allRoutes, isLegalPage, routeParam } from '@/i18n/routes';
+import { getLegalDocument } from '@/i18n/legal/documents';
+import { allRoutes, isLegalPage, pathFor, routeParam } from '@/i18n/routes';
 import { UI } from '@/i18n/ui';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import {
+  breadcrumbJsonLd,
+  faqJsonLd,
+  localBusinessJsonLd,
+  websiteJsonLd,
+} from '@/lib/structured-data';
 
 /** Every page in every locale comes from the route table; no page is duplicated per language. */
 export const getStaticPaths = (() =>
@@ -26,19 +34,41 @@ const { page, locale } = Astro.props;
 const ui = UI[locale];
 
 const title = isLegalPage(page)
-  ? `${ui.legal.titles[page]} | ${COMPANY.name}`
-  : ui.meta.homeTitle(COMPANY.name, COMPANY.tagline[locale]);
+  ? `${ui.legal.metaTitles[page]} | ${COMPANY.name}`
+  : COMPANY.seo.homeTitle[locale];
 const description = isLegalPage(page)
   ? ui.legal.descriptions[page](COMPANY.name)
   : COMPANY.description[locale];
+
+const site = Astro.site ?? new URL(Astro.url.origin);
+const absolute = (path: string): string => new URL(path, site).href;
+const schemas = isLegalPage(page)
+  ? [
+      breadcrumbJsonLd([
+        { name: ui.nav.home, url: absolute(pathFor('home', locale)) },
+        { name: ui.legal.titles[page], url: absolute(pathFor(page, locale)) },
+      ]),
+      faqJsonLd(getLegalDocument(locale, page).faq),
+    ]
+  : [
+      localBusinessJsonLd(locale, site),
+      websiteJsonLd(locale, site),
+      faqJsonLd(
+        COMPANY.faq.map((item) => ({
+          question: item.question[locale],
+          answer: item.answer[locale],
+        })),
+      ),
+    ];
 ---
 
-<BaseLayout locale={locale} page={page} title={title} description={description}>
+<BaseLayout locale={locale} page={page} title={title} description={description} schemas={schemas}>
   {isLegalPage(page) ? (
     <LegalPage locale={locale} page={page} />
   ) : (
     <>
       <Hero locale={locale} />
+      <Summary locale={locale} />
       <About locale={locale} />
       <Products locale={locale} />
       <Materials locale={locale} />

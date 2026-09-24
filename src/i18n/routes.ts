@@ -9,10 +9,10 @@ export type LegalPageKey = Exclude<PageKey, 'home'>;
 /** Paths without leading or trailing slash, relative to the locale prefix. */
 const SLUGS: Record<PageKey, Localized> = {
   home: { es: '', en: '' },
-  privacy: { es: 'politica-de-privacidad', en: 'privacy-policy' },
-  terms: { es: 'terminos-y-condiciones', en: 'terms-and-conditions' },
-  cookies: { es: 'politica-de-cookies', en: 'cookie-policy' },
-  refunds: { es: 'politica-de-reembolsos', en: 'refund-policy' },
+  privacy: { es: 'politica-privacidad', en: 'privacy-policy' },
+  terms: { es: 'terminos-condiciones', en: 'terms-conditions' },
+  cookies: { es: 'politica-cookies', en: 'cookie-policy' },
+  refunds: { es: 'politica-reembolsos', en: 'refund-policy' },
 };
 
 export function isLegalPage(page: PageKey): page is LegalPageKey {

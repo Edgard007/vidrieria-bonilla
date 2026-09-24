@@ -10,35 +10,35 @@
  * - Glass options quoted by the business to the owner of this project over WhatsApp
  * Anything else is marked `pending` or `pendingConfirmation`.
  */
-import bathDoorBlackFrostedWide from '@/assets/images/work/bath-door-black-frosted-wide.jpg';
-import bathDoorBlackFrosted from '@/assets/images/work/bath-door-black-frosted.jpg';
-import bathDoorWhiteFrosted from '@/assets/images/work/bath-door-white-frosted.jpg';
-import carMirrorRepair from '@/assets/images/work/car-mirror-repair.jpg';
-import doorWindowWhiteCombo from '@/assets/images/work/door-window-white-combo.jpg';
-import fixedGlassBlackFacade from '@/assets/images/work/fixed-glass-black-facade.jpg';
-import fixedGlassBlackTerrace from '@/assets/images/work/fixed-glass-black-terrace.jpg';
-import frenchWindowBlackWorkshop from '@/assets/images/work/french-window-black-workshop.jpg';
-import frenchWindowBlack from '@/assets/images/work/french-window-black.jpg';
-import frenchWindowWhite from '@/assets/images/work/french-window-white.jpg';
-import gardenDoorBlackBalcony from '@/assets/images/work/garden-door-black-balcony.jpg';
-import gardenDoorBlackLivingRoom from '@/assets/images/work/garden-door-black-living-room.jpg';
-import gardenDoorBlackPatio from '@/assets/images/work/garden-door-black-patio.jpg';
-import gardenDoorWoodDarkGlass from '@/assets/images/work/garden-door-wood-dark-glass.jpg';
-import sashWindowWhiteBlueReflective from '@/assets/images/work/sash-window-white-blue-reflective.jpg';
-import sashWindowWhiteClear from '@/assets/images/work/sash-window-white-clear.jpg';
-import slidingWindowBlackGreenGlass from '@/assets/images/work/sliding-window-black-green-glass.jpg';
-import slidingWindowWhiteClear from '@/assets/images/work/sliding-window-white-clear.jpg';
-import slidingWindowWoodDarkGlass from '@/assets/images/work/sliding-window-wood-dark-glass.jpg';
-import slidingWindowWoodGridDarkGlass from '@/assets/images/work/sliding-window-wood-grid-dark-glass.jpg';
-import windowBronzeGlass from '@/assets/images/work/window-bronze-glass.jpg';
-import windowWhiteBlueReflective from '@/assets/images/work/window-white-blue-reflective.jpg';
-import windowWhiteGridArches from '@/assets/images/work/window-white-grid-arches.jpg';
-import windowWhiteGridBlueSky from '@/assets/images/work/window-white-grid-blue-sky.jpg';
-import windowWhiteGridGarden from '@/assets/images/work/window-white-grid-garden.jpg';
-import windowWhiteSlidingTransom from '@/assets/images/work/window-white-sliding-transom.jpg';
-import windowWhiteSliding from '@/assets/images/work/window-white-sliding.jpg';
-import workshopJayaque from '@/assets/images/workshop-jayaque.jpg';
-import logo from '@/assets/brand/logo.png';
+import bathDoorBlackFrostedWide from '@/assets/images/work/puerta-bano-aluminio-negro-vidrio-texturizado-toallero.jpg';
+import bathDoorBlackFrosted from '@/assets/images/work/puerta-bano-aluminio-negro-vidrio-texturizado.jpg';
+import bathDoorWhiteFrosted from '@/assets/images/work/puerta-bano-aluminio-blanco-vidrio-esmerilado.jpg';
+import carMirrorRepair from '@/assets/images/work/reparacion-retrovisor-carro.jpg';
+import doorWindowWhiteCombo from '@/assets/images/work/puerta-ventana-aluminio-blanco.jpg';
+import fixedGlassBlackFacade from '@/assets/images/work/vidrios-fijos-fachada-aluminio-negro.jpg';
+import fixedGlassBlackTerrace from '@/assets/images/work/vidrios-fijos-terraza-aluminio-negro.jpg';
+import frenchWindowBlackWorkshop from '@/assets/images/work/ventana-aluminio-negro-taller.jpg';
+import frenchWindowBlack from '@/assets/images/work/ventana-francesa-aluminio-negro.jpg';
+import frenchWindowWhite from '@/assets/images/work/ventana-francesa-aluminio-blanco.jpg';
+import gardenDoorBlackBalcony from '@/assets/images/work/puerta-corrediza-balcon-aluminio-negro.jpg';
+import gardenDoorBlackLivingRoom from '@/assets/images/work/puerta-jardin-aluminio-negro-sala.jpg';
+import gardenDoorBlackPatio from '@/assets/images/work/puerta-jardin-aluminio-negro-patio.jpg';
+import gardenDoorWoodDarkGlass from '@/assets/images/work/puerta-corrediza-tono-madera-vidrio-oscuro.jpg';
+import sashWindowWhiteBlueReflective from '@/assets/images/work/ventana-guillotina-vidrio-azul-reflectivo.jpg';
+import sashWindowWhiteClear from '@/assets/images/work/ventana-guillotina-aluminio-blanco.jpg';
+import slidingWindowBlackGreenGlass from '@/assets/images/work/ventana-corrediza-aluminio-negro-cuadricula.jpg';
+import slidingWindowWhiteClear from '@/assets/images/work/ventana-corrediza-aluminio-blanco-vidrio-claro.jpg';
+import slidingWindowWoodDarkGlass from '@/assets/images/work/ventana-corrediza-tono-madera-vidrio-oscuro.jpg';
+import slidingWindowWoodGridDarkGlass from '@/assets/images/work/ventana-tono-madera-cuadricula-vidrio-oscuro.jpg';
+import windowBronzeGlass from '@/assets/images/work/ventana-corrediza-vidrio-bronce.jpg';
+import windowWhiteBlueReflective from '@/assets/images/work/ventana-aluminio-blanco-vidrio-azul-reflectivo.jpg';
+import windowWhiteGridArches from '@/assets/images/work/ventana-corrediza-aluminio-blanco-arcos.jpg';
+import windowWhiteGridBlueSky from '@/assets/images/work/ventana-aluminio-blanco-cuatro-hojas.jpg';
+import windowWhiteGridGarden from '@/assets/images/work/ventana-francesa-aluminio-blanco-patio.jpg';
+import windowWhiteSlidingTransom from '@/assets/images/work/ventana-corrediza-aluminio-blanco-fijo-superior.jpg';
+import windowWhiteSliding from '@/assets/images/work/ventana-aluminio-blanco-cuadricula.jpg';
+import workshopJayaque from '@/assets/images/taller-vidrieria-bonilla-jayaque.jpg';
+import logo from '@/assets/brand/logo-vidrieria-bonilla.png';
 import type { Localized } from '@/i18n/locales';
 import type {
   FaqItem,
@@ -49,6 +49,7 @@ import type {
   Photo,
   ProcessStep,
   Product,
+  SummaryPoint,
   Swatch,
 } from '@/types/company';
 
@@ -258,8 +259,8 @@ export const COMPANY = {
     en: 'Quality and trust in glass and aluminium',
   } satisfies Localized,
   description: {
-    es: 'Vidriería en Jayaque, La Libertad. Asesoría, medida, fabricación e instalación de ventanas, puertas de jardín y de baño, vidrios fijos y espejos. Reparación de retrovisores.',
-    en: 'Glass shop in Jayaque, La Libertad, El Salvador. Advice, measuring, fabrication and installation of windows, garden and bathroom doors, fixed glass and mirrors. Car mirror repair.',
+    es: 'Vidriería en Jayaque, La Libertad: ventanas, puertas de jardín y baño, vidrios fijos y espejos a la medida, con instalación. Reparamos retrovisores.',
+    en: 'Glass shop in Jayaque, El Salvador: made-to-measure windows, garden and bathroom doors, fixed glass and mirrors, installed. Car mirror repair too.',
   } satisfies Localized,
 
   contact: {
@@ -305,6 +306,58 @@ export const COMPANY = {
   social: {
     facebook: 'https://www.facebook.com/profile.php?id=61570816670084',
     instagram: 'https://www.instagram.com/vidrieriabonilla/',
+  },
+
+  seo: {
+    homeTitle: {
+      es: 'Vidriería en Jayaque, La Libertad | Vidriería Bonilla',
+      en: 'Glass Shop in Jayaque, El Salvador | Vidriería Bonilla',
+    } satisfies Localized,
+  },
+
+  /** Short answer to what a visitor is looking for, shown right after the hero. */
+  summary: {
+    intro: {
+      es: 'Vidriería Bonilla fabrica e instala ventanas, puertas, vidrios fijos y espejos a la medida en Jayaque, La Libertad, y repara espejos de carro.',
+      en: 'Vidriería Bonilla makes and installs made-to-measure windows, doors, fixed glass and mirrors in Jayaque, La Libertad, and repairs car mirrors.',
+    } satisfies Localized,
+    points: [
+      {
+        section: 'products',
+        text: {
+          es: 'Ventanas francesas, corredizas y guillotina, vidrios fijos, puertas de jardín y de baño, y espejos decorativos.',
+          en: 'French, sliding and sash windows, fixed glass, garden and bathroom doors, and decorative mirrors.',
+        },
+      },
+      {
+        section: 'process',
+        text: {
+          es: 'Servicio completo: asesoría, medida, fabricación en nuestro taller e instalación.',
+          en: 'Full service: advice, measuring, fabrication at our workshop and installation.',
+        },
+      },
+      {
+        section: 'materials',
+        text: {
+          es: 'Marcos blancos, negros, grises o tono madera; vidrio claro, gris oscuro, azul reflectivo, bronce o esmerilado.',
+          en: 'White, black, grey or wood-tone frames; clear, dark grey, blue reflective, bronze or frosted glass.',
+        },
+      },
+      {
+        section: 'work',
+        text: {
+          es: 'Más de 20 fotos de trabajos reales hechos por nuestro equipo en casas y negocios.',
+          en: 'Over 20 photos of real jobs done by our team in homes and businesses.',
+        },
+      },
+      {
+        section: 'contact',
+        text: {
+          es: 'Cotización por WhatsApp o al 2382-1308, de lunes a viernes de 8:00 a.m. a 5:00 p.m. y sábados hasta el mediodía.',
+          en: 'Quotes on WhatsApp or at 2382-1308, Monday to Friday 8:00 a.m. to 5:00 p.m. and Saturday until noon.',
+        },
+      },
+    ] satisfies SummaryPoint[],
   },
 
   hero: {
