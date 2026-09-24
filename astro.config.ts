@@ -23,6 +23,12 @@ export default defineConfig({
     schema: {
       // Optional form-delivery endpoint (Formspree, Web3Forms or any service accepting a POST of
       // FormData and answering 2xx). Without it the quote form hands the request to WhatsApp.
+      // Value of the google-site-verification meta tag from Search Console (HTML tag method).
+      PUBLIC_GSC_VERIFICATION: envField.string({
+        context: 'client',
+        access: 'public',
+        optional: true,
+      }),
       PUBLIC_FORM_ENDPOINT: envField.string({
         context: 'client',
         access: 'public',

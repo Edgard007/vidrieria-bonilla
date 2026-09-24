@@ -1,8 +1,9 @@
 ---
+import { PUBLIC_GSC_VERIFICATION } from 'astro:env/client';
+
 import { COMPANY } from '@/config/company';
 import { LOCALES, LOCALE_META, DEFAULT_LOCALE, type Locale } from '@/i18n/locales';
 import { pathFor, type PageKey } from '@/i18n/routes';
-import { localBusinessJsonLd } from '@/lib/structured-data';
 
 interface Props {
   locale: Locale;
@@ -11,13 +12,15 @@ interface Props {
   description: string;
   /** Pages that should not be indexed (404). */
   isNoIndex?: boolean;
+  /** Structured data blocks for this page, one script tag each. */
+  schemas?: Record<string, unknown>[];
 }
 
-const { locale, page, title, description, isNoIndex = false } = Astro.props;
+const { locale, page, title, description, isNoIndex = false, schemas = [] } = Astro.props;
+const GSC_VERIFICATION = PUBLIC_GSC_VERIFICATION ?? '';
 const site = Astro.site ?? new URL(Astro.url.origin);
 const canonical = new URL(pathFor(page, locale), site).href;
-const ogImage = new URL('/og-image.jpg', site).href;
-const jsonLd = page === 'home' ? localBusinessJsonLd(locale, site) : null;
+const ogImage = new URL('/vidrieria-bonilla-jayaque.jpg', site).href;
 ---
 
 <title>{title}</title>
@@ -54,4 +57,7 @@ const jsonLd = page === 'home' ? localBusinessJsonLd(locale, site) : null;
 ))}
 <meta name="twitter:card" content="summary_large_image" />
 
-{jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)}></script>}
+{schemas.map((schema) => (
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)}></script>
+))}
+{GSC_VERIFICATION && <meta name="google-site-verification" content={GSC_VERIFICATION} />}

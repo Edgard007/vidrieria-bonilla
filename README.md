@@ -33,6 +33,7 @@ pnpm preview        # serve dist/
 | ---------------------- | -------- | ----------------------------------------------------------------------------------------------- |
 | `SITE_URL`             | Yes, in production | Canonical URLs, hreflang, sitemap, Open Graph. Defaults to `https://vidrieriabonilla.example`. |
 | `PUBLIC_FORM_ENDPOINT` | No       | Form delivery endpoint. Without it, the form hands the request to WhatsApp.                     |
+| `PUBLIC_GSC_VERIFICATION` | No    | `content` value of the Google Search Console HTML tag. Adds the verification meta tag.          |
 
 ## Structure
 
@@ -128,6 +129,42 @@ Two delivery modes, chosen at build time:
 
 When enabling an endpoint, name the provider and its country in the privacy policy (`src/i18n/legal/*.ts`,
 section "encargados"/"processors").
+
+## SEO
+
+- **URLs** carry no connector words: `/politica-privacidad/`, `/terminos-condiciones/`, `/politica-cookies/`,
+  `/politica-reembolsos/`, `/en/privacy-policy/`, `/en/terms-conditions/`, `/en/cookie-policy/`,
+  `/en/refund-policy/`. Slugs live in `src/i18n/routes.ts`.
+- **Titles, descriptions and H1**: every page has its own title (`COMPANY.seo.homeTitle`, `ui.legal.metaTitles`),
+  its own description (120-160 characters) and exactly one H1 that differs from the title.
+- **Search intent first**: the hero (home) and the first paragraph (legal pages) answer the query, followed by a
+  call to action, then a summary with five key points (`COMPANY.summary`, `keyPoints` in `src/i18n/legal/*.ts`).
+- **Heading hierarchy** H1 > H2 > H3 with no skipped levels; FAQ questions are H3.
+- **Lists and tables**: at most three per page of content.
+- **Internal links**: summary points link to home sections; legal pages have breadcrumbs, a "see also" line
+  linking the other legal pages, and a call to action back to WhatsApp; the footer links every page.
+- **Structured data** (`src/lib/structured-data.ts`): `HomeAndConstructionBusiness` (local business), `WebSite`
+  and `FAQPage` on the home page; `BreadcrumbList` and `FAQPage` on legal pages.
+- **Images** have descriptive Spanish file names (`ventana-guillotina-vidrio-azul-reflectivo.jpg`) and alt text
+  in both languages.
+- **`/robots.txt`** allows crawling, disallows the pagination folders `/page/` and `/en/page/`, and points to the
+  sitemap. **`/sitemap-index.xml`** is generated at build time. **`/llms.txt`** is a Markdown overview of the
+  business, products, contact details, pages and FAQ, generated from `company.ts`.
+- **Mobile call bar**: phones get a fixed bar with Call, WhatsApp and Share. A Share button (native share sheet,
+  or copy link) also sits in the footer and at the end of each legal page.
+- **Analytics**: not installed, by decision. Adding Google Analytics would require a consent banner (the personal
+  data law requires express consent for cookies) and updates to the privacy and cookie policies.
+
+### Google Search Console
+
+Once the site is deployed on its domain and `SITE_URL` is set:
+
+1. Open https://search.google.com/search-console and add a property. The **Domain** type is verified with a DNS
+   TXT record at the domain registrar. The **URL prefix** type can use the HTML tag method instead.
+2. For the HTML tag method, copy the `content` value of the `google-site-verification` tag into
+   `PUBLIC_GSC_VERIFICATION`, redeploy and press **Verify**.
+3. Go to **Sitemaps**, enter `sitemap-index.xml` and press **Submit**.
+4. Use **URL inspection** on the home page and request indexing. Check **Pages** after a few days for coverage.
 
 ## Integrations and privacy
 

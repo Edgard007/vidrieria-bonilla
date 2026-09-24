@@ -26,7 +26,7 @@ const section = ui.sections.faq;
       {COMPANY.faq.map((item) => (
         <details class="faq__item" name="faq" data-reveal-item>
           <summary>
-            <span>{item.question[locale]}</span>
+            <h3 class="faq__question">{item.question[locale]}</h3>
             <Plus aria-hidden="true" />
           </summary>
           <div class="faq__answer">
@@ -79,6 +79,11 @@ const section = ui.sections.faq;
     list-style: none;
   }
 
+  .faq__question {
+    font: inherit;
+    letter-spacing: inherit;
+  }
+
   summary::-webkit-details-marker {
     display: none;
   }
@@ -95,7 +100,7 @@ const section = ui.sections.faq;
     rotate: 45deg;
   }
 
-  summary:hover span {
+  summary:hover .faq__question {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.22em;

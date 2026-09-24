@@ -119,7 +119,13 @@ const panelVisibilityCss = `${products
                       aria-label={ui.products.showPhoto(index + 1)}
                       aria-pressed={index === 0 ? 'true' : 'false'}
                     >
-                      <Image src={photo.src} alt="" width={96} height={96} densities={[1, 2]} />
+                      <Image
+                        src={photo.src}
+                        alt={photo.alt[locale]}
+                        width={96}
+                        height={96}
+                        densities={[1, 2]}
+                      />
                     </button>
                   ))}
                 </div>
