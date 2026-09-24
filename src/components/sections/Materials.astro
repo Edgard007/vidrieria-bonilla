@@ -40,6 +40,12 @@ const css = [
         `.materials:has(#${group.key}-${option.id}:checked) [data-summary="${group.key}-${option.id}"]{display:inline}`,
     ),
   ),
+  ...groups.flatMap((group) =>
+    group.options.map(
+      (option) =>
+        `.materials:has(#${group.key}-${option.id}:checked) [data-detail="${group.key}-${option.id}"]{display:list-item}`,
+    ),
+  ),
 ].join('');
 
 const optionName = (option: FrameMaterial | Swatch): string => option.name[locale];
@@ -175,6 +181,17 @@ const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
             ))}
           </span>
         </figcaption>
+        <ul class="preview__details" role="list">
+          {groups.flatMap((group) =>
+            group.options
+              .filter((option) => optionNote(option))
+              .map((option) => (
+                <li class="preview__detail" data-detail={`${group.key}-${option.id}`}>
+                  <strong>{optionName(option)}:</strong> {optionNote(option)}
+                </li>
+              )),
+          )}
+        </ul>
         <p class="preview__note">{ui.materials.previewNote}</p>
       </figure>
       <Button
@@ -271,7 +288,7 @@ const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
   }
 
   .option-group__options--swatch {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 12.5rem), 1fr));
   }
 
   .option__label {
@@ -419,10 +436,64 @@ const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
     display: none;
   }
 
+  /* The chosen options' notes repeat under the preview on phones, where the option chips drop them. */
+  .preview__details {
+    display: none;
+    gap: var(--space-1);
+    margin-top: var(--space-3);
+    padding: 0;
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-sm);
+    list-style: none;
+  }
+
+  .preview__detail {
+    display: none;
+  }
+
+  .preview__detail strong {
+    color: var(--color-on-surface);
+    font-weight: 620;
+  }
+
   .preview__note {
     margin-top: var(--space-2);
     color: var(--color-on-surface-muted);
     font-size: var(--text-sm);
+  }
+
+  @media (max-width: 40rem) {
+    .materials__controls {
+      gap: var(--space-5);
+    }
+
+    .option-group__options--text,
+    .option-group__options--swatch {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .option__label {
+      align-items: center;
+      min-height: 48px;
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .option__swatch {
+      width: 24px;
+      height: 24px;
+    }
+
+    .option__note {
+      display: none;
+    }
+
+    .preview {
+      padding: var(--space-4);
+    }
+
+    .preview__details {
+      display: grid;
+    }
   }
 
   @media (max-width: 60rem) {
