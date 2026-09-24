@@ -1,0 +1,447 @@
+---
+import { ArrowRight } from '@lucide/astro';
+
+import Button from '@/components/ui/Button.astro';
+import { COMPANY } from '@/config/company';
+import type { Locale } from '@/i18n/locales';
+import { UI } from '@/i18n/ui';
+import type { FrameMaterial, Swatch } from '@/types/company';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = UI[locale];
+const section = ui.sections.materials;
+const frames: readonly FrameMaterial[] = COMPANY.materials.frames;
+const frameColours: readonly Swatch[] = COMPANY.materials.frameColors;
+const glassColours: readonly Swatch[] = COMPANY.materials.glassColors;
+
+const groups = [
+  { key: 'frame', legend: ui.materials.frameMaterial, options: frames, kind: 'text' },
+  { key: 'frame-colour', legend: ui.materials.frameColour, options: frameColours, kind: 'swatch' },
+  { key: 'glass', legend: ui.materials.glassColour, options: glassColours, kind: 'swatch' },
+] as const;
+
+// The preview and the summary follow the checked options through CSS, so the configurator works
+// without JavaScript. Rules are generated from the data to keep colours in company.ts only.
+const css = [
+  ...frameColours.map(
+    (swatch) => `.materials:has(#frame-colour-${swatch.id}:checked){--frame-color:${swatch.hex}}`,
+  ),
+  ...glassColours.map(
+    (swatch) => `.materials:has(#glass-${swatch.id}:checked){--glass-color:${swatch.hex}}`,
+  ),
+  '.materials:has(#frame-pvc:checked){--frame-width:14px}',
+  ...groups.flatMap((group) =>
+    group.options.map(
+      (option) =>
+        `.materials:has(#${group.key}-${option.id}:checked) [data-summary="${group.key}-${option.id}"]{display:inline}`,
+    ),
+  ),
+].join('');
+
+const optionName = (option: FrameMaterial | Swatch): string => option.name[locale];
+const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
+  'description' in option ? option.description[locale] : option.note?.[locale];
+---
+
+<style is:inline set:html={css}></style>
+
+<section id={section.id} class="section materials" aria-labelledby="materials-title">
+  <div class="container materials__grid">
+    <header class="materials__header" data-reveal="rise">
+      <span class="accent-rule" aria-hidden="true"></span>
+      <h2 id="materials-title" class="section-title">
+        {section.title}
+      </h2>
+      {section.lede && <p class="section-lede">{section.lede}</p>}
+    </header>
+
+    <form
+      class="materials__controls"
+      data-materials
+      data-reveal="stagger"
+      aria-labelledby="materials-title"
+    >
+      {groups.map((group) => (
+        <fieldset class="option-group" data-reveal-item>
+          <legend class="option-group__legend">{group.legend}</legend>
+          <div class:list={['option-group__options', `option-group__options--${group.kind}`]}>
+            {group.options.map((option, index) => (
+              <div class="option">
+                <input
+                  class="visually-hidden"
+                  type="radio"
+                  name={group.key}
+                  id={`${group.key}-${option.id}`}
+                  value={option.id}
+                  checked={index === 0}
+                  data-name={optionName(option)}
+                />
+                <label
+                  class:list={['option__label', `option__label--${group.kind}`]}
+                  for={`${group.key}-${option.id}`}
+                >
+                  {'hex' in option && (
+                    <span
+                      class="option__swatch"
+                      style={`--swatch: ${option.hex}`}
+                      aria-hidden="true"
+                    />
+                  )}
+                  <span class="option__text">
+                    <span class="option__name">{optionName(option)}</span>
+                    {optionNote(option) && <span class="option__note">{optionNote(option)}</span>}
+                  </span>
+                </label>
+              </div>
+            ))}
+          </div>
+        </fieldset>
+      ))}
+    </form>
+
+    <div class="materials__preview" data-reveal="rise">
+      <figure class="preview">
+        <svg
+          class="preview__svg"
+          viewBox="0 0 400 340"
+          role="img"
+          aria-label={ui.materials.previewLabel}
+        >
+          <defs>
+            <linearGradient id="glass-sheen" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fff" stop-opacity="0.35"></stop>
+              <stop offset="0.45" stop-color="#fff" stop-opacity="0.04"></stop>
+              <stop offset="0.55" stop-color="#fff" stop-opacity="0.18"></stop>
+              <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
+            </linearGradient>
+            <clipPath id="preview-glass-clip">
+              <rect x="44" y="44" width="152" height="252"></rect>
+              <rect x="204" y="44" width="152" height="252"></rect>
+            </clipPath>
+          </defs>
+          <rect class="preview__wall" x="0" y="0" width="400" height="340"></rect>
+          <rect class="preview__frame" x="28" y="28" width="344" height="284" rx="3"></rect>
+          <rect class="preview__glass" x="44" y="44" width="152" height="252"></rect>
+          <rect class="preview__glass" x="204" y="44" width="152" height="252"></rect>
+          <rect
+            class="preview__sheen"
+            x="44"
+            y="44"
+            width="152"
+            height="252"
+            fill="url(#glass-sheen)"
+          ></rect>
+          <rect
+            class="preview__sheen"
+            x="204"
+            y="44"
+            width="152"
+            height="252"
+            fill="url(#glass-sheen)"
+          ></rect>
+          <g clip-path="url(#preview-glass-clip)">
+            <rect
+              class="preview__sweep"
+              data-preview-sweep
+              x="-120"
+              y="0"
+              width="70"
+              height="340"
+            ></rect>
+          </g>
+          <path
+            class="preview__bars"
+            d="M44 170 H196 M204 170 H356 M120 44 V296 M280 44 V296"
+          ></path>
+          <rect class="preview__mullion" x="194" y="36" width="12" height="268" rx="2"></rect>
+          <rect class="preview__sill" x="16" y="312" width="368" height="12" rx="2"></rect>
+        </svg>
+        <figcaption class="preview__caption">
+          <span class="preview__summary-label">{ui.materials.summary}:</span>
+          <span class="preview__summary" aria-live="polite">
+            {groups.map((group, groupIndex) => (
+              <span class="preview__summary-part">
+                {group.options.map((option) => (
+                  <span class="preview__summary-option" data-summary={`${group.key}-${option.id}`}>
+                    {optionName(option)}
+                  </span>
+                ))}
+                {groupIndex < groups.length - 1 && <span aria-hidden="true"> · </span>}
+              </span>
+            ))}
+          </span>
+        </figcaption>
+        <p class="preview__note">{ui.materials.previewNote}</p>
+      </figure>
+      <Button
+        href={`#${ui.sections.contact.id}`}
+        variant="secondary"
+        data-quote-combination
+        data-message-template={ui.materials.combinationMessage(
+          '{frame}',
+          '{frameColour}',
+          '{glass}',
+        )}
+      >
+        {ui.materials.quoteCombination}
+        <ArrowRight aria-hidden="true" />
+      </Button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { animate } from 'motion';
+
+  const form = document.querySelector<HTMLFormElement>('[data-materials]');
+  const sweep = document.querySelector<SVGRectElement>('[data-preview-sweep]');
+  const quote = document.querySelector<HTMLAnchorElement>('[data-quote-combination]');
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const checkedName = (name: string): string =>
+    form?.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.dataset.name ?? '';
+
+  form?.addEventListener('change', () => {
+    if (sweep && !isReducedMotion) {
+      animate(sweep, { x: [0, 560] }, { duration: 1, ease: [0.65, 0, 0.35, 1] });
+    }
+  });
+
+  quote?.addEventListener('click', () => {
+    const template = quote.dataset.messageTemplate ?? '';
+    // The template is lowercased by the dictionary, so its placeholders arrive lowercased too.
+    const message = template
+      .replace('{frame}', checkedName('frame').toLowerCase())
+      .replace('{framecolour}', checkedName('frame-colour').toLowerCase())
+      .replace('{glass}', checkedName('glass').toLowerCase());
+    const textarea = document.querySelector<HTMLTextAreaElement>('#quote-message');
+    if (textarea && textarea.value.trim() === '') textarea.value = message;
+  });
+</script>
+
+<style>
+  .materials {
+    --frame-width: 8px;
+    background: var(--color-surface-raised);
+    border-block: 1px solid var(--color-outline);
+  }
+
+  .materials__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-7);
+    align-items: start;
+  }
+
+  .materials__header {
+    grid-column: 1 / -1;
+  }
+
+  .materials__controls {
+    grid-column: 1 / span 6;
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .option-group {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .option-group__legend {
+    margin-bottom: var(--space-3);
+    padding: 0;
+    font-size: var(--text-label);
+    font-weight: 680;
+  }
+
+  .option-group__options {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .option-group__options--text {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .option-group__options--swatch {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+  }
+
+  .option__label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    height: 100%;
+    min-height: 56px;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    cursor: pointer;
+    transition:
+      border-color var(--dur-feedback) var(--ease-out),
+      background-color var(--dur-feedback) var(--ease-out),
+      box-shadow var(--dur-state) var(--ease-out);
+  }
+
+  .option__label:hover {
+    border-color: var(--color-outline-strong);
+  }
+
+  input:checked + .option__label {
+    border-color: var(--color-accent);
+    background: var(--color-surface-raised);
+    box-shadow: inset 0 0 0 1px var(--color-accent);
+  }
+
+  input:focus-visible + .option__label {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .option__swatch {
+    width: 28px;
+    height: 28px;
+    flex: none;
+    border: 1px solid rgb(14 26 43 / 0.25);
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, rgb(255 255 255 / 0.45), transparent 55%), var(--swatch);
+    transition: transform var(--dur-state) var(--ease-out);
+  }
+
+  input:checked + .option__label .option__swatch {
+    transform: scale(1.12);
+  }
+
+  .option__text {
+    display: grid;
+    gap: 2px;
+  }
+
+  .option__name {
+    font-weight: 620;
+    line-height: 1.3;
+  }
+
+  .option__note {
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .materials__preview {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-5));
+    grid-column: 7 / span 6;
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+  }
+
+  .preview {
+    width: 100%;
+    padding: var(--space-5);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .preview__svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .preview__wall {
+    fill: var(--color-scene-wall);
+  }
+
+  .preview__frame,
+  .preview__mullion {
+    fill: var(--frame-color);
+    stroke: rgb(14 26 43 / 0.35);
+    stroke-width: 1;
+    transition:
+      fill var(--dur-layout) var(--ease-out),
+      --frame-color 600ms var(--ease-out);
+  }
+
+  .preview__glass {
+    fill: var(--glass-color);
+    stroke: var(--frame-color);
+    stroke-width: var(--frame-width);
+    transition:
+      stroke-width var(--dur-layout) var(--ease-out),
+      --glass-color 700ms var(--ease-out),
+      --frame-color 600ms var(--ease-out);
+  }
+
+  .preview__bars {
+    stroke: var(--frame-color);
+    stroke-width: 5;
+    transition: --frame-color 600ms var(--ease-out);
+  }
+
+  .preview__sheen {
+    pointer-events: none;
+  }
+
+  .preview__sweep {
+    fill: rgb(255 255 255 / 0.35);
+    transform: skewX(-18deg);
+  }
+
+  .preview__sill {
+    fill: var(--color-scene-sill);
+  }
+
+  .preview__caption {
+    margin-top: var(--space-4);
+    font-size: var(--text-label);
+  }
+
+  .preview__summary-label {
+    color: var(--color-on-surface-muted);
+  }
+
+  .preview__summary {
+    margin-left: 0.35em;
+    font-weight: 650;
+  }
+
+  .preview__summary-option {
+    display: none;
+  }
+
+  .preview__note {
+    margin-top: var(--space-2);
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 60rem) {
+    .materials__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .materials__controls,
+    .materials__preview {
+      grid-column: 1 / -1;
+    }
+
+    .materials__header {
+      order: -2;
+    }
+
+    .materials__preview {
+      position: static;
+      order: -1;
+    }
+  }
+</style>

@@ -1,0 +1,632 @@
+---
+import { Picture } from 'astro:assets';
+import { ArrowRight, MessageCircle, Pause, Play } from '@lucide/astro';
+
+import Button from '@/components/ui/Button.astro';
+import { COMPANY } from '@/config/company';
+import type { Locale } from '@/i18n/locales';
+import { UI } from '@/i18n/ui';
+import { whatsappUrl } from '@/lib/whatsapp';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = UI[locale];
+const { hero, contact } = COMPANY;
+const words = hero.title[locale].split(' ');
+const photos = hero.photos;
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <h1 id="hero-title" class="hero__title">
+        {words.map((word, index) => (
+          <>
+            <span class="hero__word-mask">
+              <span class="hero__word" data-hero-word>
+                {word}
+              </span>
+            </span>
+            {index < words.length - 1 && ' '}
+          </>
+        ))}
+      </h1>
+      <p class="hero__lede">{hero.lede[locale]}</p>
+      <div class="hero__actions">
+        <Button
+          href={whatsappUrl(contact.whatsappE164, contact.whatsappGreeting[locale])}
+          isExternal
+          size="lg"
+        >
+          <MessageCircle aria-hidden="true" />
+          {ui.cta.whatsapp}
+        </Button>
+        <Button href={`#${ui.sections.products.id}`} variant="secondary" size="lg">
+          {ui.cta.seeServices}
+          <ArrowRight aria-hidden="true" />
+        </Button>
+      </div>
+    </div>
+
+    <div class="hero__visual" data-hero-slides>
+      <div class="hero__dimension hero__dimension--width" aria-hidden="true">
+        <span class="hero__dimension-label">{ui.hero.measureLabel}</span>
+      </div>
+      <div class="hero__dimension hero__dimension--height" aria-hidden="true"></div>
+      <div class="hero__frame">
+        <div class="hero__slides">
+          {photos.map((photo, index) => (
+            <figure
+              class="hero__slide"
+              data-slide
+              data-active={index === 0 ? '' : undefined}
+              aria-hidden={index === 0 ? undefined : 'true'}
+            >
+              {index === 0 ? (
+                <Picture
+                  src={photo.src}
+                  alt={photo.alt[locale]}
+                  formats={['avif', 'webp']}
+                  widths={[420, 640, 860, 1100]}
+                  sizes="(min-width: 60rem) 40vw, 92vw"
+                  loading="eager"
+                  fetchpriority="high"
+                  class="hero__photo"
+                  style={`object-position: ${'focus' in photo ? photo.focus : '50% 50%'}`}
+                />
+              ) : (
+                <template data-slide-template>
+                  <Picture
+                    src={photo.src}
+                    alt={photo.alt[locale]}
+                    formats={['avif', 'webp']}
+                    widths={[420, 640, 860, 1100]}
+                    sizes="(min-width: 60rem) 40vw, 92vw"
+                    class="hero__photo"
+                    style={`object-position: ${'focus' in photo ? photo.focus : '50% 50%'}`}
+                  />
+                </template>
+              )}
+            </figure>
+          ))}
+        </div>
+        <span class="hero__pane" aria-hidden="true"></span>
+      </div>
+      <div class="hero__controls" data-slide-controls hidden>
+        <ol class="hero__progress" role="list">
+          {photos.map((_, index) => (
+            <li>
+              <button
+                type="button"
+                class="hero__progress-button"
+                data-slide-go={index}
+                aria-label={ui.hero.slideLabel(index + 1, photos.length)}
+                aria-current={index === 0 ? 'true' : undefined}
+              >
+                <span class="hero__progress-fill" />
+              </button>
+            </li>
+          ))}
+        </ol>
+        <button
+          type="button"
+          class="hero__toggle"
+          data-slide-toggle
+          aria-label={ui.hero.pause}
+          data-label-pause={ui.hero.pause}
+          data-label-play={ui.hero.play}
+        >
+          <Pause aria-hidden="true" class="hero__toggle-pause" />
+          <Play aria-hidden="true" class="hero__toggle-play" />
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const INTERVAL_MS = 6000;
+  const root = document.querySelector<HTMLElement>('[data-hero-slides]');
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (root && !isReducedMotion) {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-slide-go]'));
+    const toggle = root.querySelector<HTMLButtonElement>('[data-slide-toggle]');
+    const controls = root.querySelector<HTMLElement>('[data-slide-controls]');
+    let current = 0;
+    let timer: number | undefined;
+    let isPaused = false;
+
+    const show = (index: number): void => {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        const isActive = i === current;
+        slide.toggleAttribute('data-active', isActive);
+        slide.setAttribute('aria-hidden', String(!isActive));
+      });
+      buttons.forEach((button, i) => {
+        if (i === current) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      });
+      root.classList.remove('is-sweeping');
+      // Reading layout restarts the sweep animation for the new slide.
+      void root.offsetWidth;
+      root.classList.add('is-sweeping');
+    };
+
+    const schedule = (): void => {
+      window.clearInterval(timer);
+      if (!isPaused) timer = window.setInterval(() => show(current + 1), INTERVAL_MS);
+      root.classList.toggle('is-paused', isPaused);
+    };
+
+    const setPaused = (value: boolean): void => {
+      isPaused = value;
+      if (toggle) {
+        toggle.setAttribute(
+          'aria-label',
+          (value ? toggle.dataset.labelPlay : toggle.dataset.labelPause) ?? '',
+        );
+        toggle.toggleAttribute('data-paused', value);
+      }
+      schedule();
+    };
+
+    // The other photos stay in <template> until the page has loaded, so they never compete with
+    // the first photo, which is the largest contentful paint.
+    const hydrateSlides = (): void => {
+      root
+        .querySelectorAll<HTMLTemplateElement>('template[data-slide-template]')
+        .forEach((template) => {
+          template.replaceWith(template.content.cloneNode(true));
+        });
+    };
+
+    if (slides.length > 1 && controls) {
+      if (document.readyState === 'complete') hydrateSlides();
+      else window.addEventListener('load', hydrateSlides, { once: true });
+      controls.hidden = false;
+      buttons.forEach((button, index) =>
+        button.addEventListener('click', () => {
+          show(index);
+          schedule();
+        }),
+      );
+      toggle?.addEventListener('click', () => setPaused(!isPaused));
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) window.clearInterval(timer);
+        else schedule();
+      });
+      schedule();
+    }
+  }
+</script>
+
+<style>
+  .hero {
+    padding-block: clamp(1.5rem, 0.5rem + 3.5vw, 3.5rem) var(--space-8);
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: center;
+    gap: var(--space-7) var(--space-5);
+    min-height: min(calc(100dvh - var(--header-height) - 6rem), 42rem);
+  }
+
+  .hero__copy {
+    grid-column: 1 / span 6;
+  }
+
+  .hero__title {
+    max-width: 14ch;
+    font-size: var(--text-display);
+    font-weight: 780;
+    font-stretch: 118%;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+
+  .hero__word-mask {
+    display: inline-block;
+    overflow: clip;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+    vertical-align: top;
+  }
+
+  .hero__word {
+    display: inline-block;
+  }
+
+  /* Hidden before paint only when motion is allowed; a delayed fallback reveals the words if the
+     animation script never runs. */
+  :global(.motion-ok) .hero__word {
+    transform: translateY(110%);
+    animation: hero-word-fallback 0s 2.6s forwards;
+  }
+
+  :global(.hero-ready) .hero__word {
+    transform: none;
+  }
+
+  @keyframes hero-word-fallback {
+    to {
+      transform: none;
+    }
+  }
+
+  .hero__lede {
+    max-width: 40ch;
+    margin-top: var(--space-5);
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-lg);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .hero__visual {
+    --frame-pad: clamp(8px, 1vw, 12px);
+    position: relative;
+    grid-column: 8 / span 5;
+    padding: 34px 34px 0 0;
+  }
+
+  .hero__frame {
+    position: relative;
+    overflow: clip;
+    padding: var(--frame-pad);
+    border: 1px solid var(--color-outline-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(
+      160deg,
+      #fbfcfd 0%,
+      var(--color-surface-glass) 45%,
+      #d5dde6 55%,
+      #f1f4f7 100%
+    );
+    box-shadow: 0 18px 40px -24px rgb(10 35 80 / 0.45);
+  }
+
+  .hero__slides {
+    display: grid;
+    overflow: clip;
+    border-radius: var(--radius-sm);
+  }
+
+  .hero__slide {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--dur-focal) var(--ease-in-out),
+      visibility var(--dur-focal) allow-discrete;
+  }
+
+  .hero__slide[data-active] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .hero__slide :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__slide :global(img) {
+      transform: scale(1.06);
+      transition: transform 7s linear;
+    }
+
+    .hero__slide[data-active] :global(img) {
+      transform: scale(1);
+    }
+  }
+
+  /* The pane is a sheet of glass resting over the photo; on load it slides aside like a window, and a
+     softer sweep crosses it whenever the photo changes. */
+  .hero__pane {
+    position: absolute;
+    inset: var(--frame-pad);
+    border-radius: var(--radius-sm);
+    background: linear-gradient(
+      105deg,
+      transparent 0%,
+      transparent 38%,
+      rgb(255 255 255 / 0.55) 47%,
+      rgb(255 255 255 / 0.12) 53%,
+      transparent 62%
+    );
+    border-left: 2px solid rgb(255 255 255 / 0.85);
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .hero__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .hero__controls[hidden] {
+    display: none;
+  }
+
+  .hero__progress {
+    display: flex;
+    flex: 1;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .hero__progress li {
+    flex: 1;
+  }
+
+  .hero__progress-button {
+    display: grid;
+    align-items: center;
+    width: 100%;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  .hero__progress-button::before {
+    content: '';
+    grid-area: 1 / 1;
+    height: 3px;
+    border-radius: var(--radius-xs);
+    background: var(--color-outline);
+  }
+
+  .hero__progress-fill {
+    grid-area: 1 / 1;
+    height: 3px;
+    border-radius: var(--radius-xs);
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .hero__progress-button[aria-current='true'] .hero__progress-fill {
+    animation: hero-progress 6s linear forwards;
+  }
+
+  :global(.is-paused) .hero__progress-button[aria-current='true'] .hero__progress-fill {
+    animation-play-state: paused;
+  }
+
+  @keyframes hero-progress {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .hero__toggle {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex: none;
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-full);
+    background: var(--color-surface-raised);
+    color: var(--color-on-surface);
+    transition: border-color var(--dur-feedback) var(--ease-out);
+  }
+
+  .hero__toggle:hover {
+    border-color: var(--color-on-surface-muted);
+  }
+
+  .hero__toggle :global(svg) {
+    grid-area: 1 / 1;
+    width: 18px;
+    height: 18px;
+  }
+
+  .hero__toggle-play,
+  .hero__toggle[data-paused] .hero__toggle-pause {
+    display: none;
+  }
+
+  .hero__toggle[data-paused] .hero__toggle-play {
+    display: block;
+  }
+
+  .hero__dimension {
+    position: absolute;
+    color: var(--color-linework);
+  }
+
+  .hero__dimension--width {
+    top: 8px;
+    left: 0;
+    right: 34px;
+    height: 12px;
+    border-inline: 1.25px solid currentColor;
+  }
+
+  .hero__dimension--width::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 1.25px solid currentColor;
+    transform-origin: left;
+  }
+
+  .hero__dimension-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding-inline: var(--space-3);
+    background: var(--color-surface);
+    color: var(--color-accent-ink);
+    font-size: var(--text-sm);
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    translate: -50% -50%;
+  }
+
+  .hero__dimension--height {
+    top: 34px;
+    right: 8px;
+    bottom: 54px;
+    width: 12px;
+    border-block: 1.25px solid currentColor;
+  }
+
+  .hero__dimension--height::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    border-left: 1.25px solid currentColor;
+    transform-origin: top;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__lede {
+      animation: hero-fade var(--dur-focal) var(--ease-out) 350ms both;
+    }
+
+    .hero__actions {
+      animation: hero-fade var(--dur-focal) var(--ease-out) 480ms both;
+    }
+
+    .hero__slide:first-child :global(img) {
+      animation: hero-open var(--dur-hero) var(--ease-in-out) 150ms both;
+    }
+
+    .hero__pane {
+      animation: hero-pane var(--dur-hero) var(--ease-in-out) 150ms both;
+    }
+
+    :global(.is-sweeping) .hero__pane {
+      animation: hero-sweep 1.2s var(--ease-in-out) both;
+    }
+
+    .hero__dimension--width::before {
+      animation: hero-line-x var(--dur-focal) var(--ease-out) 900ms both;
+    }
+
+    .hero__dimension--height::before {
+      animation: hero-line-y var(--dur-focal) var(--ease-out) 1000ms both;
+    }
+
+    .hero__dimension {
+      animation: hero-fade var(--dur-state) var(--ease-out) 850ms both;
+    }
+
+    .hero__dimension-label {
+      animation: hero-fade var(--dur-layout) var(--ease-out) 1300ms both;
+    }
+  }
+
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  /* The photo starts partly visible so the largest paint is not held back by the reveal. */
+  @keyframes hero-open {
+    from {
+      clip-path: inset(0 0 0 42%);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes hero-pane {
+    0% {
+      opacity: 1;
+      transform: translateX(42%);
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-4%);
+    }
+  }
+
+  @keyframes hero-sweep {
+    0% {
+      opacity: 0;
+      transform: translateX(60%);
+    }
+    30% {
+      opacity: 0.9;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-30%);
+    }
+  }
+
+  @keyframes hero-line-x {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes hero-line-y {
+    from {
+      transform: scaleY(0);
+    }
+  }
+
+  @media (max-width: 60rem) {
+    .hero__grid {
+      min-height: 0;
+    }
+
+    .hero__copy,
+    .hero__visual {
+      grid-column: 1 / -1;
+    }
+
+    .hero__visual {
+      max-width: 34rem;
+    }
+
+    .hero__slide :global(img) {
+      aspect-ratio: 5 / 4;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .hero__visual {
+      padding: 30px 26px 0 0;
+    }
+
+    .hero__actions > :global(.button) {
+      width: 100%;
+    }
+  }
+</style>

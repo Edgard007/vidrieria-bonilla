@@ -1,0 +1,246 @@
+---
+import { ArrowLeft, TriangleAlert } from '@lucide/astro';
+
+import InlineContent from '@/components/legal/InlineContent.astro';
+import { COMPANY } from '@/config/company';
+import { LEGAL_EN } from '@/i18n/legal/en';
+import { LEGAL_ES } from '@/i18n/legal/es';
+import type { LegalDocument } from '@/i18n/legal/types';
+import type { Locale } from '@/i18n/locales';
+import { pathFor, type LegalPageKey } from '@/i18n/routes';
+import { UI } from '@/i18n/ui';
+import { formatDate } from '@/lib/localize';
+
+interface Props {
+  locale: Locale;
+  page: LegalPageKey;
+}
+
+const { locale, page } = Astro.props;
+const ui = UI[locale];
+const DOCUMENTS: Record<Locale, Record<LegalPageKey, LegalDocument>> = {
+  es: LEGAL_ES,
+  en: LEGAL_EN,
+};
+const doc = DOCUMENTS[locale][page];
+---
+
+<article class="legal container">
+  <a class="legal__back" href={pathFor('home', locale)}>
+    <ArrowLeft aria-hidden="true" />
+    {ui.legal.backHome}
+  </a>
+
+  <header class="legal__header">
+    <h1 class="legal__title">{ui.legal.titles[page]}</h1>
+    <p class="legal__updated">
+      {ui.legal.lastUpdated}:{' '}
+      <time datetime={COMPANY.legal.lastUpdated}>
+        {formatDate(COMPANY.legal.lastUpdated, locale)}
+      </time>
+    </p>
+    <p class="legal__draft" role="note">
+      <TriangleAlert aria-hidden="true" />
+      <span>{ui.legal.draftNotice}</span>
+    </p>
+    <p class="legal__intro">
+      <InlineContent parts={doc.intro} locale={locale} />
+    </p>
+  </header>
+
+  <div class="legal__layout">
+    <nav class="legal__toc" aria-labelledby="legal-toc-title">
+      <h2 id="legal-toc-title" class="legal__toc-title">
+        {ui.legal.onThisPage}
+      </h2>
+      <ol role="list">
+        {doc.sections.map((section) => (
+          <li>
+            <a href={`#${section.id}`}>{section.heading}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <div class="legal__body">
+      {doc.sections.map((section) => (
+        <section id={section.id} aria-labelledby={`${section.id}-title`}>
+          <h2 id={`${section.id}-title`}>{section.heading}</h2>
+          {section.blocks.map((block) =>
+            'paragraph' in block ? (
+              <p>
+                <InlineContent parts={block.paragraph} locale={locale} />
+              </p>
+            ) : (
+              <ul>
+                {block.list.map((item) => (
+                  <li>
+                    <InlineContent parts={item} locale={locale} />
+                  </li>
+                ))}
+              </ul>
+            ),
+          )}
+        </section>
+      ))}
+    </div>
+  </div>
+</article>
+
+<style>
+  .legal {
+    padding-block: var(--space-6) var(--space-9);
+  }
+
+  .legal__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    color: var(--color-primary);
+    font-size: var(--text-label);
+    font-weight: 620;
+    text-decoration: none;
+  }
+
+  .legal__back :global(svg) {
+    width: 18px;
+    height: 18px;
+    transition: transform var(--dur-state) var(--ease-out);
+  }
+
+  .legal__back:hover :global(svg) {
+    transform: translateX(-3px);
+  }
+
+  .legal__header {
+    max-width: 48rem;
+    padding-block: var(--space-6) var(--space-7);
+    border-bottom: 1px solid var(--color-outline);
+  }
+
+  .legal__title {
+    font-size: var(--text-h2);
+    font-weight: 740;
+    font-stretch: 114%;
+  }
+
+  .legal__updated {
+    margin-top: var(--space-3);
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-label);
+  }
+
+  .legal__draft {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    padding: var(--space-4);
+    border: 1px solid var(--color-outline-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-glass);
+    font-size: var(--text-label);
+  }
+
+  .legal__draft :global(svg) {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    margin-top: 0.1em;
+    color: var(--color-primary);
+  }
+
+  .legal__intro {
+    margin-top: var(--space-5);
+    font-size: var(--text-lg);
+  }
+
+  .legal__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    gap: var(--space-7);
+    padding-top: var(--space-7);
+  }
+
+  .legal__toc {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-5));
+    align-self: start;
+  }
+
+  .legal__toc-title {
+    margin-bottom: var(--space-3);
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-label);
+    font-weight: 620;
+    font-stretch: 100%;
+  }
+
+  .legal__toc ol {
+    display: grid;
+    gap: var(--space-1);
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-label);
+  }
+
+  .legal__toc a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    text-decoration: none;
+  }
+
+  .legal__toc a:hover {
+    text-decoration: underline;
+  }
+
+  .legal__body {
+    max-width: 68ch;
+  }
+
+  .legal__body section + section {
+    margin-top: var(--space-7);
+  }
+
+  .legal__body h2 {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-h3);
+    font-weight: 680;
+  }
+
+  .legal__body p + p,
+  .legal__body p + ul,
+  .legal__body ul + p {
+    margin-top: var(--space-3);
+  }
+
+  .legal__body ul {
+    display: grid;
+    gap: var(--space-2);
+    padding-left: 1.2em;
+  }
+
+  .legal__body li::marker {
+    color: var(--color-linework);
+  }
+
+  .legal__body a {
+    color: var(--color-primary);
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 56rem) {
+    .legal__layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .legal__toc {
+      position: static;
+      padding: var(--space-4) var(--space-5);
+      border: 1px solid var(--color-outline);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface-raised);
+    }
+  }
+</style>

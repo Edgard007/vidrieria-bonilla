@@ -1,0 +1,66 @@
+---
+import '@/styles/global.css';
+
+import { Font } from 'astro:assets';
+
+import SiteFooter from '@/components/navigation/SiteFooter.astro';
+import SiteHeader from '@/components/navigation/SiteHeader.astro';
+import Seo from '@/components/seo/Seo.astro';
+import { SITE_CREATOR } from '@/config/site';
+import { LOCALE_META, type Locale } from '@/i18n/locales';
+import type { PageKey } from '@/i18n/routes';
+import { UI } from '@/i18n/ui';
+
+interface Props {
+  locale: Locale;
+  page: PageKey;
+  title: string;
+  description: string;
+  isNoIndex?: boolean;
+}
+
+const { locale, page, title, description, isNoIndex } = Astro.props;
+const ui = UI[locale];
+---
+
+<!doctype html>
+<html lang={LOCALE_META[locale].htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7f9" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="creator" content={SITE_CREATOR.name} />
+    <link rel="author" href={SITE_CREATOR.url} />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <Font cssVariable="--font-archivo" preload />
+    <script is:inline>
+      // Runs before first paint so animated elements never flash in their final state.
+      document.documentElement.classList.add('js');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion-ok');
+      }
+    </script>
+    <Seo
+      locale={locale}
+      page={page}
+      title={title}
+      description={description}
+      isNoIndex={isNoIndex ?? false}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      {ui.skipToContent}
+    </a>
+    <SiteHeader locale={locale} page={page} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter locale={locale} />
+    <script>
+      import '@/scripts/motion';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,198 @@
+---
+import { Image } from 'astro:assets';
+
+import { COMPANY } from '@/config/company';
+import { SITE_CREATOR } from '@/config/site';
+import type { Locale } from '@/i18n/locales';
+import { pathFor, PAGE_KEYS, isLegalPage } from '@/i18n/routes';
+import { UI } from '@/i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = UI[locale];
+const legalPages = PAGE_KEYS.filter(isLegalPage);
+const year = new Date().getFullYear();
+const { contact, address, social } = COMPANY;
+---
+
+<footer class="site-footer surface-deep">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <Image
+        src={COMPANY.logo}
+        alt=""
+        width={64}
+        height={64}
+        densities={[1, 2]}
+        class="site-footer__logo"
+      />
+      <div>
+        <p class="site-footer__name">{COMPANY.name}</p>
+        <p class="site-footer__tagline">{COMPANY.tagline[locale]}</p>
+        <p class="site-footer__line" lang="en">
+          {COMPANY.logoLine}
+        </p>
+      </div>
+    </div>
+
+    <nav class="site-footer__col" aria-labelledby="footer-contact">
+      <h2 id="footer-contact" class="site-footer__heading">
+        {ui.footer.contactTitle}
+      </h2>
+      <ul role="list">
+        <li>
+          <a class="tabular" href={`tel:${contact.phoneE164}`}>
+            {contact.phoneDisplay}
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+        </li>
+        <li>
+          {address.district}, {address.department}, {address.country}
+        </li>
+        <li class="site-footer__social">
+          <a href={social.facebook} target="_blank" rel="noopener noreferrer">
+            Facebook
+          </a>
+          <a href={social.instagram} target="_blank" rel="noopener noreferrer">
+            Instagram
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <nav class="site-footer__col" aria-labelledby="footer-legal">
+      <h2 id="footer-legal" class="site-footer__heading">
+        {ui.footer.legalTitle}
+      </h2>
+      <ul role="list">
+        {legalPages.map((page) => (
+          <li>
+            <a href={pathFor(page, locale)}>{ui.legal.titles[page]}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+  <div class="container site-footer__base">
+    <p>{ui.footer.rights(year, COMPANY.name)}</p>
+    <p>{ui.footer.noCookies}</p>
+    <p class="site-footer__credit">
+      {ui.footer.createdBy}{' '}
+      <a href={SITE_CREATOR.url} target="_blank" rel="noopener author">
+        {SITE_CREATOR.name}
+      </a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: var(--space-8) var(--space-6);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr);
+    gap: var(--space-7) var(--space-5);
+  }
+
+  .site-footer__brand {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+
+  .site-footer__logo {
+    width: 64px;
+    height: 64px;
+    flex: none;
+  }
+
+  .site-footer__name {
+    font-size: var(--text-h3);
+    font-weight: 760;
+    font-stretch: 116%;
+    letter-spacing: -0.02em;
+  }
+
+  .site-footer__tagline {
+    margin-top: var(--space-1);
+    color: var(--color-on-deep-muted);
+  }
+
+  .site-footer__line {
+    margin-top: var(--space-3);
+    color: var(--color-on-deep-muted);
+    font-size: var(--text-sm);
+    letter-spacing: 0.04em;
+  }
+
+  .site-footer__heading {
+    margin-bottom: var(--space-3);
+    color: var(--color-on-deep-muted);
+    font-size: var(--text-label);
+    font-weight: 600;
+    font-stretch: 100%;
+    letter-spacing: 0.01em;
+  }
+
+  .site-footer__col ul {
+    display: grid;
+    gap: var(--space-1);
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__social {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .site-footer__col a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+  }
+
+  .site-footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-5);
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-deep-line);
+    color: var(--color-on-deep-muted);
+    font-size: var(--text-sm);
+  }
+
+  .site-footer__credit a {
+    color: var(--color-on-deep);
+    font-weight: 600;
+  }
+
+  .site-footer__credit a:hover {
+    color: var(--color-accent-on-deep);
+  }
+
+  @media (max-width: 56rem) {
+    .site-footer__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .site-footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .site-footer__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

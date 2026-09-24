@@ -1,0 +1,264 @@
+---
+import { ArrowUpRight, Clock, Mail, MapPin, MessageCircle, Phone } from '@lucide/astro';
+
+import QuoteForm from '@/components/forms/QuoteForm.astro';
+import Button from '@/components/ui/Button.astro';
+import { COMPANY } from '@/config/company';
+import type { Locale } from '@/i18n/locales';
+import { UI } from '@/i18n/ui';
+import { whatsappUrl } from '@/lib/whatsapp';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = UI[locale];
+const section = ui.sections.contact;
+const { contact, address, hours, social } = COMPANY;
+---
+
+<section id={section.id} class="section contact" aria-labelledby="contact-title">
+  <div class="container contact__grid">
+    <div class="contact__aside">
+      <span class="accent-rule" aria-hidden="true"></span>
+      <h2 id="contact-title" class="section-title">
+        {section.title}
+      </h2>
+      {section.lede && <p class="section-lede">{section.lede}</p>}
+
+      <Button
+        href={whatsappUrl(contact.whatsappE164, contact.whatsappGreeting[locale])}
+        isExternal
+        size="lg"
+        class="contact__whatsapp"
+      >
+        <MessageCircle aria-hidden="true" />
+        {ui.cta.whatsapp}
+      </Button>
+
+      <h3 class="visually-hidden">{ui.contact.channelsTitle}</h3>
+      <dl class="channels">
+        <div class="channel">
+          <dt>
+            <Phone aria-hidden="true" />
+            {ui.contact.phone}
+          </dt>
+          <dd>
+            <a class="tabular" href={`tel:${contact.phoneE164}`}>
+              {contact.phoneDisplay}
+            </a>
+            <span class="channel__note">
+              {ui.contact.whatsapp}:{' '}
+              <a
+                class="tabular"
+                href={whatsappUrl(contact.whatsappE164)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {contact.phoneDisplay}
+              </a>
+            </span>
+          </dd>
+        </div>
+        <div class="channel">
+          <dt>
+            <Mail aria-hidden="true" />
+            {ui.contact.email}
+          </dt>
+          <dd>
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </dd>
+        </div>
+        <div class="channel">
+          <dt>
+            <MapPin aria-hidden="true" />
+            {ui.contact.address}
+          </dt>
+          <dd>
+            <address>
+              {address.street}
+              <br />
+              {address.district}, {address.municipality}, {address.department}
+            </address>
+            <a
+              href={address.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="channel__link"
+            >
+              {ui.contact.openMap}
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+          </dd>
+        </div>
+        <div class="channel">
+          <dt>
+            <Clock aria-hidden="true" />
+            {ui.contact.hours}
+          </dt>
+          <dd>
+            <ul class="hours" role="list">
+              {hours.map((slot) => (
+                <li>
+                  <span>{slot.label[locale]}</span>
+                  <span class="tabular">{slot.display[locale]}</span>
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+        <div class="channel">
+          <dt>
+            <ArrowUpRight aria-hidden="true" />
+            {ui.contact.facebook}
+          </dt>
+          <dd>
+            <a href={social.facebook} target="_blank" rel="noopener noreferrer">
+              {COMPANY.name}
+            </a>
+          </dd>
+        </div>
+        <div class="channel">
+          <dt>
+            <ArrowUpRight aria-hidden="true" />
+            {ui.contact.instagram}
+          </dt>
+          <dd>
+            <a href={social.instagram} target="_blank" rel="noopener noreferrer">
+              @{new URL(social.instagram).pathname.replaceAll('/', '')}
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="contact__form" data-reveal="rise">
+      <h3 class="contact__form-title">{ui.contact.formTitle}</h3>
+      <QuoteForm locale={locale} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--space-7) var(--space-5);
+    align-items: start;
+  }
+
+  .contact__aside {
+    grid-column: 1 / span 5;
+  }
+
+  .contact__aside :global(.contact__whatsapp) {
+    margin-top: var(--space-6);
+  }
+
+  .channels {
+    display: grid;
+    margin-top: var(--space-7);
+    border-top: 1px solid var(--color-outline);
+  }
+
+  .channel {
+    display: grid;
+    grid-template-columns: minmax(7.5rem, 2fr) minmax(0, 5fr);
+    gap: var(--space-2) var(--space-4);
+    padding-block: var(--space-4);
+    border-bottom: 1px solid var(--color-outline);
+  }
+
+  .channel dt {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: fit-content;
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-label);
+    font-weight: 600;
+  }
+
+  .channel dt :global(svg) {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    color: var(--color-primary);
+  }
+
+  .channel dd {
+    display: grid;
+    gap: var(--space-1);
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .channel dd a {
+    font-weight: 600;
+  }
+
+  .channel address {
+    font-style: normal;
+  }
+
+  .channel__note {
+    color: var(--color-on-surface-muted);
+    font-size: var(--text-label);
+  }
+
+  .channel__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    width: fit-content;
+    color: var(--color-primary);
+    font-size: var(--text-label);
+  }
+
+  .channel__link :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .hours {
+    display: grid;
+    gap: var(--space-1);
+    padding: 0;
+    list-style: none;
+  }
+
+  .hours li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 var(--space-4);
+  }
+
+  .contact__form {
+    grid-column: 7 / span 6;
+    padding: clamp(1.25rem, 0.75rem + 2vw, 2.25rem);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-raised);
+  }
+
+  .contact__form-title {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-h3);
+    font-weight: 680;
+  }
+
+  @media (max-width: 60rem) {
+    .contact__aside,
+    .contact__form {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 26rem) {
+    .channel {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

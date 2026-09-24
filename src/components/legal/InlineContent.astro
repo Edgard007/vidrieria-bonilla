@@ -1,0 +1,49 @@
+---
+import type { Locale } from '@/i18n/locales';
+import type { Inline } from '@/i18n/legal/types';
+import { UI } from '@/i18n/ui';
+import { isPending } from '@/lib/localize';
+
+interface Props {
+  parts: Inline[];
+  locale: Locale;
+}
+
+const { parts, locale } = Astro.props;
+const ui = UI[locale];
+---
+
+{parts.map((part) => {
+  if (typeof part === 'string') return part;
+  if (isPending(part)) {
+    return (
+      <mark class="pending">
+        <span class="pending__label">{ui.legal.pendingLabel}:</span> {part.pending[locale]}
+      </mark>
+    );
+  }
+  return part.isExternal ? (
+    <a href={part.href} target="_blank" rel="noopener noreferrer">
+      {part.text}
+    </a>
+  ) : (
+    <a href={part.href}>{part.text}</a>
+  );
+})}
+
+<style>
+  .pending {
+    padding: 0.05em 0.35em;
+    border: 1px dashed var(--color-error);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--color-error) 7%, white);
+    color: var(--color-on-surface);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .pending__label {
+    color: var(--color-error);
+    font-weight: 650;
+  }
+</style>

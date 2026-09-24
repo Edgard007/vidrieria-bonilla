@@ -1,0 +1,51 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import LegalPage from '@/components/legal/LegalPage.astro';
+import About from '@/components/sections/About.astro';
+import Contact from '@/components/sections/Contact.astro';
+import Faq from '@/components/sections/Faq.astro';
+import Gallery from '@/components/sections/Gallery.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Materials from '@/components/sections/Materials.astro';
+import Process from '@/components/sections/Process.astro';
+import Products from '@/components/sections/Products.astro';
+import { COMPANY } from '@/config/company';
+import { allRoutes, isLegalPage, routeParam } from '@/i18n/routes';
+import { UI } from '@/i18n/ui';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+/** Every page in every locale comes from the route table; no page is duplicated per language. */
+export const getStaticPaths = (() =>
+  allRoutes().map(({ page, locale }) => ({
+    params: { route: routeParam(page, locale) },
+    props: { page, locale },
+  }))) satisfies GetStaticPaths;
+
+const { page, locale } = Astro.props;
+const ui = UI[locale];
+
+const title = isLegalPage(page)
+  ? `${ui.legal.titles[page]} | ${COMPANY.name}`
+  : ui.meta.homeTitle(COMPANY.name, COMPANY.tagline[locale]);
+const description = isLegalPage(page)
+  ? ui.legal.descriptions[page](COMPANY.name)
+  : COMPANY.description[locale];
+---
+
+<BaseLayout locale={locale} page={page} title={title} description={description}>
+  {isLegalPage(page) ? (
+    <LegalPage locale={locale} page={page} />
+  ) : (
+    <>
+      <Hero locale={locale} />
+      <About locale={locale} />
+      <Products locale={locale} />
+      <Materials locale={locale} />
+      <Process locale={locale} />
+      <Gallery locale={locale} />
+      <Faq locale={locale} />
+      <Contact locale={locale} />
+    </>
+  )}
+</BaseLayout>
