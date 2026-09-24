@@ -1,0 +1,49 @@
+{
+  "name": "vidrieria-bonilla",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "typecheck": "astro check",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "qa": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm design:lint && astro build",
+    "design:lint": "design.md lint DESIGN.md"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@lucide/astro": "^1.47.0",
+    "astro": "^7.3.5",
+    "motion": "^13.4.2",
+    "sharp": "^0.35.4"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@eslint/js": "^10.0.1",
+    "@google/design.md": "^0.4.0",
+    "eslint": "^10.11.0",
+    "eslint-plugin-astro": "^3.2.1",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.9",
+    "prettier-plugin-astro": "^1.0.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.1"
+  },
+  "author": {
+    "name": "Edgardo Palacios",
+    "url": "https://edgardpalacios.dev/"
+  },
+  "description": "Sitio web de Vidriería Bonilla, vidriería en Jayaque, La Libertad, El Salvador.",
+  "private": true
+}
