@@ -34,6 +34,7 @@ type UiStrings = {
     seeColours: string;
   };
   materials: {
+    product: string;
     frameMaterial: string;
     frameColour: string;
     glassColour: string;
@@ -41,7 +42,8 @@ type UiStrings = {
     previewNote: string;
     summary: string;
     quoteCombination: string;
-    combinationMessage: (frame: string, frameColour: string, glass: string) => string;
+    /** Placeholders: {product}, {frame}, {frameColour}, {glass}. */
+    combinationTemplate: string;
   };
   process: { stepLabel: (n: number, total: number) => string };
   work: { filterLabel: string; all: string; showMore: string; showLess: string };
@@ -197,6 +199,7 @@ export const UI: Record<Locale, UiStrings> = {
       seeColours: 'Ver colores de marco y vidrio',
     },
     materials: {
+      product: 'Producto',
       frameMaterial: 'Material del marco',
       frameColour: 'Color del marco',
       glassColour: 'Color del vidrio',
@@ -204,8 +207,8 @@ export const UI: Record<Locale, UiStrings> = {
       previewNote: 'Vista ilustrativa. El tono real del vidrio cambia con la luz.',
       summary: 'Su combinación',
       quoteCombination: 'Cotizar esta combinación',
-      combinationMessage: (frame, frameColour, glass) =>
-        `Me interesa una ventana con marco de ${frame.toLowerCase()} color ${frameColour.toLowerCase()} y vidrio ${glass.toLowerCase()}.`,
+      combinationTemplate:
+        'Combinación: {product}, marco de {frame} color {frameColour}, vidrio {glass}.',
     },
     process: { stepLabel: (n, total) => `Paso ${n} de ${total}` },
     work: {
@@ -414,6 +417,7 @@ export const UI: Record<Locale, UiStrings> = {
       seeColours: 'See frame and glass colours',
     },
     materials: {
+      product: 'Product',
       frameMaterial: 'Frame material',
       frameColour: 'Frame colour',
       glassColour: 'Glass colour',
@@ -421,8 +425,7 @@ export const UI: Record<Locale, UiStrings> = {
       previewNote: 'Illustrative view. Real glass tones change with the light.',
       summary: 'Your combination',
       quoteCombination: 'Get a quote for this combination',
-      combinationMessage: (frame, frameColour, glass) =>
-        `I am interested in a window with a ${frameColour.toLowerCase()} ${frame.toLowerCase()} frame and ${glass.toLowerCase()} glass.`,
+      combinationTemplate: 'Combination: {product}, {frameColour} {frame} frame, {glass} glass.',
     },
     process: { stepLabel: (n, total) => `Step ${n} of ${total}` },
     work: {
