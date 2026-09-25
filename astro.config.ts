@@ -1,9 +1,14 @@
+import { existsSync } from 'node:fs';
+
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, envField, fontProviders } from 'astro/config';
 
-// The production domain is deployment configuration, not business data. Set SITE_URL in the
-// hosting environment; the reserved .example TLD makes a missing value obvious in canonicals.
-const SITE_URL = process.env.SITE_URL ?? 'https://vidrieriabonilla.example';
+// Astro evaluates this file before loading .env, so read it here for the variables the config
+// itself needs. Values already set by the hosting environment take precedence.
+if (existsSync('.env')) process.loadEnvFile('.env');
+
+// The production domain is deployment configuration, not business data.
+const SITE_URL = process.env.SITE_URL || 'https://vidrieriabonilla.com';
 
 export default defineConfig({
   site: SITE_URL,
