@@ -428,9 +428,9 @@ export const COMPANY = {
       elevation: 'window',
     },
     {
-      id: 'sliding-window-white',
+      id: 'sliding-window',
       category: 'windows',
-      name: { es: 'Ventana corrediza blanca', en: 'White sliding window' },
+      name: { es: 'Ventana corrediza', en: 'Sliding window' },
       label: { es: 'Económica', en: 'Budget' },
       summary: {
         es: 'La opción práctica y accesible para cuartos y baños.',

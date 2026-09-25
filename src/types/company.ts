@@ -6,7 +6,7 @@ export type ProductCategory = 'windows' | 'doors' | 'mirrors' | 'custom';
 
 export type ProductId =
   | 'french-window-black'
-  | 'sliding-window-white'
+  | 'sliding-window'
   | 'sash-window'
   | 'fixed-glass'
   | 'garden-door'

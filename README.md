@@ -29,9 +29,12 @@ pnpm preview        # serve dist/
 
 ### Environment
 
+Copy `.env.example` to `.env` and adjust the values. All three variables are optional; in production
+set them in the hosting provider's environment settings.
+
 | Variable               | Required | Purpose                                                                                         |
 | ---------------------- | -------- | ----------------------------------------------------------------------------------------------- |
-| `SITE_URL`             | Yes, in production | Canonical URLs, hreflang, sitemap, Open Graph. Defaults to `https://vidrieriabonilla.example`. |
+| `SITE_URL`             | No       | Canonical URLs, hreflang, sitemap, Open Graph. Defaults to `https://vidrieriabonilla.com`.      |
 | `PUBLIC_FORM_ENDPOINT` | No       | Form delivery endpoint. Without it, the form hands the request to WhatsApp.                     |
 | `PUBLIC_GSC_VERIFICATION` | No    | `content` value of the Google Search Console HTML tag. Adds the verification meta tag.          |
 
@@ -157,7 +160,7 @@ section "encargados"/"processors").
 
 ### Google Search Console
 
-Once the site is deployed on its domain and `SITE_URL` is set:
+Once the site is deployed on https://vidrieriabonilla.com:
 
 1. Open https://search.google.com/search-console and add a property. The **Domain** type is verified with a DNS
    TXT record at the domain registrar. The **URL prefix** type can use the HTML tag method instead.
