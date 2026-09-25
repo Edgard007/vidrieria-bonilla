@@ -5,7 +5,7 @@ import Button from '@/components/ui/Button.astro';
 import { COMPANY } from '@/config/company';
 import type { Locale } from '@/i18n/locales';
 import { UI } from '@/i18n/ui';
-import type { FrameMaterial, Swatch } from '@/types/company';
+import type { FrameMaterial, Product, Swatch } from '@/types/company';
 
 interface Props {
   locale: Locale;
@@ -17,8 +17,14 @@ const section = ui.sections.materials;
 const frames: readonly FrameMaterial[] = COMPANY.materials.frames;
 const frameColours: readonly Swatch[] = COMPANY.materials.frameColors;
 const glassColours: readonly Swatch[] = COMPANY.materials.glassColors;
+// Only products built from a frame and glass take part in the configurator.
+const configProducts = COMPANY.products.filter(
+  (product: Product) => product.category === 'windows' || product.category === 'doors',
+);
+const doorProducts = configProducts.filter((product) => product.elevation === 'door');
 
 const groups = [
+  { key: 'config-product', legend: ui.materials.product, options: configProducts, kind: 'text' },
   { key: 'frame', legend: ui.materials.frameMaterial, options: frames, kind: 'text' },
   { key: 'frame-colour', legend: ui.materials.frameColour, options: frameColours, kind: 'swatch' },
   { key: 'glass', legend: ui.materials.glassColour, options: glassColours, kind: 'swatch' },
@@ -34,6 +40,11 @@ const css = [
     (swatch) => `.materials:has(#glass-${swatch.id}:checked){--glass-color:${swatch.hex}}`,
   ),
   '.materials:has(#frame-pvc:checked){--frame-width:14px}',
+  ...doorProducts.map(
+    (product) =>
+      `.materials:has(#config-product-${product.id}:checked) .preview__svg--window{display:none}` +
+      `.materials:has(#config-product-${product.id}:checked) .preview__svg--door{display:block}`,
+  ),
   ...groups.flatMap((group) =>
     group.options.map(
       (option) =>
@@ -48,9 +59,14 @@ const css = [
   ),
 ].join('');
 
-const optionName = (option: FrameMaterial | Swatch): string => option.name[locale];
-const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
-  'description' in option ? option.description[locale] : option.note?.[locale];
+type Option = FrameMaterial | Swatch | Product;
+
+const optionName = (option: Option): string => option.name[locale];
+const optionNote = (option: Option): string | undefined => {
+  if ('description' in option) return option.description[locale];
+  if ('hex' in option) return option.note?.[locale];
+  return undefined;
+};
 ---
 
 <style is:inline set:html={css}></style>
@@ -111,12 +127,7 @@ const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
 
     <div class="materials__preview" data-reveal="rise">
       <figure class="preview">
-        <svg
-          class="preview__svg"
-          viewBox="0 0 400 340"
-          role="img"
-          aria-label={ui.materials.previewLabel}
-        >
+        <svg class="preview__defs" width="0" height="0" aria-hidden="true" focusable="false">
           <defs>
             <linearGradient id="glass-sheen" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stop-color="#fff" stop-opacity="0.35"></stop>
@@ -128,7 +139,18 @@ const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
               <rect x="44" y="44" width="152" height="252"></rect>
               <rect x="204" y="44" width="152" height="252"></rect>
             </clipPath>
+            <clipPath id="preview-door-clip">
+              <rect x="126" y="32" width="70" height="276"></rect>
+              <rect x="204" y="32" width="70" height="276"></rect>
+            </clipPath>
           </defs>
+        </svg>
+        <svg
+          class="preview__svg preview__svg--window"
+          viewBox="0 0 400 340"
+          role="img"
+          aria-label={ui.materials.previewLabel}
+        >
           <rect class="preview__wall" x="0" y="0" width="400" height="340"></rect>
           <rect class="preview__frame" x="28" y="28" width="344" height="284" rx="3"></rect>
           <rect class="preview__glass" x="44" y="44" width="152" height="252"></rect>
@@ -166,6 +188,46 @@ const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
           <rect class="preview__mullion" x="194" y="36" width="12" height="268" rx="2"></rect>
           <rect class="preview__sill" x="16" y="312" width="368" height="12" rx="2"></rect>
         </svg>
+        <svg
+          class="preview__svg preview__svg--door"
+          viewBox="0 0 400 340"
+          role="img"
+          aria-label={ui.materials.previewLabel}
+        >
+          <rect class="preview__wall" x="0" y="0" width="400" height="340"></rect>
+          <rect class="preview__frame" x="112" y="18" width="176" height="304" rx="3"></rect>
+          <rect class="preview__glass" x="126" y="32" width="70" height="276"></rect>
+          <rect class="preview__glass" x="204" y="32" width="70" height="276"></rect>
+          <rect
+            class="preview__sheen"
+            x="126"
+            y="32"
+            width="70"
+            height="276"
+            fill="url(#glass-sheen)"
+          ></rect>
+          <rect
+            class="preview__sheen"
+            x="204"
+            y="32"
+            width="70"
+            height="276"
+            fill="url(#glass-sheen)"
+          ></rect>
+          <g clip-path="url(#preview-door-clip)">
+            <rect
+              class="preview__sweep"
+              data-preview-sweep
+              x="-120"
+              y="0"
+              width="70"
+              height="340"
+            ></rect>
+          </g>
+          <rect class="preview__mullion" x="194" y="24" width="12" height="292" rx="2"></rect>
+          <path class="preview__bars" d="M214 170 H264"></path>
+          <rect class="preview__sill" x="80" y="322" width="240" height="10" rx="2"></rect>
+        </svg>
         <figcaption class="preview__caption">
           <span class="preview__summary-label">{ui.materials.summary}:</span>
           <span class="preview__summary" aria-live="polite">
@@ -198,11 +260,7 @@ const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
         href={`#${ui.sections.contact.id}`}
         variant="secondary"
         data-quote-combination
-        data-message-template={ui.materials.combinationMessage(
-          '{frame}',
-          '{frameColour}',
-          '{glass}',
-        )}
+        data-message-template={ui.materials.combinationTemplate}
       >
         {ui.materials.quoteCombination}
         <ArrowRight aria-hidden="true" />
@@ -215,28 +273,53 @@ const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
   import { animate } from 'motion';
 
   const form = document.querySelector<HTMLFormElement>('[data-materials]');
-  const sweep = document.querySelector<SVGRectElement>('[data-preview-sweep]');
+  const sweeps = Array.from(document.querySelectorAll<SVGRectElement>('[data-preview-sweep]'));
   const quote = document.querySelector<HTMLAnchorElement>('[data-quote-combination]');
   const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const checkedName = (name: string): string =>
-    form?.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.dataset.name ?? '';
+  const checked = (name: string): HTMLInputElement | null =>
+    form?.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`) ?? null;
+  const checkedName = (name: string): string => checked(name)?.dataset.name ?? '';
+  // Acronyms such as PVC keep their case inside the sentence; other names are lowercased.
+  const inSentence = (value: string): string =>
+    value === value.toUpperCase() ? value : value.toLowerCase();
 
   form?.addEventListener('change', () => {
-    if (sweep && !isReducedMotion) {
+    if (isReducedMotion) return;
+    sweeps.forEach((sweep) => {
       animate(sweep, { x: [0, 560] }, { duration: 1, ease: [0.65, 0, 0.35, 1] });
-    }
+    });
   });
 
   quote?.addEventListener('click', () => {
-    const template = quote.dataset.messageTemplate ?? '';
-    // The template is lowercased by the dictionary, so its placeholders arrive lowercased too.
-    const message = template
-      .replace('{frame}', checkedName('frame').toLowerCase())
-      .replace('{framecolour}', checkedName('frame-colour').toLowerCase())
-      .replace('{glass}', checkedName('glass').toLowerCase());
+    const message = (quote.dataset.messageTemplate ?? '')
+      .replace('{product}', checkedName('config-product'))
+      .replace('{frame}', inSentence(checkedName('frame')))
+      .replace('{frameColour}', inSentence(checkedName('frame-colour')))
+      .replace('{glass}', inSentence(checkedName('glass')));
+
     const textarea = document.querySelector<HTMLTextAreaElement>('#quote-message');
-    if (textarea && textarea.value.trim() === '') textarea.value = message;
+    if (textarea) {
+      // Replaces the combination added last time; anything the visitor wrote themselves is kept.
+      const previous = textarea.dataset.combination;
+      const current = textarea.value;
+      if (previous && current.includes(previous)) {
+        textarea.value = current.replace(previous, message);
+      } else if (current.trim() === '') {
+        textarea.value = message;
+      } else {
+        textarea.value = `${current.trimEnd()}\n${message}`;
+      }
+      textarea.dataset.combination = message;
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    const product = checked('config-product');
+    const select = document.querySelector<HTMLSelectElement>('#quote-service');
+    if (select && product) {
+      select.value = product.value;
+      select.dispatchEvent(new Event('input', { bubbles: true }));
+    }
   });
 </script>
 
@@ -373,6 +456,17 @@ const optionNote = (option: FrameMaterial | Swatch): string | undefined =>
   .preview__svg {
     width: 100%;
     height: auto;
+  }
+
+  .preview__svg--door {
+    display: none;
+  }
+
+  .preview__defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
   }
 
   .preview__wall {
