@@ -5,6 +5,7 @@ import Button from '@/components/ui/Button.astro';
 import { COMPANY } from '@/config/company';
 import type { Locale } from '@/i18n/locales';
 import { UI } from '@/i18n/ui';
+import { PREVIEW_SHAPES, shapeFor, type ShapeId } from '@/lib/preview-shapes';
 import type { FrameMaterial, Product, Swatch } from '@/types/company';
 
 interface Props {
@@ -21,7 +22,9 @@ const glassColours: readonly Swatch[] = COMPANY.materials.glassColors;
 const configProducts = COMPANY.products.filter(
   (product: Product) => product.category === 'windows' || product.category === 'doors',
 );
-const doorProducts = configProducts.filter((product) => product.elevation === 'door');
+const shapeIds = [...new Set(configProducts.map((product) => shapeFor(product.id)))] as ShapeId[];
+const shapes = shapeIds.map((id) => ({ id, ...PREVIEW_SHAPES[id] }));
+const firstShape = configProducts[0] ? shapeFor(configProducts[0].id) : 'grid';
 
 const groups = [
   { key: 'config-product', legend: ui.materials.product, options: configProducts, kind: 'text' },
@@ -40,10 +43,12 @@ const css = [
     (swatch) => `.materials:has(#glass-${swatch.id}:checked){--glass-color:${swatch.hex}}`,
   ),
   '.materials:has(#frame-pvc:checked){--frame-width:14px}',
-  ...doorProducts.map(
+  // One drawing per product: the first product's drawing shows by default, then the checked one.
+  `.preview__svg{display:none}.preview__svg--${firstShape}{display:block}`,
+  ...configProducts.map(
     (product) =>
-      `.materials:has(#config-product-${product.id}:checked) .preview__svg--window{display:none}` +
-      `.materials:has(#config-product-${product.id}:checked) .preview__svg--door{display:block}`,
+      `.materials:has(#config-product-${product.id}:checked) .preview__svg{display:none}` +
+      `.materials:has(#config-product-${product.id}:checked) .preview__svg--${shapeFor(product.id)}{display:block}`,
   ),
   ...groups.flatMap((group) =>
     group.options.map(
@@ -135,99 +140,85 @@ const optionNote = (option: Option): string | undefined => {
               <stop offset="0.55" stop-color="#fff" stop-opacity="0.18"></stop>
               <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
             </linearGradient>
-            <clipPath id="preview-glass-clip">
-              <rect x="44" y="44" width="152" height="252"></rect>
-              <rect x="204" y="44" width="152" height="252"></rect>
-            </clipPath>
-            <clipPath id="preview-door-clip">
-              <rect x="126" y="32" width="70" height="276"></rect>
-              <rect x="204" y="32" width="70" height="276"></rect>
-            </clipPath>
+            {shapes.map((shape) => (
+              <clipPath id={`preview-clip-${shape.id}`}>
+                {shape.panes.map((pane) => (
+                  <rect x={pane.x} y={pane.y} width={pane.w} height={pane.h} />
+                ))}
+              </clipPath>
+            ))}
           </defs>
         </svg>
-        <svg
-          class="preview__svg preview__svg--window"
-          viewBox="0 0 400 340"
-          role="img"
-          aria-label={ui.materials.previewLabel}
-        >
-          <rect class="preview__wall" x="0" y="0" width="400" height="340"></rect>
-          <rect class="preview__frame" x="28" y="28" width="344" height="284" rx="3"></rect>
-          <rect class="preview__glass" x="44" y="44" width="152" height="252"></rect>
-          <rect class="preview__glass" x="204" y="44" width="152" height="252"></rect>
-          <rect
-            class="preview__sheen"
-            x="44"
-            y="44"
-            width="152"
-            height="252"
-            fill="url(#glass-sheen)"
-          ></rect>
-          <rect
-            class="preview__sheen"
-            x="204"
-            y="44"
-            width="152"
-            height="252"
-            fill="url(#glass-sheen)"
-          ></rect>
-          <g clip-path="url(#preview-glass-clip)">
+        {shapes.map((shape) => (
+          <svg
+            class={`preview__svg preview__svg--${shape.id}`}
+            viewBox="0 0 400 340"
+            role="img"
+            aria-label={ui.materials.previewLabel}
+          >
+            <rect class="preview__wall" x="0" y="0" width="400" height="340" />
             <rect
-              class="preview__sweep"
-              data-preview-sweep
-              x="-120"
-              y="0"
-              width="70"
-              height="340"
-            ></rect>
-          </g>
-          <path
-            class="preview__bars"
-            d="M44 170 H196 M204 170 H356 M120 44 V296 M280 44 V296"
-          ></path>
-          <rect class="preview__mullion" x="194" y="36" width="12" height="268" rx="2"></rect>
-          <rect class="preview__sill" x="16" y="312" width="368" height="12" rx="2"></rect>
-        </svg>
-        <svg
-          class="preview__svg preview__svg--door"
-          viewBox="0 0 400 340"
-          role="img"
-          aria-label={ui.materials.previewLabel}
-        >
-          <rect class="preview__wall" x="0" y="0" width="400" height="340"></rect>
-          <rect class="preview__frame" x="112" y="18" width="176" height="304" rx="3"></rect>
-          <rect class="preview__glass" x="126" y="32" width="70" height="276"></rect>
-          <rect class="preview__glass" x="204" y="32" width="70" height="276"></rect>
-          <rect
-            class="preview__sheen"
-            x="126"
-            y="32"
-            width="70"
-            height="276"
-            fill="url(#glass-sheen)"
-          ></rect>
-          <rect
-            class="preview__sheen"
-            x="204"
-            y="32"
-            width="70"
-            height="276"
-            fill="url(#glass-sheen)"
-          ></rect>
-          <g clip-path="url(#preview-door-clip)">
+              class="preview__frame"
+              x={shape.frame.x}
+              y={shape.frame.y}
+              width={shape.frame.w}
+              height={shape.frame.h}
+              rx="3"
+            />
+            {shape.panes.map((pane) => (
+              <>
+                <rect class="preview__glass" x={pane.x} y={pane.y} width={pane.w} height={pane.h} />
+                <rect
+                  class="preview__sheen"
+                  x={pane.x}
+                  y={pane.y}
+                  width={pane.w}
+                  height={pane.h}
+                  fill="url(#glass-sheen)"
+                />
+              </>
+            ))}
+            <g clip-path={`url(#preview-clip-${shape.id})`}>
+              <rect
+                class="preview__sweep"
+                data-preview-sweep
+                x="-120"
+                y="0"
+                width="70"
+                height="340"
+              />
+            </g>
+            {shape.bars && <path class="preview__bars" d={shape.bars} />}
+            {shape.profiles.map((profile) => (
+              <rect
+                class="preview__mullion"
+                x={profile.x}
+                y={profile.y}
+                width={profile.w}
+                height={profile.h}
+                rx="2"
+              />
+            ))}
+            {shape.handles?.map((handle) => (
+              <rect
+                class="preview__handle"
+                x={handle.x}
+                y={handle.y}
+                width={handle.w}
+                height={handle.h}
+                rx="2"
+              />
+            ))}
             <rect
-              class="preview__sweep"
-              data-preview-sweep
-              x="-120"
-              y="0"
-              width="70"
-              height="340"
-            ></rect>
-          </g>
-          <rect class="preview__mullion" x="194" y="24" width="12" height="292" rx="2"></rect>
-          <path class="preview__bars" d="M214 170 H264"></path>
-          <rect class="preview__sill" x="80" y="322" width="240" height="10" rx="2"></rect>
-        </svg>
+              class="preview__sill"
+              x={shape.sill.x}
+              y={shape.sill.y}
+              width={shape.sill.w}
+              height={shape.sill.h}
+              rx="2"
+            />
+          </svg>
+        ))}
         <figcaption class="preview__caption">
           <span class="preview__summary-label">{ui.materials.summary}:</span>
           <span class="preview__summary" aria-live="polite">
@@ -458,8 +449,9 @@ const optionNote = (option: Option): string | undefined => {
     height: auto;
   }
 
-  .preview__svg--door {
-    display: none;
+  .preview__handle {
+    fill: var(--color-on-surface);
+    opacity: 0.55;
   }
 
   .preview__defs {
