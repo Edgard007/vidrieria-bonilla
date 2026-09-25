@@ -29,6 +29,12 @@ const form = ui.form;
 const endpoint = PUBLIC_FORM_ENDPOINT ?? '';
 const isEmailDelivery = endpoint.length > 0;
 const consent = form.privacy(COMPANY.name);
+const SERVICE_GROUPS = (['windows', 'doors', 'mirrors', 'custom'] as const)
+  .map((category) => ({
+    category,
+    products: COMPANY.products.filter((product) => product.category === category),
+  }))
+  .filter((group) => group.products.length > 0);
 
 const i18nPayload = {
   errors: form.errors,
@@ -97,8 +103,12 @@ const i18nPayload = {
     <option value="" selected disabled>
       {form.servicePlaceholder}
     </option>
-    {COMPANY.products.map((product) => (
-      <option value={product.id}>{product.name[locale]}</option>
+    {SERVICE_GROUPS.map((group) => (
+      <optgroup label={ui.products.categories[group.category]}>
+        {group.products.map((product) => (
+          <option value={product.id}>{product.name[locale]}</option>
+        ))}
+      </optgroup>
     ))}
   </FormField>
 
