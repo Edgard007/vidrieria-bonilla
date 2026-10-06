@@ -90,7 +90,7 @@ export type FaqItem = {
   answer: Localized;
 };
 
-/** A fact the owner must confirm before publishing. Rendered visibly on legal pages. */
+/** A fact the owner has not confirmed yet. Rendered visibly on legal pages. */
 export type Pending = { pending: Localized };
 
 export type LegalFacts = {

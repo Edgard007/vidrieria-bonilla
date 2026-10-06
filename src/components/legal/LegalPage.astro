@@ -1,5 +1,5 @@
 ---
-import { ChevronRight, MessageCircle, Plus, TriangleAlert } from '@lucide/astro';
+import { ChevronRight, Languages, MessageCircle, Plus } from '@lucide/astro';
 
 import InlineContent from '@/components/legal/InlineContent.astro';
 import Button from '@/components/ui/Button.astro';
@@ -81,10 +81,12 @@ const cells = (cell: unknown) => (Array.isArray(cell) ? cell : [cell]);
         {formatDate(COMPANY.legal.lastUpdated, locale)}
       </time>
     </p>
-    <p class="legal__draft" role="note">
-      <TriangleAlert aria-hidden="true" />
-      <span>{ui.legal.draftNotice}</span>
-    </p>
+    {ui.legal.translationNotice && (
+      <p class="legal__notice" role="note">
+        <Languages aria-hidden="true" />
+        <span>{ui.legal.translationNotice}</span>
+      </p>
+    )}
   </div>
 
   <div class="legal__layout">
@@ -316,7 +318,7 @@ const cells = (cell: unknown) => (Array.isArray(cell) ? cell : [cell]);
     font-size: var(--text-label);
   }
 
-  .legal__draft {
+  .legal__notice {
     display: flex;
     gap: var(--space-3);
     margin-top: var(--space-3);
@@ -327,7 +329,7 @@ const cells = (cell: unknown) => (Array.isArray(cell) ? cell : [cell]);
     font-size: var(--text-label);
   }
 
-  .legal__draft :global(svg) {
+  .legal__notice :global(svg) {
     width: 20px;
     height: 20px;
     flex: none;

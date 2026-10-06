@@ -54,7 +54,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
       ['We ask for your name, phone, service and details; email is optional.'],
       ['We use your data only to reply and, if you hire us, arrange the job.'],
       ['We send no advertising and never sell your data.'],
-      ['Some services, such as WhatsApp and Gmail, store data outside El Salvador.'],
+      ['Some services, such as WhatsApp, Gmail and AppSheet, store data outside El Salvador.'],
       ['You can exercise your rights by writing to ', email, '.'],
     ],
     faq: [
@@ -80,7 +80,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         id: 'data',
         heading: 'What data we collect',
         blocks: [
-          { paragraph: ['Only what you give us when you ask for a quote:'] },
+          { paragraph: ['When you ask for a quote, only what you give us:'] },
           {
             list: [
               ['Name.'],
@@ -89,6 +89,11 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
               [
                 'The service you are interested in and a description of what you need, with measurements or photos if you send them.',
               ],
+            ],
+          },
+          {
+            paragraph: [
+              'If you hire us, we also record the installation address and your orders. If you ask for a tax credit invoice (comprobante de crédito fiscal), we also record your DUI and NRC.',
             ],
           },
           {
@@ -104,7 +109,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'We use your data to answer your enquiry, prepare the quote you asked for and, if you hire us, arrange fabrication, delivery or repair.',
+              'We use your data to answer your enquiry, prepare the quote you asked for and, if you hire us, arrange fabrication, delivery and installation, and issue your invoice or tax credit invoice.',
             ],
           },
           {
@@ -131,7 +136,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'To receive and answer your message we use third-party services that may store data on servers outside El Salvador, mainly in the United States: WhatsApp, by WhatsApp LLC (Meta Platforms), if you message us there or use the form’s WhatsApp button; Gmail, by Google LLC, where we receive email; and Netlify, by Netlify, Inc. (United States), which hosts this site.',
+              'To receive and answer your message we use third-party services that may store data on servers outside El Salvador, mainly in the United States: WhatsApp, by WhatsApp LLC (Meta Platforms), if you message us there or use the form’s WhatsApp button; Gmail, by Google LLC, where we receive email; AppSheet and Google Sheets, by Google LLC, where we record customers and orders; and Netlify, by Netlify, Inc. (United States), which hosts this site.',
             ],
           },
           {
@@ -147,9 +152,9 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'We keep your request for as long as we need to handle it and, if you hire us, for as long as legal and tax obligations require. Period applied: ',
+              'If you do not hire us, we keep your request for ',
               fact(legal.retention, L),
-              '.',
+              '. If you do, we keep your customer details and orders in our records for as long as legal and tax obligations require.',
             ],
           },
         ],
