@@ -122,7 +122,8 @@ type UiStrings = {
     descriptions: Record<LegalPageKey, (name: string) => string>;
     lastUpdated: string;
     pendingLabel: string;
-    draftNotice: string;
+    /** Shown on translated legal pages: the Spanish text is the one that applies. */
+    translationNotice?: string;
     backHome: string;
     onThisPage: string;
   };
@@ -330,8 +331,6 @@ export const UI: Record<Locale, UiStrings> = {
       },
       lastUpdated: 'Última actualización',
       pendingLabel: 'Pendiente de confirmar',
-      draftNotice:
-        'Borrador preparado con base en la legislación salvadoreña vigente. Debe revisarlo el negocio y, de preferencia, un profesional en derecho antes de publicarlo.',
       backHome: 'Volver al inicio',
       onThisPage: 'En esta página',
     },
@@ -545,8 +544,7 @@ export const UI: Record<Locale, UiStrings> = {
       },
       lastUpdated: 'Last updated',
       pendingLabel: 'Pending confirmation',
-      draftNotice:
-        'Draft prepared under current Salvadoran law. The business, and ideally a lawyer, must review it before publication. The Spanish version prevails.',
+      translationNotice: 'This page is a translation. The Spanish version prevails.',
       backHome: 'Back to home',
       onThisPage: 'On this page',
     },

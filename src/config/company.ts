@@ -348,8 +348,8 @@ export const COMPANY = {
       {
         section: 'materials',
         text: {
-          es: 'Aluminio nogal, inox, bronce oscuro, natural o blanco; vidrio claro, gris, super gris, bronce, verde, reflectivo, control solar, laminado o esmerilado.',
-          en: 'Walnut, inox, dark bronze, natural or white aluminium; clear, grey, super grey, bronze, green, reflective, solar control, laminated or frosted glass.',
+          es: 'Aluminio nogal, inox, bronce oscuro, natural o blanco; vidrio liso, reflectivo o laminado en varios colores, y esmerilado para baños.',
+          en: 'Walnut, inox, dark bronze, natural or white aluminium; plain, reflective or laminated glass in several colours, and frosted glass for bathrooms.',
         },
       },
       {
@@ -629,30 +629,36 @@ export const COMPANY = {
         note: { es: 'Lacado', en: 'Lacquered' },
       },
     ] satisfies Swatch[],
-    /** Glass from the business's supplier, Inco (https://inco.com.sv/es/productos/vidrio/). */
+    /**
+     * Glass from the business's supplier, Inco (https://inco.com.sv/es/productos/vidrio/), one swatch
+     * per colour. Inco sells several colours in more than one finish: plain, reflective or laminated.
+     */
     glassColors: [
       {
         id: 'clear',
         name: { es: 'Claro', en: 'Clear' },
         hex: '#D9E8EE',
         note: {
-          es: 'Transparente, deja pasar toda la luz.',
-          en: 'Transparent, lets all the light in.',
+          es: 'Transparente. Liso o laminado.',
+          en: 'Transparent. Plain or laminated.',
         },
       },
       {
         id: 'grey',
         name: { es: 'Gris', en: 'Grey' },
         hex: '#5E646B',
-        note: { es: 'Reduce el brillo del sol.', en: 'Cuts sun glare.' },
+        note: {
+          es: 'Reduce el brillo del sol. Liso, reflectivo o laminado.',
+          en: 'Cuts sun glare. Plain, reflective or laminated.',
+        },
       },
       {
         id: 'super-grey',
         name: { es: 'Super gris', en: 'Super grey' },
         hex: '#2C3036',
         note: {
-          es: 'Liso o reflectivo. Da privacidad y reduce el brillo.',
-          en: 'Plain or reflective. Gives privacy and cuts glare.',
+          es: 'Más oscuro que el gris. Da privacidad.',
+          en: 'Darker than grey. Gives privacy.',
         },
       },
       {
@@ -660,42 +666,57 @@ export const COMPANY = {
         name: { es: 'Bronce', en: 'Bronze' },
         hex: '#8A7258',
         note: {
-          es: 'Liso o reflectivo. Tono cálido que suaviza la luz.',
-          en: 'Plain or reflective. A warm tone that softens the light.',
+          es: 'Tono cálido que suaviza la luz. Liso, reflectivo o laminado.',
+          en: 'A warm tone that softens the light. Plain, reflective or laminated.',
         },
       },
       {
         id: 'green',
         name: { es: 'Verde', en: 'Green' },
         hex: '#9DBFA8',
-        note: { es: 'Tono verde suave.', en: 'A soft green tint.' },
+        note: {
+          es: 'Tono verde suave. Liso, reflectivo o laminado.',
+          en: 'A soft green tint. Plain, reflective or laminated.',
+        },
       },
       {
-        id: 'blue-reflective',
-        name: { es: 'Azul reflectivo', en: 'Blue reflective' },
+        id: 'blue',
+        name: { es: 'Azul', en: 'Blue' },
         hex: '#2F5C9A',
         note: {
-          es: 'Refleja la luz del sol. Se puede instalar con el reflectivo hacia afuera.',
-          en: 'Reflects sunlight. It can be fitted with the reflective side facing out.',
+          es: 'Reflectivo: refleja el sol y reduce el calor. Se puede instalar con el reflectivo hacia afuera.',
+          en: 'Reflective: reflects sunlight and cuts heat. It can be fitted with the reflective side facing out.',
         },
       },
       {
-        id: 'solar-control',
-        name: { es: 'Control solar', en: 'Solar control' },
-        hex: '#24497F',
+        id: 'white',
+        name: { es: 'Blanco', en: 'White' },
+        hex: '#EEF0EE',
         note: {
-          es: 'Reduce el calor que entra por la ventana.',
-          en: 'Reduces the heat coming in through the window.',
+          es: 'Laminado lechoso: deja pasar la luz sin dejar ver.',
+          en: 'Milky laminated glass: lets light through without showing what is behind.',
         },
       },
       {
-        id: 'laminated',
-        name: { es: 'Laminado', en: 'Laminated' },
-        hex: '#E4ECEF',
+        id: 'ice',
+        name: { es: 'Hielo', en: 'Ice' },
+        hex: '#E1EBEE',
         note: {
-          es: 'Vidrio de seguridad en claro, blanco, bronce, gris o hielo.',
-          en: 'Safety glass in clear, white, bronze, grey or ice.',
+          es: 'Laminado translúcido, para privacidad.',
+          en: 'Translucent laminated glass, for privacy.',
         },
+      },
+      {
+        id: 'red',
+        name: { es: 'Rojo', en: 'Red' },
+        hex: '#A8443C',
+        note: { es: 'Laminado.', en: 'Laminated.' },
+      },
+      {
+        id: 'orange',
+        name: { es: 'Naranja', en: 'Orange' },
+        hex: '#D9853B',
+        note: { es: 'Laminado.', en: 'Laminated.' },
       },
       {
         id: 'frosted',
@@ -907,8 +928,8 @@ export const COMPANY = {
         en: 'Which frame and glass colours do you offer?',
       },
       answer: {
-        es: 'Trabajamos solo con aluminio, en tono nogal, inox, bronce oscuro, natural o blanco. El vidrio viene de nuestro proveedor Inco: claro, gris, super gris, bronce, verde, azul reflectivo, control solar y laminado, además de esmerilado o texturizado para baños. Pregúntenos por la disponibilidad al cotizar.',
-        en: 'We only work with aluminium, in walnut, inox, dark bronze, natural or white. Our glass comes from our supplier Inco: clear, grey, super grey, bronze, green, blue reflective, solar control and laminated, plus frosted or textured glass for bathrooms. Ask us about availability when you request a quote.',
+        es: 'Trabajamos solo con aluminio, en tono nogal, inox, bronce oscuro, natural o blanco. El vidrio viene de nuestro proveedor Inco: claro, gris, super gris, bronce, verde y azul, en acabado liso, reflectivo o laminado según el color, además de laminado blanco, hielo, rojo o naranja, y esmerilado o texturizado para baños. Pregúntenos por la disponibilidad al cotizar.',
+        en: 'We only work with aluminium, in walnut, inox, dark bronze, natural or white. Our glass comes from our supplier Inco: clear, grey, super grey, bronze, green and blue, in plain, reflective or laminated finishes depending on the colour, plus white, ice, red or orange laminated glass, and frosted or textured glass for bathrooms. Ask us about availability when you request a quote.',
       },
     },
     {

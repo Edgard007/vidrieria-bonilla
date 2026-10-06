@@ -46,7 +46,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
       ['Pedimos nombre, teléfono, servicio y detalle; el correo es opcional.'],
       ['Usamos los datos solo para responder y, si nos contrata, coordinar el trabajo.'],
       ['No enviamos publicidad ni vendemos sus datos.'],
-      ['Algunos servicios, como WhatsApp y Gmail, guardan datos fuera de El Salvador.'],
+      ['Algunos servicios, como WhatsApp, Gmail y AppSheet, guardan datos fuera de El Salvador.'],
       ['Puede ejercer sus derechos escribiendo a ', email, '.'],
     ],
     faq: [
@@ -72,7 +72,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         id: 'datos',
         heading: 'Qué datos recogemos',
         blocks: [
-          { paragraph: ['Solo los que usted nos da al pedir una cotización:'] },
+          { paragraph: ['Al pedir una cotización, solo los que usted nos da:'] },
           {
             list: [
               ['Nombre.'],
@@ -81,6 +81,11 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
               [
                 'El servicio que le interesa y la descripción de lo que necesita, con medidas o fotos si las envía.',
               ],
+            ],
+          },
+          {
+            paragraph: [
+              'Si nos contrata, también registramos la dirección donde se instala el trabajo y sus pedidos. Si pide comprobante de crédito fiscal, además su DUI y su NRC.',
             ],
           },
           {
@@ -96,7 +101,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Usamos sus datos para responder su consulta, preparar la cotización que pidió y, si contrata el trabajo, coordinar la fabricación, la entrega o la reparación.',
+              'Usamos sus datos para responder su consulta, preparar la cotización que pidió y, si contrata el trabajo, coordinar la fabricación, la entrega y la instalación, y emitir su factura o comprobante de crédito fiscal.',
             ],
           },
           {
@@ -123,7 +128,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Para recibir y contestar su mensaje usamos servicios de terceros que pueden guardar los datos en servidores fuera de El Salvador, principalmente en Estados Unidos: WhatsApp, de WhatsApp LLC (Meta Platforms), si nos escribe por ese medio o usa el botón de WhatsApp del formulario; Gmail, de Google LLC, donde recibimos los correos; y Netlify, de Netlify, Inc. (Estados Unidos), donde se aloja este sitio.',
+              'Para recibir y contestar su mensaje usamos servicios de terceros que pueden guardar los datos en servidores fuera de El Salvador, principalmente en Estados Unidos: WhatsApp, de WhatsApp LLC (Meta Platforms), si nos escribe por ese medio o usa el botón de WhatsApp del formulario; Gmail, de Google LLC, donde recibimos los correos; AppSheet y Google Sheets, de Google LLC, donde registramos clientes y pedidos; y Netlify, de Netlify, Inc. (Estados Unidos), donde se aloja este sitio.',
             ],
           },
           {
@@ -139,9 +144,9 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Guardamos su solicitud el tiempo necesario para atenderla y, si contrata el trabajo, durante el plazo que exijan las obligaciones legales y fiscales. Plazo aplicado: ',
+              'Si no contrata el trabajo, guardamos su solicitud ',
               fact(legal.retention, L),
-              '.',
+              '. Si lo contrata, conservamos sus datos de cliente y sus pedidos en nuestro registro durante el plazo que exijan las obligaciones legales y fiscales.',
             ],
           },
         ],
