@@ -90,7 +90,7 @@ export const PREVIEW_SHAPES: Record<ShapeId, PreviewShape> = {
 /** Which drawing represents each configurable product. */
 export const PRODUCT_SHAPES: Partial<Record<ProductId, ShapeId>> = {
   'french-window-black': 'grid',
-  'sliding-window': 'sliding',
+  'bilbao-window': 'sliding',
   'sash-window': 'sash',
   'fixed-glass': 'fixed',
   'garden-door': 'garden',

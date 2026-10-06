@@ -22,6 +22,8 @@ const controller: LegalDocument['sections'][number] = {
           ['Nombre comercial', name],
           ['Titular', fact(legal.legalName, L)],
           ['NIT', fact(legal.taxId, L)],
+          ['NRC', legal.taxpayerNumber],
+          ['Socio', legal.partner],
           ['Dirección', fullAddress()],
           ['Correo', email],
           ['Teléfono y WhatsApp', phone],
@@ -121,21 +123,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Para recibir y contestar su mensaje usamos servicios de terceros que pueden guardar los datos en servidores fuera de El Salvador, principalmente en Estados Unidos: WhatsApp, de WhatsApp LLC (Meta Platforms), si nos escribe por ese medio o usa el botón de WhatsApp del formulario; Gmail, de Google LLC, donde recibimos los correos; el servicio que entrega el formulario por correo, si está activo (',
-              {
-                pending: {
-                  es: 'Nombre y país del proveedor del formulario',
-                  en: 'Form provider name and country',
-                },
-              },
-              '); y el proveedor de alojamiento del sitio (',
-              {
-                pending: {
-                  es: 'Nombre y país del proveedor de alojamiento',
-                  en: 'Hosting provider name and country',
-                },
-              },
-              ').',
+              'Para recibir y contestar su mensaje usamos servicios de terceros que pueden guardar los datos en servidores fuera de El Salvador, principalmente en Estados Unidos: WhatsApp, de WhatsApp LLC (Meta Platforms), si nos escribe por ese medio o usa el botón de WhatsApp del formulario; Gmail, de Google LLC, donde recibimos los correos; y Netlify, de Netlify, Inc. (Estados Unidos), donde se aloja este sitio.',
             ],
           },
           {
@@ -229,7 +217,13 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
       ['La cotización escrita detalla medidas, materiales, precio con impuestos y plazo.'],
       ['El precio aceptado no cambia salvo que usted pida cambios.'],
       ['Las fotos, el logotipo y los textos pertenecen a la vidriería.'],
-      ['Los reclamos se atienden por ', whatsapp, ' o correo, y ante la ', LAWS.defensoria, '.'],
+      [
+        'Damos seguimiento a los reclamos por ',
+        whatsapp,
+        '. También puede acudir a la ',
+        LAWS.defensoria,
+        '.',
+      ],
     ],
     faq: [
       {
@@ -242,9 +236,14 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         answer: 'No, salvo que usted pida cambios en las medidas, los materiales o el diseño.',
       },
       {
+        question: '¿Qué pasa si di mal las medidas?',
+        answer:
+          'Usted asume el costo de corregir la pieza o de fabricar una nueva, según lo necesario. El anticipo sigue aplicado al pedido. Si las medidas las tomamos nosotros y el error es nuestro, lo corregimos sin costo.',
+      },
+      {
         question: '¿Dónde presento un reclamo?',
         answer:
-          'Escríbanos por correo o WhatsApp y le daremos un número de seguimiento. También puede acudir a la Defensoría del Consumidor.',
+          'Escríbanos por WhatsApp o correo. Le damos seguimiento a su reclamo por WhatsApp hasta resolverlo. También puede acudir a la Defensoría del Consumidor.',
       },
     ],
     sections: [
@@ -281,20 +280,38 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
                 'Una vez que usted acepta la cotización, el precio no cambia salvo que usted pida cambios en medidas, materiales o diseño.',
               ],
               [
-                'Cuando la entrega es posterior a la contratación, le entregamos un comprobante firmado por ambas partes con el lugar, la fecha de entrega y lo que ocurre si nos retrasamos.',
+                'Al pagar el anticipo le entregamos un comprobante de anticipo con el trabajo, el monto pagado y el saldo pendiente. Al entregar el producto le emitimos factura de consumidor final o, si lo solicita, comprobante de crédito fiscal.',
+              ],
+              [
+                'Aceptamos pago con tarjeta, transferencia o efectivo, y con cheque en algunos casos.',
+              ],
+              [
+                'Si hay un retraso en la entrega, siempre se lo comunicamos y acordamos con usted cómo proceder.',
               ],
             ],
           },
           {
             paragraph: [
-              'Responsabilidad cuando las medidas las proporciona el cliente: ',
-              {
-                pending: {
-                  es: 'Qué ocurre si la pieza se fabrica con medidas dadas por el cliente y no encaja',
-                  en: 'What happens if a piece made to customer-supplied measurements does not fit',
-                },
-              },
-              '.',
+              'Le recomendamos que nuestro equipo tome las medidas, sobre todo si el proyecto lo requiere o si usted no tiene experiencia midiendo. La visita de medición puede tener un costo, que le informamos antes y que, según el proyecto, se puede descontar del total si confirma la compra.',
+            ],
+          },
+          {
+            paragraph: ['Responsabilidad según quién tome las medidas:'],
+          },
+          {
+            list: [
+              [
+                'Antes de fabricar le pedimos confirmar las medidas, de preferencia por escrito (WhatsApp, cotización u orden de trabajo). Si usted las proporcionó, al confirmarlas asume que son correctas.',
+              ],
+              [
+                'Si la pieza no encaja porque sus medidas eran incorrectas, usted asume el costo de corregirla o de fabricar una nueva. El monto depende de lo necesario (modificación, materiales adicionales, mano de obra o fabricación completa); no siempre se cobra de nuevo el precio completo.',
+              ],
+              [
+                'En ese caso el anticipo del 50 % no se pierde: sigue aplicado al pedido original, y los costos adicionales corren por su cuenta.',
+              ],
+              [
+                'Si nosotros tomamos las medidas y la pieza no encaja por un error de medición, fabricación o instalación nuestro, la corregimos o la fabricamos de nuevo sin costo para usted. Esto no aplica si después se modificó el espacio, cambiaron las condiciones del lugar o hubo otra causa ajena a nosotros.',
+              ],
             ],
           },
           {
@@ -349,7 +366,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
               email,
               ' o por ',
               whatsapp,
-              '. Le daremos un número de seguimiento y una respuesta. También puede acudir a la ',
+              '. Le daremos seguimiento por WhatsApp hasta resolverlo. También puede acudir a la ',
               LAWS.defensoria,
               '.',
             ],
@@ -435,7 +452,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
                 [
                   'Formulario',
                   [
-                    'Los datos solo salen al pulsar enviar, hacia WhatsApp o el servicio indicado en la ',
+                    'Los datos solo salen al pulsar enviar, cuando se abre WhatsApp con su mensaje. Más detalle en la ',
                     privacyPolicy,
                     '.',
                   ],
@@ -480,27 +497,29 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
     summary:
       'Como casi todo se fabrica a la medida, fabricamos cuando usted acepta la cotización escrita y respondemos si el trabajo tiene defectos o no coincide con lo cotizado.',
     keyPoints: [
-      ['Empezamos a fabricar cuando usted acepta la cotización escrita.'],
-      ['Puede cancelar avisándonos por escrito.'],
+      [
+        'Empezamos a fabricar cuando usted acepta la cotización escrita y deposita el 50 % de anticipo.',
+      ],
+      ['Puede cancelar avisándonos por escrito; se cobra lo invertido hasta ese momento.'],
       ['Si contrató a distancia, puede retractarse en ocho días si el servicio no ha comenzado.'],
-      ['Reparamos o cambiamos sin costo los defectos que sean nuestros.'],
-      ['Los reembolsos se pagan por el mismo medio, en un máximo de 15 días.'],
+      ['Reparamos o cambiamos sin costo los defectos que sean nuestros, reportados en 1 semana.'],
+      ['Si corresponde devolver dinero, se devuelve por el mismo medio de pago.'],
     ],
     faq: [
       {
         question: '¿Puedo cancelar un pedido?',
         answer:
-          'Sí, avisándonos por escrito. Si contrató completamente a distancia, puede retractarse en los ocho días siguientes, salvo que el servicio ya haya comenzado.',
+          'Sí, avisándonos por escrito, pero se cobrará todo lo invertido hasta el momento de la cancelación. Si contrató completamente a distancia, puede retractarse en los ocho días siguientes, salvo que el servicio ya haya comenzado.',
       },
       {
         question: '¿Qué pasa si el trabajo tiene defectos?',
         answer:
-          'Revisamos el trabajo y lo reparamos o cambiamos sin costo si el defecto es nuestro. Si la reparación no lo resuelve, usted elige entre cambio, rebaja o devolución.',
+          'Avísenos en un máximo de 1 semana. Revisamos el trabajo y lo reparamos o cambiamos sin costo si el defecto es nuestro. Si la reparación no lo resuelve, usted elige entre cambio, rebaja o devolución.',
       },
       {
-        question: '¿Cuánto tarda un reembolso?',
+        question: '¿Cómo devuelven el dinero?',
         answer:
-          'Cuando corresponde, devolvemos el dinero por el mismo medio de pago en un máximo de 15 días.',
+          'Cuando corresponde, devolvemos el dinero por el mismo medio con que usted pagó: tarjeta, transferencia, efectivo o cheque.',
       },
     ],
     sections: [
@@ -510,7 +529,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Se aplica a los productos fabricados a la medida (ventanas, puertas de vidrio, espejos y piezas personalizadas) y a los servicios de reparación, como el cambio de vidrio de retrovisores.',
+              'Se aplica a los productos fabricados a la medida: ventanas, puertas de vidrio, vidrios fijos y espejos.',
             ],
           },
         ],
@@ -540,12 +559,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
           {
             paragraph: [
               'Condiciones de cancelación una vez iniciada la fabricación: ',
-              {
-                pending: {
-                  es: 'Qué parte del anticipo se reintegra si la pieza ya se cortó o fabricó (revisar con asesoría legal)',
-                  en: 'How much of the deposit is returned once the piece has been cut or made (review with legal counsel)',
-                },
-              },
+              fact(legal.refunds.cancellation, L),
               '.',
             ],
           },
@@ -557,13 +571,8 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Devoluciones por cambio de opinión de una pieza ya fabricada a la medida: ',
-              {
-                pending: {
-                  es: 'Si se aceptan o no, y en qué condiciones',
-                  en: 'Whether they are accepted, and on what terms',
-                },
-              },
+              'Devoluciones de una pieza ya fabricada a la medida: ',
+              fact(legal.refunds.returns, L),
               '. En todos los casos respondemos cuando el trabajo no coincide con lo cotizado o tiene defectos:',
             ],
           },
@@ -587,13 +596,6 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
           { paragraph: ['Ventanas, puertas y espejos: ', fact(legal.refunds.warranty, L), '.'] },
           {
             paragraph: [
-              'Reparación de retrovisores: ',
-              fact(legal.refunds.carMirrorWarranty, L),
-              '.',
-            ],
-          },
-          {
-            paragraph: [
               'Cualquier garantía que ofrezcamos constará por escrito en la cotización o la factura, con su plazo y lo que cubre.',
             ],
           },
@@ -605,7 +607,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Cuando corresponda devolver dinero, lo haremos por el mismo medio de pago que usted usó, en un máximo de 15 días.',
+              'Cuando corresponda devolver dinero, lo haremos por el mismo medio de pago que usted usó: tarjeta, transferencia, efectivo o cheque.',
             ],
           },
         ],

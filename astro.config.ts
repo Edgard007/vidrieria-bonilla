@@ -8,7 +8,7 @@ import { defineConfig, envField, fontProviders } from 'astro/config';
 if (existsSync('.env')) process.loadEnvFile('.env');
 
 // The production domain is deployment configuration, not business data.
-const SITE_URL = process.env.SITE_URL || 'https://vidrieriabonilla.com';
+const SITE_URL = process.env.SITE_URL || 'https://vidrieria-bonilla.netlify.app';
 
 export default defineConfig({
   site: SITE_URL,

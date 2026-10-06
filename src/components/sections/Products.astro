@@ -17,7 +17,7 @@ const { locale } = Astro.props;
 const ui = UI[locale];
 const section = ui.sections.products;
 const products: readonly Product[] = COMPANY.products;
-const CATEGORY_ORDER: ProductCategory[] = ['windows', 'doors', 'mirrors', 'custom'];
+const CATEGORY_ORDER: ProductCategory[] = ['windows', 'doors', 'mirrors'];
 const groups = CATEGORY_ORDER.map((category) => ({
   category,
   items: products.filter((product) => product.category === category),

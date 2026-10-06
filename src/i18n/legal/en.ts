@@ -30,6 +30,8 @@ const controller: LegalDocument['sections'][number] = {
           ['Trade name', name],
           ['Owner', fact(legal.legalName, L)],
           ['Tax ID (NIT)', fact(legal.taxId, L)],
+          ['Taxpayer registration number (NRC)', legal.taxpayerNumber],
+          ['Partner', legal.partner],
           ['Address', fullAddress()],
           ['Email', email],
           ['Phone and WhatsApp', phone],
@@ -129,21 +131,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'To receive and answer your message we use third-party services that may store data on servers outside El Salvador, mainly in the United States: WhatsApp, by WhatsApp LLC (Meta Platforms), if you message us there or use the form’s WhatsApp button; Gmail, by Google LLC, where we receive email; the service that delivers the form by email, when enabled (',
-              {
-                pending: {
-                  es: 'Nombre y país del proveedor del formulario',
-                  en: 'Form provider name and country',
-                },
-              },
-              '); and the website hosting provider (',
-              {
-                pending: {
-                  es: 'Nombre y país del proveedor de alojamiento',
-                  en: 'Hosting provider name and country',
-                },
-              },
-              ').',
+              'To receive and answer your message we use third-party services that may store data on servers outside El Salvador, mainly in the United States: WhatsApp, by WhatsApp LLC (Meta Platforms), if you message us there or use the form’s WhatsApp button; Gmail, by Google LLC, where we receive email; and Netlify, by Netlify, Inc. (United States), which hosts this site.',
             ],
           },
           {
@@ -231,7 +219,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
       ['The written quote details measurements, materials, price with taxes and delivery time.'],
       ['An accepted price does not change unless you ask for changes.'],
       ['Photos, logo and text belong to the business.'],
-      ['Complaints are handled via ', whatsapp, ' or email, and by the ', defensoria, '.'],
+      ['We follow up on complaints via ', whatsapp, '. You can also contact the ', defensoria, '.'],
     ],
     faq: [
       {
@@ -244,9 +232,14 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         answer: 'No, unless you ask for changes to measurements, materials or design.',
       },
       {
+        question: 'What if I gave the wrong measurements?',
+        answer:
+          'You pay for correcting the piece or making a new one, depending on what is needed. The deposit stays applied to the order. If we took the measurements and the error is ours, we fix it at no cost.',
+      },
+      {
         question: 'Where do I file a complaint?',
         answer:
-          'Write to us by email or WhatsApp and we will give you a reference number. You can also contact the consumer protection agency (Defensoría del Consumidor).',
+          'Write to us on WhatsApp or by email. We follow up on your complaint via WhatsApp until it is resolved. You can also contact the consumer protection agency (Defensoría del Consumidor).',
       },
     ],
     sections: [
@@ -283,20 +276,36 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
                 'Once you accept the quote, the price does not change unless you ask for changes to measurements, materials or design.',
               ],
               [
-                'When delivery happens after the order, we give you a receipt signed by both parties stating the place, the delivery date and what happens if we are late.',
+                'When you pay the deposit we give you a deposit receipt stating the job, the amount paid and the balance due. When we deliver the product we issue a consumer invoice (factura de consumidor final) or, if you ask for one, a tax credit invoice (comprobante de crédito fiscal).',
+              ],
+              ['We accept card, bank transfer or cash, and cheques in some cases.'],
+              [
+                'If delivery is delayed, we always let you know and agree with you on how to proceed.',
               ],
             ],
           },
           {
             paragraph: [
-              'Responsibility when the customer supplies the measurements: ',
-              {
-                pending: {
-                  es: 'Qué ocurre si la pieza se fabrica con medidas dadas por el cliente y no encaja',
-                  en: 'What happens if a piece made to customer-supplied measurements does not fit',
-                },
-              },
-              '.',
+              'We recommend that our team takes the measurements, especially when the project calls for it or if you have no experience measuring. The measuring visit may have a cost, which we tell you beforehand and which, depending on the project, can be deducted from the total if you go ahead with the order.',
+            ],
+          },
+          {
+            paragraph: ['Responsibility depending on who takes the measurements:'],
+          },
+          {
+            list: [
+              [
+                'Before fabrication we ask you to confirm the measurements, preferably in writing (WhatsApp, quote or work order). If you supplied them, by confirming them you accept that they are correct.',
+              ],
+              [
+                'If the piece does not fit because your measurements were wrong, you pay for correcting it or making a new one. The amount depends on what is needed (alterations, extra materials, labour or a full remake); the full price is not always charged again.',
+              ],
+              [
+                'In that case the 50% deposit is not lost: it stays applied to the original order, and the extra costs are yours.',
+              ],
+              [
+                'If we took the measurements and the piece does not fit because of our measuring, fabrication or installation error, we correct or remake it at no cost to you. This does not apply if the space was later altered, site conditions changed or there was another cause beyond our control.',
+              ],
             ],
           },
           {
@@ -351,7 +360,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
               email,
               ' or via ',
               whatsapp,
-              '. We will give you a reference number and a reply. You can also contact the ',
+              '. We will follow up via WhatsApp until it is resolved. You can also contact the ',
               defensoria,
               '.',
             ],
@@ -437,7 +446,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
                 [
                   'Form',
                   [
-                    'Data leaves your browser only when you press send, to WhatsApp or the service named in our ',
+                    'Data leaves your browser only when you press send, as WhatsApp opens with your message. More in our ',
                     privacyPolicy,
                     '.',
                   ],
@@ -482,28 +491,29 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
     summary:
       'Because almost everything is made to measure, we start once you accept the written quote and we respond if the work is defective or does not match the quote.',
     keyPoints: [
-      ['We start fabrication once you accept the written quote.'],
-      ['You can cancel by telling us in writing.'],
+      ['We start fabrication once you accept the written quote and pay a 50% deposit.'],
+      ['You can cancel by telling us in writing; we charge for what has been invested so far.'],
       [
         'If you hired us at a distance, you may withdraw within eight days if work has not started.',
       ],
-      ['We repair or replace defects that are ours at no cost.'],
-      ['Refunds are paid by the same method within 15 days.'],
+      ['We repair or replace defects that are ours at no cost, if reported within 1 week.'],
+      ['When money is due back, it is returned by the same payment method.'],
     ],
     faq: [
       {
         question: 'Can I cancel an order?',
         answer:
-          'Yes, by telling us in writing. If you hired us entirely at a distance, you may withdraw within the following eight days unless the service has already started.',
+          'Yes, by telling us in writing, but you will be charged for everything already invested at the time of cancellation. If you hired us entirely at a distance, you may withdraw within the following eight days unless the service has already started.',
       },
       {
         question: 'What happens if the work is defective?',
         answer:
-          'We inspect it and repair or replace it at no cost if the defect is ours. If the repair does not solve it, you choose a replacement, a price reduction or a refund.',
+          'Tell us within 1 week. We inspect it and repair or replace it at no cost if the defect is ours. If the repair does not solve it, you choose a replacement, a price reduction or a refund.',
       },
       {
-        question: 'How long does a refund take?',
-        answer: 'When money is due back, we return it by the same payment method within 15 days.',
+        question: 'How do you return money?',
+        answer:
+          'When money is due back, we return it by the same method you paid with: card, bank transfer, cash or cheque.',
       },
     ],
     sections: [
@@ -513,7 +523,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'It applies to made-to-measure products (windows, glass doors, mirrors and custom pieces) and to repair services, such as replacing car mirror glass.',
+              'It applies to made-to-measure products: windows, glass doors, fixed glass and mirrors.',
             ],
           },
         ],
@@ -543,12 +553,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
           {
             paragraph: [
               'Cancellation once fabrication has started: ',
-              {
-                pending: {
-                  es: 'Qué parte del anticipo se reintegra si la pieza ya se cortó o fabricó (revisar con asesoría legal)',
-                  en: 'How much of the deposit is returned once the piece has been cut or made (review with legal counsel)',
-                },
-              },
+              fact(legal.refunds.cancellation, L),
               '.',
             ],
           },
@@ -560,13 +565,8 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Returns of a made-to-measure piece because you changed your mind: ',
-              {
-                pending: {
-                  es: 'Si se aceptan o no, y en qué condiciones',
-                  en: 'Whether they are accepted, and on what terms',
-                },
-              },
+              'Returns of a piece already made to measure: ',
+              fact(legal.refunds.returns, L),
               '. In every case we respond when the work does not match the quote or is defective:',
             ],
           },
@@ -588,7 +588,6 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         heading: 'Warranty',
         blocks: [
           { paragraph: ['Windows, doors and mirrors: ', fact(legal.refunds.warranty, L), '.'] },
-          { paragraph: ['Car mirror repair: ', fact(legal.refunds.carMirrorWarranty, L), '.'] },
           {
             paragraph: [
               'Any warranty we offer will be stated in writing on the quote or invoice, with its term and what it covers.',
@@ -602,7 +601,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'When money is due back to you, we return it by the same payment method you used, within 15 days.',
+              'When money is due back to you, we return it by the same payment method you used: card, bank transfer, cash or cheque.',
             ],
           },
         ],
