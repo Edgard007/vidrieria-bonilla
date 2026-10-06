@@ -1,6 +1,7 @@
 import { COMPANY } from '@/config/company';
 import type { Locale } from '@/i18n/locales';
 import { pathFor } from '@/i18n/routes';
+import type { OpeningHours } from '@/types/company';
 
 /**
  * LocalBusiness markup built only from verified facts. Coordinates are omitted on purpose: the
@@ -9,6 +10,7 @@ import { pathFor } from '@/i18n/routes';
 export function localBusinessJsonLd(locale: Locale, site: URL): Record<string, unknown> {
   const url = new URL(pathFor('home', locale), site).href;
   const { address, contact, hours, social } = COMPANY;
+  const openSlots = (hours as readonly OpeningHours[]).filter((slot) => slot.opens && slot.closes);
 
   return {
     '@context': 'https://schema.org',
@@ -30,7 +32,8 @@ export function localBusinessJsonLd(locale: Locale, site: URL): Record<string, u
       addressRegion: address.department,
       addressCountry: address.countryCode,
     },
-    openingHoursSpecification: hours.map((slot) => ({
+    // Closed days are left out: schema.org treats days without a specification as closed.
+    openingHoursSpecification: openSlots.map((slot) => ({
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: slot.days,
       opens: slot.opens,
