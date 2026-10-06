@@ -209,7 +209,8 @@ Business data to keep in mind:
 
 Legal notes (the site is live; points worth reviewing with the business or a lawyer):
 
-- Privacy policy follows the Ley para la Protección de Datos Personales (DL 144, 2024). The quote form only hands requests to WhatsApp; if
+- Privacy policy follows the Ley para la Protección de Datos Personales (DL 144, 2024). Customers and orders are kept in AppSheet
+  on Google Sheets (Google LLC); DUI and NRC are only recorded for tax credit invoices. The quote form only hands requests to WhatsApp; if
   `PUBLIC_FORM_ENDPOINT` is enabled, name its provider in the policy. The site is hosted on Netlify. The September 2026 reform removing the private-sector data protection officer requirement was passed but its publication in the Diario Oficial was not confirmed.
 - Refund policy: deposit, cancellation, returns and warranty terms were confirmed by the business on 2026-10-05.
   Review the one-week window to report faults against the Consumer Protection Act.
