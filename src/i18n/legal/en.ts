@@ -246,6 +246,11 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         answer: 'No, unless you ask for changes to measurements, materials or design.',
       },
       {
+        question: 'What if I gave the wrong measurements?',
+        answer:
+          'You pay for correcting the piece or making a new one, depending on what is needed. The deposit stays applied to the order. If we took the measurements and the error is ours, we fix it at no cost.',
+      },
+      {
         question: 'Where do I file a complaint?',
         answer:
           'Write to us by email or WhatsApp and we will give you a reference number. You can also contact the consumer protection agency (Defensoría del Consumidor).',
@@ -291,14 +296,26 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
           },
           {
             paragraph: [
-              'Responsibility when the customer supplies the measurements: ',
-              {
-                pending: {
-                  es: 'Qué ocurre si la pieza se fabrica con medidas dadas por el cliente y no encaja',
-                  en: 'What happens if a piece made to customer-supplied measurements does not fit',
-                },
-              },
-              '.',
+              'We recommend that our team takes the measurements, especially when the project calls for it or if you have no experience measuring. The measuring visit may have a cost, which we tell you beforehand and which, depending on the project, can be deducted from the total if you go ahead with the order.',
+            ],
+          },
+          {
+            paragraph: ['Responsibility depending on who takes the measurements:'],
+          },
+          {
+            list: [
+              [
+                'Before fabrication we ask you to confirm the measurements, preferably in writing (WhatsApp, quote or work order). If you supplied them, by confirming them you accept that they are correct.',
+              ],
+              [
+                'If the piece does not fit because your measurements were wrong, you pay for correcting it or making a new one. The amount depends on what is needed (alterations, extra materials, labour or a full remake); the full price is not always charged again.',
+              ],
+              [
+                'In that case the 50% deposit is not lost: it stays applied to the original order, and the extra costs are yours.',
+              ],
+              [
+                'If we took the measurements and the piece does not fit because of our measuring, fabrication or installation error, we correct or remake it at no cost to you. This does not apply if the space was later altered, site conditions changed or there was another cause beyond our control.',
+              ],
             ],
           },
           {

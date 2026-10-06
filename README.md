@@ -215,7 +215,6 @@ Legal (drafts, not legal advice; review with a lawyer before publishing):
   and hosting provider. The September 2026 reform removing the private-sector data protection officer requirement was passed but its publication in the Diario Oficial was not confirmed.
 - Refund policy: deposit, cancellation, returns and warranty terms were confirmed by the business on 2026-10-05.
   Review the one-week window to report faults against the Consumer Protection Act.
-- Terms: responsibility when the customer supplies measurements.
 - The business must issue signed receipts for deferred delivery, itemised invoices and complaint reference numbers
   (Ley de Protección al Consumidor, reformed by DL 405/2024).
 - Consider the free Defensoría del Consumidor e-commerce registry; the site does not sell online, so it is

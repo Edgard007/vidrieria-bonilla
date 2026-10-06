@@ -244,6 +244,11 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         answer: 'No, salvo que usted pida cambios en las medidas, los materiales o el diseño.',
       },
       {
+        question: '¿Qué pasa si di mal las medidas?',
+        answer:
+          'Usted asume el costo de corregir la pieza o de fabricar una nueva, según lo necesario. El anticipo sigue aplicado al pedido. Si las medidas las tomamos nosotros y el error es nuestro, lo corregimos sin costo.',
+      },
+      {
         question: '¿Dónde presento un reclamo?',
         answer:
           'Escríbanos por correo o WhatsApp y le daremos un número de seguimiento. También puede acudir a la Defensoría del Consumidor.',
@@ -289,14 +294,26 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
           },
           {
             paragraph: [
-              'Responsabilidad cuando las medidas las proporciona el cliente: ',
-              {
-                pending: {
-                  es: 'Qué ocurre si la pieza se fabrica con medidas dadas por el cliente y no encaja',
-                  en: 'What happens if a piece made to customer-supplied measurements does not fit',
-                },
-              },
-              '.',
+              'Le recomendamos que nuestro equipo tome las medidas, sobre todo si el proyecto lo requiere o si usted no tiene experiencia midiendo. La visita de medición puede tener un costo, que le informamos antes y que, según el proyecto, se puede descontar del total si confirma la compra.',
+            ],
+          },
+          {
+            paragraph: ['Responsabilidad según quién tome las medidas:'],
+          },
+          {
+            list: [
+              [
+                'Antes de fabricar le pedimos confirmar las medidas, de preferencia por escrito (WhatsApp, cotización u orden de trabajo). Si usted las proporcionó, al confirmarlas asume que son correctas.',
+              ],
+              [
+                'Si la pieza no encaja porque sus medidas eran incorrectas, usted asume el costo de corregirla o de fabricar una nueva. El monto depende de lo necesario (modificación, materiales adicionales, mano de obra o fabricación completa); no siempre se cobra de nuevo el precio completo.',
+              ],
+              [
+                'En ese caso el anticipo del 50 % no se pierde: sigue aplicado al pedido original, y los costos adicionales corren por su cuenta.',
+              ],
+              [
+                'Si nosotros tomamos las medidas y la pieza no encaja por un error de medición, fabricación o instalación nuestro, la corregimos o la fabricamos de nuevo sin costo para usted. Esto no aplica si después se modificó el espacio, cambiaron las condiciones del lugar o hubo otra causa ajena a nosotros.',
+              ],
             ],
           },
           {
