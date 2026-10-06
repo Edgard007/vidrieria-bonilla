@@ -71,8 +71,9 @@ export type OpeningHours = {
   /** schema.org day names, used for structured data. */
   days: ('Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday')[];
   label: Localized;
-  opens: string;
-  closes: string;
+  /** Omitted on days the shop is closed. */
+  opens?: string;
+  closes?: string;
   display: Localized;
 };
 

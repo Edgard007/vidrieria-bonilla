@@ -299,16 +299,21 @@ export const COMPANY = {
     {
       days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
       label: { es: 'Lunes a viernes', en: 'Monday to Friday' },
-      opens: '08:00',
-      closes: '17:00',
-      display: { es: '8:00 a.m. a 5:00 p.m.', en: '8:00 a.m. to 5:00 p.m.' },
+      opens: '07:00',
+      closes: '16:00',
+      display: { es: '7:00 a.m. a 4:00 p.m.', en: '7:00 a.m. to 4:00 p.m.' },
     },
     {
       days: ['Saturday'],
       label: { es: 'Sábado', en: 'Saturday' },
-      opens: '08:00',
+      opens: '07:00',
       closes: '12:00',
-      display: { es: '8:00 a.m. a 12:00 m.', en: '8:00 a.m. to 12:00 noon' },
+      display: { es: '7:00 a.m. a 12:00 m.', en: '7:00 a.m. to 12:00 noon' },
+    },
+    {
+      days: ['Sunday'],
+      label: { es: 'Domingo', en: 'Sunday' },
+      display: { es: 'Cerrado', en: 'Closed' },
     },
   ] satisfies OpeningHours[],
 
@@ -362,8 +367,8 @@ export const COMPANY = {
       {
         section: 'contact',
         text: {
-          es: 'Cotización por WhatsApp o al 2382-1308, de lunes a viernes de 8:00 a.m. a 5:00 p.m. y sábados hasta el mediodía.',
-          en: 'Quotes on WhatsApp or at 2382-1308, Monday to Friday 8:00 a.m. to 5:00 p.m. and Saturday until noon.',
+          es: 'Cotización por WhatsApp o al 2382-1308, de lunes a viernes de 7:00 a.m. a 4:00 p.m. y sábados hasta el mediodía.',
+          en: 'Quotes on WhatsApp or at 2382-1308, Monday to Friday 7:00 a.m. to 4:00 p.m. and Saturday until noon.',
         },
       },
     ] satisfies SummaryPoint[],
@@ -911,8 +916,8 @@ export const COMPANY = {
     {
       question: { es: '¿Qué horario tienen?', en: 'What are your opening hours?' },
       answer: {
-        es: 'De lunes a viernes, de 8:00 a.m. a 5:00 p.m. Los sábados, de 8:00 a.m. a 12:00 m.',
-        en: 'Monday to Friday, 8:00 a.m. to 5:00 p.m. Saturdays, 8:00 a.m. to 12:00 noon.',
+        es: 'De lunes a viernes, de 7:00 a.m. a 4:00 p.m. Los sábados, de 7:00 a.m. a 12:00 m. Los domingos está cerrado.',
+        en: 'Monday to Friday, 7:00 a.m. to 4:00 p.m. Saturdays, 7:00 a.m. to 12:00 noon. Closed on Sundays.',
       },
     },
     {
