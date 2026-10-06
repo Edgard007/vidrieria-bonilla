@@ -130,14 +130,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
                   en: 'Form provider name and country',
                 },
               },
-              '); y el proveedor de alojamiento del sitio (',
-              {
-                pending: {
-                  es: 'Nombre y país del proveedor de alojamiento',
-                  en: 'Hosting provider name and country',
-                },
-              },
-              ').',
+              '); y Netlify, de Netlify, Inc. (Estados Unidos), donde se aloja este sitio.',
             ],
           },
           {

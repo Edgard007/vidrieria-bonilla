@@ -34,7 +34,7 @@ set them in the hosting provider's environment settings.
 
 | Variable               | Required | Purpose                                                                                         |
 | ---------------------- | -------- | ----------------------------------------------------------------------------------------------- |
-| `SITE_URL`             | No       | Canonical URLs, hreflang, sitemap, Open Graph. Defaults to `https://vidrieriabonilla.com`.      |
+| `SITE_URL`             | No       | Canonical URLs, hreflang, sitemap, Open Graph. Defaults to `https://vidrieria-bonilla.netlify.app`. |
 | `PUBLIC_FORM_ENDPOINT` | No       | Form delivery endpoint. Without it, the form hands the request to WhatsApp.                     |
 | `PUBLIC_GSC_VERIFICATION` | No    | `content` value of the Google Search Console HTML tag. Adds the verification meta tag.          |
 
@@ -160,7 +160,7 @@ section "encargados"/"processors").
 
 ### Google Search Console
 
-Once the site is deployed on https://vidrieriabonilla.com:
+Once the site is deployed on https://vidrieria-bonilla.netlify.app:
 
 1. Open https://search.google.com/search-console and add a property. The **Domain** type is verified with a DNS
    TXT record at the domain registrar. The **URL prefix** type can use the HTML tag method instead.
@@ -204,16 +204,14 @@ Content sources, checked 2026-09-24:
 
 Business data to confirm:
 
-- Whether "Vidriería" (with accent, used on the site) or "Vidrieria" (logo, old site) is the registered name.
 - Availability of each glass colour depends on stock at the supplier, Inco (super gris was out of stock on
   2026-10-05).
 - No own photos of made-to-measure mirrors yet; that product shows a labelled reference drawing.
-- Production domain (`SITE_URL`) and hosting provider.
 
 Legal (drafts, not legal advice; review with a lawyer before publishing):
 
-- Privacy policy follows the Ley para la Protección de Datos Personales (DL 144, 2024). Confirm form provider
-  and hosting provider. The September 2026 reform removing the private-sector data protection officer requirement was passed but its publication in the Diario Oficial was not confirmed.
+- Privacy policy follows the Ley para la Protección de Datos Personales (DL 144, 2024). Confirm the form provider
+  if `PUBLIC_FORM_ENDPOINT` is enabled. The site is hosted on Netlify. The September 2026 reform removing the private-sector data protection officer requirement was passed but its publication in the Diario Oficial was not confirmed.
 - Refund policy: deposit, cancellation, returns and warranty terms were confirmed by the business on 2026-10-05.
   Review the one-week window to report faults against the Consumer Protection Act.
 - The business gives a deposit receipt (comprobante de adelanto) and, on delivery, a consumer invoice or a tax
