@@ -198,14 +198,15 @@ Content sources, checked 2026-09-24:
   A visible vehicle licence plate in one photo was blurred.
 - Glass colours quoted by the business to the project owner on WhatsApp: super gris (dark grey), bronze, blue
   reflective (can be fitted reflective side out). Clear and frosted/textured glass appear in catalog photos.
+- The business's aluminium colour card (walnut, inox, dark bronze, natural, white) and its glass supplier's
+  catalog, Inco: https://inco.com.sv/es/productos/vidrio/ (checked 2026-10-05). The business does not work with PVC.
 - Instagram requires login; only the profile link is used.
 
 Business data to confirm:
 
 - Whether "Vidriería" (with accent, used on the site) or "Vidrieria" (logo, old site) is the registered name.
-- PVC frames and grey frames: stated by the project owner, not shown in the catalog or photos (flagged in
-  `company.ts` with `pendingConfirmation`). Wood-tone frames are shown because they appear in catalog photos.
-- Availability of each glass colour (the business mentioned super gris running out with its supplier).
+- Availability of each glass colour depends on stock at the supplier, Inco (super gris was out of stock on
+  2026-10-05).
 - No own photos of made-to-measure mirrors yet; that product shows a labelled reference drawing.
 - Production domain (`SITE_URL`) and hosting provider.
 
@@ -215,8 +216,10 @@ Legal (drafts, not legal advice; review with a lawyer before publishing):
   and hosting provider. The September 2026 reform removing the private-sector data protection officer requirement was passed but its publication in the Diario Oficial was not confirmed.
 - Refund policy: deposit, cancellation, returns and warranty terms were confirmed by the business on 2026-10-05.
   Review the one-week window to report faults against the Consumer Protection Act.
-- The business must issue signed receipts for deferred delivery, itemised invoices and complaint reference numbers
-  (Ley de Protección al Consumidor, reformed by DL 405/2024).
+- The business gives a deposit receipt (comprobante de adelanto) and, on delivery, a consumer invoice or a tax
+  credit invoice, and follows up complaints on WhatsApp. The Ley de Protección al Consumidor (reformed by DL
+  405/2024) asks deferred-delivery receipts to be signed by both parties with the place, delivery date and what
+  happens if delivery is late; check that the deposit receipt includes those details.
 - Consider the free Defensoría del Consumidor e-commerce registry; the site does not sell online, so it is
   arguably out of scope.
 

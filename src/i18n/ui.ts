@@ -146,7 +146,7 @@ export const UI: Record<Locale, UiStrings> = {
         id: 'colores',
         nav: 'Colores',
         title: 'Marcos y vidrios a su gusto',
-        lede: 'Combine el material y el color del marco con el color del vidrio.',
+        lede: 'Combine el tono del aluminio con el color del vidrio.',
       },
       process: {
         id: 'proceso',
@@ -363,7 +363,7 @@ export const UI: Record<Locale, UiStrings> = {
         id: 'colours',
         nav: 'Colours',
         title: 'Frames and glass your way',
-        lede: 'Combine the frame material and colour with the glass colour.',
+        lede: 'Combine the aluminium tone with the glass colour.',
       },
       process: {
         id: 'process',

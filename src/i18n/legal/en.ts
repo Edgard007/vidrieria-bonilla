@@ -233,7 +233,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
       ['The written quote details measurements, materials, price with taxes and delivery time.'],
       ['An accepted price does not change unless you ask for changes.'],
       ['Photos, logo and text belong to the business.'],
-      ['Complaints are handled via ', whatsapp, ' or email, and by the ', defensoria, '.'],
+      ['We follow up on complaints via ', whatsapp, '. You can also contact the ', defensoria, '.'],
     ],
     faq: [
       {
@@ -253,7 +253,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
       {
         question: 'Where do I file a complaint?',
         answer:
-          'Write to us by email or WhatsApp and we will give you a reference number. You can also contact the consumer protection agency (Defensoría del Consumidor).',
+          'Write to us on WhatsApp or by email. We follow up on your complaint via WhatsApp until it is resolved. You can also contact the consumer protection agency (Defensoría del Consumidor).',
       },
     ],
     sections: [
@@ -290,7 +290,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
                 'Once you accept the quote, the price does not change unless you ask for changes to measurements, materials or design.',
               ],
               [
-                'When delivery happens after the order, we give you a receipt signed by both parties stating the place, the delivery date and what happens if we are late.',
+                'When you pay the deposit we give you a deposit receipt. When we deliver the product we issue a consumer invoice (factura de consumidor final) or, if you ask for one, a tax credit invoice (comprobante de crédito fiscal).',
               ],
             ],
           },
@@ -370,7 +370,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
               email,
               ' or via ',
               whatsapp,
-              '. We will give you a reference number and a reply. You can also contact the ',
+              '. We will follow up via WhatsApp until it is resolved. You can also contact the ',
               defensoria,
               '.',
             ],

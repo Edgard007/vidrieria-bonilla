@@ -8,6 +8,7 @@
  * - The business's WhatsApp catalog (6 products, descriptions and photos)
  * - The business's Facebook page (service description and photos)
  * - Glass options quoted by the business to the owner of this project over WhatsApp
+ * - The business's aluminium colour card and its glass supplier's catalog (Inco), checked 2026-10-05
  * Anything else is marked `pending` or `pendingConfirmation`.
  */
 import bathDoorBlackFrostedWide from '@/assets/images/work/puerta-bano-aluminio-negro-vidrio-texturizado-toallero.jpg';
@@ -331,8 +332,8 @@ export const COMPANY = {
       {
         section: 'materials',
         text: {
-          es: 'Marcos blancos, negros, grises o tono madera; vidrio claro, gris oscuro, azul reflectivo, bronce o esmerilado.',
-          en: 'White, black, grey or wood-tone frames; clear, dark grey, blue reflective, bronze or frosted glass.',
+          es: 'Aluminio nogal, inox, bronce oscuro, natural o blanco; vidrio claro, gris, super gris, bronce, verde, reflectivo, control solar, laminado o esmerilado.',
+          en: 'Walnut, inox, dark bronze, natural or white aluminium; clear, grey, super grey, bronze, green, reflective, solar control, laminated or frosted glass.',
         },
       },
       {
@@ -574,42 +575,45 @@ export const COMPANY = {
         id: 'aluminium',
         name: { es: 'Aluminio', en: 'Aluminium' },
         description: {
-          es: 'Liviano y resistente a la humedad. Es el material de la mayoría de nuestros trabajos.',
-          en: 'Light and moisture resistant. It is the material of most of our work.',
-        },
-      },
-      {
-        id: 'pvc',
-        name: { es: 'PVC', en: 'PVC' },
-        description: {
-          es: 'Otra opción de marco para ventanas y puertas. Consúltenos disponibilidad.',
-          en: 'Another frame option for windows and doors. Ask us about availability.',
-        },
-        pendingConfirmation: {
-          es: 'Marcos de PVC: los indicó el propietario del proyecto; no aparecen en el catálogo ni en fotos publicadas.',
-          en: 'PVC frames: stated by the project owner; not shown in the catalog or published photos.',
+          es: 'Liviano y resistente a la humedad. Es el material de todos nuestros trabajos.',
+          en: 'Light and moisture resistant. It is the material of all our work.',
         },
       },
     ] satisfies FrameMaterial[],
+    /** Aluminium tones from the colour card the business sends to customers. */
     frameColors: [
-      { id: 'white', name: { es: 'Blanco', en: 'White' }, hex: '#F3F4F1' },
-      { id: 'black', name: { es: 'Negro', en: 'Black' }, hex: '#1D1F22' },
       {
-        id: 'grey',
-        name: { es: 'Gris', en: 'Grey' },
-        hex: '#8B9096',
-        pendingConfirmation: {
-          es: 'Marco gris: lo indicó el propietario del proyecto; no aparece en fotos publicadas.',
-          en: 'Grey frame: stated by the project owner; not shown in published photos.',
-        },
+        id: 'walnut',
+        name: { es: 'Nogal', en: 'Walnut' },
+        hex: '#6B3A2C',
+        note: { es: 'Texturado', en: 'Textured' },
       },
       {
-        id: 'wood',
-        name: { es: 'Tono madera', en: 'Wood tone' },
-        hex: '#8A5A35',
-        note: { es: 'Visto en trabajos del catálogo', en: 'Seen in catalog work' },
+        id: 'inox',
+        name: { es: 'Inox', en: 'Inox' },
+        hex: '#6E716C',
+        note: { es: 'Anodizado', en: 'Anodised' },
+      },
+      {
+        id: 'dark-bronze',
+        name: { es: 'Bronce oscuro', en: 'Dark bronze' },
+        hex: '#2B1B18',
+        note: { es: 'Anodizado', en: 'Anodised' },
+      },
+      {
+        id: 'natural',
+        name: { es: 'Natural', en: 'Natural' },
+        hex: '#8D9094',
+        note: { es: 'Anodizado', en: 'Anodised' },
+      },
+      {
+        id: 'white',
+        name: { es: 'Blanco', en: 'White' },
+        hex: '#F3F4F1',
+        note: { es: 'Lacado', en: 'Lacquered' },
       },
     ] satisfies Swatch[],
+    /** Glass from the business's supplier, Inco (https://inco.com.sv/es/productos/vidrio/). */
     glassColors: [
       {
         id: 'clear',
@@ -621,13 +625,34 @@ export const COMPANY = {
         },
       },
       {
-        id: 'dark-grey',
-        name: { es: 'Gris oscuro', en: 'Dark grey' },
+        id: 'grey',
+        name: { es: 'Gris', en: 'Grey' },
+        hex: '#5E646B',
+        note: { es: 'Reduce el brillo del sol.', en: 'Cuts sun glare.' },
+      },
+      {
+        id: 'super-grey',
+        name: { es: 'Super gris', en: 'Super grey' },
         hex: '#2C3036',
         note: {
-          es: 'También llamado super gris. Da privacidad y reduce el brillo.',
-          en: 'Also called super grey. Gives privacy and cuts glare.',
+          es: 'Liso o reflectivo. Da privacidad y reduce el brillo.',
+          en: 'Plain or reflective. Gives privacy and cuts glare.',
         },
+      },
+      {
+        id: 'bronze',
+        name: { es: 'Bronce', en: 'Bronze' },
+        hex: '#8A7258',
+        note: {
+          es: 'Liso o reflectivo. Tono cálido que suaviza la luz.',
+          en: 'Plain or reflective. A warm tone that softens the light.',
+        },
+      },
+      {
+        id: 'green',
+        name: { es: 'Verde', en: 'Green' },
+        hex: '#9DBFA8',
+        note: { es: 'Tono verde suave.', en: 'A soft green tint.' },
       },
       {
         id: 'blue-reflective',
@@ -639,10 +664,22 @@ export const COMPANY = {
         },
       },
       {
-        id: 'bronze',
-        name: { es: 'Bronce', en: 'Bronze' },
-        hex: '#8A7258',
-        note: { es: 'Tono cálido que suaviza la luz.', en: 'A warm tone that softens the light.' },
+        id: 'solar-control',
+        name: { es: 'Control solar', en: 'Solar control' },
+        hex: '#24497F',
+        note: {
+          es: 'Reduce el calor que entra por la ventana.',
+          en: 'Reduces the heat coming in through the window.',
+        },
+      },
+      {
+        id: 'laminated',
+        name: { es: 'Laminado', en: 'Laminated' },
+        hex: '#E4ECEF',
+        note: {
+          es: 'Vidrio de seguridad en claro, blanco, bronce, gris o hielo.',
+          en: 'Safety glass in clear, white, bronze, grey or ice.',
+        },
       },
       {
         id: 'frosted',
@@ -849,8 +886,8 @@ export const COMPANY = {
         en: 'Which frame and glass colours do you offer?',
       },
       answer: {
-        es: 'Marcos en blanco, negro, gris y tono madera. Vidrio claro, gris oscuro, azul reflectivo, bronce, y esmerilado o texturizado para baños. Pregúntenos por la disponibilidad al cotizar.',
-        en: 'Frames in white, black, grey and wood tone. Clear, dark grey, blue reflective and bronze glass, plus frosted or textured glass for bathrooms. Ask us about availability when you request a quote.',
+        es: 'Trabajamos solo con aluminio, en tono nogal, inox, bronce oscuro, natural o blanco. El vidrio viene de nuestro proveedor Inco: claro, gris, super gris, bronce, verde, azul reflectivo, control solar y laminado, además de esmerilado o texturizado para baños. Pregúntenos por la disponibilidad al cotizar.',
+        en: 'We only work with aluminium, in walnut, inox, dark bronze, natural or white. Our glass comes from our supplier Inco: clear, grey, super grey, bronze, green, blue reflective, solar control and laminated, plus frosted or textured glass for bathrooms. Ask us about availability when you request a quote.',
       },
     },
     {

@@ -231,7 +231,13 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
       ['La cotización escrita detalla medidas, materiales, precio con impuestos y plazo.'],
       ['El precio aceptado no cambia salvo que usted pida cambios.'],
       ['Las fotos, el logotipo y los textos pertenecen a la vidriería.'],
-      ['Los reclamos se atienden por ', whatsapp, ' o correo, y ante la ', LAWS.defensoria, '.'],
+      [
+        'Damos seguimiento a los reclamos por ',
+        whatsapp,
+        '. También puede acudir a la ',
+        LAWS.defensoria,
+        '.',
+      ],
     ],
     faq: [
       {
@@ -251,7 +257,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
       {
         question: '¿Dónde presento un reclamo?',
         answer:
-          'Escríbanos por correo o WhatsApp y le daremos un número de seguimiento. También puede acudir a la Defensoría del Consumidor.',
+          'Escríbanos por WhatsApp o correo. Le damos seguimiento a su reclamo por WhatsApp hasta resolverlo. También puede acudir a la Defensoría del Consumidor.',
       },
     ],
     sections: [
@@ -288,7 +294,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
                 'Una vez que usted acepta la cotización, el precio no cambia salvo que usted pida cambios en medidas, materiales o diseño.',
               ],
               [
-                'Cuando la entrega es posterior a la contratación, le entregamos un comprobante firmado por ambas partes con el lugar, la fecha de entrega y lo que ocurre si nos retrasamos.',
+                'Al pagar el anticipo le entregamos un comprobante de adelanto. Al entregar el producto le emitimos factura de consumidor final o, si lo solicita, comprobante de crédito fiscal.',
               ],
             ],
           },
@@ -368,7 +374,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
               email,
               ' o por ',
               whatsapp,
-              '. Le daremos un número de seguimiento y una respuesta. También puede acudir a la ',
+              '. Le daremos seguimiento por WhatsApp hasta resolverlo. También puede acudir a la ',
               LAWS.defensoria,
               '.',
             ],

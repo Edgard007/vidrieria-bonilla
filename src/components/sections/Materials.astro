@@ -42,7 +42,6 @@ const css = [
   ...glassColours.map(
     (swatch) => `.materials:has(#glass-${swatch.id}:checked){--glass-color:${swatch.hex}}`,
   ),
-  '.materials:has(#frame-pvc:checked){--frame-width:14px}',
   // One drawing per product: the first product's drawing shows by default, then the checked one.
   `.preview__svg{display:none}.preview__svg--${firstShape}{display:block}`,
   ...configProducts.map(

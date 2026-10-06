@@ -55,7 +55,7 @@ export type Swatch = {
 };
 
 export type FrameMaterial = {
-  id: 'aluminium' | 'pvc';
+  id: 'aluminium';
   name: Localized;
   description: Localized;
   pendingConfirmation?: Localized;
