@@ -123,14 +123,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Para recibir y contestar su mensaje usamos servicios de terceros que pueden guardar los datos en servidores fuera de El Salvador, principalmente en Estados Unidos: WhatsApp, de WhatsApp LLC (Meta Platforms), si nos escribe por ese medio o usa el botón de WhatsApp del formulario; Gmail, de Google LLC, donde recibimos los correos; el servicio que entrega el formulario por correo, si está activo (',
-              {
-                pending: {
-                  es: 'Nombre y país del proveedor del formulario',
-                  en: 'Form provider name and country',
-                },
-              },
-              '); y Netlify, de Netlify, Inc. (Estados Unidos), donde se aloja este sitio.',
+              'Para recibir y contestar su mensaje usamos servicios de terceros que pueden guardar los datos en servidores fuera de El Salvador, principalmente en Estados Unidos: WhatsApp, de WhatsApp LLC (Meta Platforms), si nos escribe por ese medio o usa el botón de WhatsApp del formulario; Gmail, de Google LLC, donde recibimos los correos; y Netlify, de Netlify, Inc. (Estados Unidos), donde se aloja este sitio.',
             ],
           },
           {
@@ -287,7 +280,13 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
                 'Una vez que usted acepta la cotización, el precio no cambia salvo que usted pida cambios en medidas, materiales o diseño.',
               ],
               [
-                'Al pagar el anticipo le entregamos un comprobante de adelanto. Al entregar el producto le emitimos factura de consumidor final o, si lo solicita, comprobante de crédito fiscal.',
+                'Al pagar el anticipo le entregamos un comprobante de anticipo con el trabajo, el monto pagado y el saldo pendiente. Al entregar el producto le emitimos factura de consumidor final o, si lo solicita, comprobante de crédito fiscal.',
+              ],
+              [
+                'Aceptamos pago con tarjeta, transferencia o efectivo, y con cheque en algunos casos.',
+              ],
+              [
+                'Si hay un retraso en la entrega, siempre se lo comunicamos y acordamos con usted cómo proceder.',
               ],
             ],
           },
@@ -453,7 +452,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
                 [
                   'Formulario',
                   [
-                    'Los datos solo salen al pulsar enviar, hacia WhatsApp o el servicio indicado en la ',
+                    'Los datos solo salen al pulsar enviar, cuando se abre WhatsApp con su mensaje. Más detalle en la ',
                     privacyPolicy,
                     '.',
                   ],
@@ -504,7 +503,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
       ['Puede cancelar avisándonos por escrito; se cobra lo invertido hasta ese momento.'],
       ['Si contrató a distancia, puede retractarse en ocho días si el servicio no ha comenzado.'],
       ['Reparamos o cambiamos sin costo los defectos que sean nuestros, reportados en 1 semana.'],
-      ['Los reembolsos se pagan por el mismo medio, en un máximo de 15 días.'],
+      ['Si corresponde devolver dinero, se devuelve por el mismo medio de pago.'],
     ],
     faq: [
       {
@@ -518,9 +517,9 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
           'Avísenos en un máximo de 1 semana. Revisamos el trabajo y lo reparamos o cambiamos sin costo si el defecto es nuestro. Si la reparación no lo resuelve, usted elige entre cambio, rebaja o devolución.',
       },
       {
-        question: '¿Cuánto tarda un reembolso?',
+        question: '¿Cómo devuelven el dinero?',
         answer:
-          'Cuando corresponde, devolvemos el dinero por el mismo medio de pago en un máximo de 15 días.',
+          'Cuando corresponde, devolvemos el dinero por el mismo medio con que usted pagó: tarjeta, transferencia, efectivo o cheque.',
       },
     ],
     sections: [
@@ -608,7 +607,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Cuando corresponda devolver dinero, lo haremos por el mismo medio de pago que usted usó, en un máximo de 15 días.',
+              'Cuando corresponda devolver dinero, lo haremos por el mismo medio de pago que usted usó: tarjeta, transferencia, efectivo o cheque.',
             ],
           },
         ],

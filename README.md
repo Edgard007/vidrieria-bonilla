@@ -206,18 +206,20 @@ Business data to confirm:
 
 - Availability of each glass colour depends on stock at the supplier, Inco (super gris was out of stock on
   2026-10-05).
-- No own photos of made-to-measure mirrors yet; that product shows a labelled reference drawing.
 
 Legal (drafts, not legal advice; review with a lawyer before publishing):
 
-- Privacy policy follows the Ley para la Protección de Datos Personales (DL 144, 2024). Confirm the form provider
-  if `PUBLIC_FORM_ENDPOINT` is enabled. The site is hosted on Netlify. The September 2026 reform removing the private-sector data protection officer requirement was passed but its publication in the Diario Oficial was not confirmed.
+- Privacy policy follows the Ley para la Protección de Datos Personales (DL 144, 2024). The quote form only hands requests to WhatsApp; if
+  `PUBLIC_FORM_ENDPOINT` is enabled, name its provider in the policy. The site is hosted on Netlify. The September 2026 reform removing the private-sector data protection officer requirement was passed but its publication in the Diario Oficial was not confirmed.
 - Refund policy: deposit, cancellation, returns and warranty terms were confirmed by the business on 2026-10-05.
   Review the one-week window to report faults against the Consumer Protection Act.
-- The business gives a deposit receipt (comprobante de adelanto) and, on delivery, a consumer invoice or a tax
-  credit invoice, and follows up complaints on WhatsApp. The Ley de Protección al Consumidor (reformed by DL
-  405/2024) asks deferred-delivery receipts to be signed by both parties with the place, delivery date and what
-  happens if delivery is late; check that the deposit receipt includes those details.
+- The business gives a numbered deposit receipt (comprobante de anticipo: customer, date, job, amount paid,
+  balance due, received by) and, on delivery, a consumer invoice or a tax credit invoice. Complaints and delays are
+  handled on WhatsApp. The Ley de Protección al Consumidor (reformed by DL 405/2024) asks deferred-delivery
+  receipts to also state the delivery date and place, what happens if delivery is late, and the customer's
+  signature; the current receipt does not include them.
+- Refund timeframe: the business returns money by the same payment method but has not set a maximum number of
+  days, so the site no longer promises one.
 - Consider the free Defensoría del Consumidor e-commerce registry; the site does not sell online, so it is
   arguably out of scope.
 

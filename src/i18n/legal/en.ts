@@ -131,14 +131,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'To receive and answer your message we use third-party services that may store data on servers outside El Salvador, mainly in the United States: WhatsApp, by WhatsApp LLC (Meta Platforms), if you message us there or use the form’s WhatsApp button; Gmail, by Google LLC, where we receive email; the service that delivers the form by email, when enabled (',
-              {
-                pending: {
-                  es: 'Nombre y país del proveedor del formulario',
-                  en: 'Form provider name and country',
-                },
-              },
-              '); and Netlify, by Netlify, Inc. (United States), which hosts this site.',
+              'To receive and answer your message we use third-party services that may store data on servers outside El Salvador, mainly in the United States: WhatsApp, by WhatsApp LLC (Meta Platforms), if you message us there or use the form’s WhatsApp button; Gmail, by Google LLC, where we receive email; and Netlify, by Netlify, Inc. (United States), which hosts this site.',
             ],
           },
           {
@@ -283,7 +276,11 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
                 'Once you accept the quote, the price does not change unless you ask for changes to measurements, materials or design.',
               ],
               [
-                'When you pay the deposit we give you a deposit receipt. When we deliver the product we issue a consumer invoice (factura de consumidor final) or, if you ask for one, a tax credit invoice (comprobante de crédito fiscal).',
+                'When you pay the deposit we give you a deposit receipt stating the job, the amount paid and the balance due. When we deliver the product we issue a consumer invoice (factura de consumidor final) or, if you ask for one, a tax credit invoice (comprobante de crédito fiscal).',
+              ],
+              ['We accept card, bank transfer or cash, and cheques in some cases.'],
+              [
+                'If delivery is delayed, we always let you know and agree with you on how to proceed.',
               ],
             ],
           },
@@ -449,7 +446,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
                 [
                   'Form',
                   [
-                    'Data leaves your browser only when you press send, to WhatsApp or the service named in our ',
+                    'Data leaves your browser only when you press send, as WhatsApp opens with your message. More in our ',
                     privacyPolicy,
                     '.',
                   ],
@@ -500,7 +497,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         'If you hired us at a distance, you may withdraw within eight days if work has not started.',
       ],
       ['We repair or replace defects that are ours at no cost, if reported within 1 week.'],
-      ['Refunds are paid by the same method within 15 days.'],
+      ['When money is due back, it is returned by the same payment method.'],
     ],
     faq: [
       {
@@ -514,8 +511,9 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
           'Tell us within 1 week. We inspect it and repair or replace it at no cost if the defect is ours. If the repair does not solve it, you choose a replacement, a price reduction or a refund.',
       },
       {
-        question: 'How long does a refund take?',
-        answer: 'When money is due back, we return it by the same payment method within 15 days.',
+        question: 'How do you return money?',
+        answer:
+          'When money is due back, we return it by the same method you paid with: card, bank transfer, cash or cheque.',
       },
     ],
     sections: [
@@ -603,7 +601,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'When money is due back to you, we return it by the same payment method you used, within 15 days.',
+              'When money is due back to you, we return it by the same payment method you used: card, bank transfer, cash or cheque.',
             ],
           },
         ],

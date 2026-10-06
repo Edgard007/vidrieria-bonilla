@@ -14,6 +14,8 @@
 import bathDoorBlackFrostedWide from '@/assets/images/work/puerta-bano-aluminio-negro-vidrio-texturizado-toallero.jpg';
 import bathDoorBlackFrosted from '@/assets/images/work/puerta-bano-aluminio-negro-vidrio-texturizado.jpg';
 import bilbaoWindowWoodDarkGlass from '@/assets/images/work/ventana-bilbao-tono-madera-vidrio-oscuro.jpg';
+import customMirrorDarkBronze from '@/assets/images/work/espejo-a-la-medida-marco-bronce-oscuro.jpg';
+import customMirrorWhite from '@/assets/images/work/espejo-a-la-medida-marco-blanco.jpg';
 import bathDoorWhiteFrosted from '@/assets/images/work/puerta-bano-aluminio-blanco-vidrio-esmerilado.jpg';
 import doorWindowWhiteCombo from '@/assets/images/work/puerta-ventana-aluminio-blanco.jpg';
 import fixedGlassBlackFacade from '@/assets/images/work/vidrios-fijos-fachada-aluminio-negro.jpg';
@@ -239,6 +241,20 @@ const PHOTOS = {
     alt: {
       es: 'Puerta de baño de aluminio blanco con vidrio esmerilado, en un baño en construcción.',
       en: 'White aluminium bathroom door with frosted glass, in a bathroom under construction.',
+    },
+  },
+  customMirrorDarkBronze: {
+    src: customMirrorDarkBronze,
+    alt: {
+      es: 'Espejo rectangular a la medida con marco de aluminio bronce oscuro, colgado en una pared clara.',
+      en: 'Made-to-measure rectangular mirror with a dark bronze aluminium frame, hung on a light wall.',
+    },
+  },
+  customMirrorWhite: {
+    src: customMirrorWhite,
+    alt: {
+      es: 'Espejo rectangular a la medida con marco de aluminio blanco, colgado en una pared clara.',
+      en: 'Made-to-measure rectangular mirror with a white aluminium frame, hung on a light wall.',
     },
   },
 } satisfies Record<string, Photo>;
@@ -561,10 +577,10 @@ export const COMPANY = {
         en: 'Mirrors cut to fit the wall they go on, for your home or business.',
       },
       features: {
-        es: ['Cortados a la medida', 'Para casa o negocio'],
-        en: ['Cut to size', 'For homes or businesses'],
+        es: ['Cortados a la medida', 'Marco de aluminio en varios tonos', 'Para casa o negocio'],
+        en: ['Cut to size', 'Aluminium frame in several tones', 'For homes or businesses'],
       },
-      photos: [],
+      photos: [PHOTOS.customMirrorDarkBronze, PHOTOS.customMirrorWhite],
       elevation: 'mirror',
     },
   ] satisfies Product[],
@@ -827,6 +843,11 @@ export const COMPANY = {
       caption: { es: 'Puerta corrediza hacia el patio', en: 'Sliding door to the patio' },
     },
     {
+      ...PHOTOS.customMirrorDarkBronze,
+      category: 'mirrors',
+      caption: { es: 'Espejo con marco bronce oscuro', en: 'Mirror with a dark bronze frame' },
+    },
+    {
       ...PHOTOS.windowWhiteSlidingTransom,
       category: 'windows',
       caption: { es: 'Ventana con fijo superior', en: 'Window with fixed upper pane' },
@@ -888,6 +909,13 @@ export const COMPANY = {
       answer: {
         es: 'Trabajamos solo con aluminio, en tono nogal, inox, bronce oscuro, natural o blanco. El vidrio viene de nuestro proveedor Inco: claro, gris, super gris, bronce, verde, azul reflectivo, control solar y laminado, además de esmerilado o texturizado para baños. Pregúntenos por la disponibilidad al cotizar.',
         en: 'We only work with aluminium, in walnut, inox, dark bronze, natural or white. Our glass comes from our supplier Inco: clear, grey, super grey, bronze, green, blue reflective, solar control and laminated, plus frosted or textured glass for bathrooms. Ask us about availability when you request a quote.',
+      },
+    },
+    {
+      question: { es: '¿Qué formas de pago aceptan?', en: 'How can I pay?' },
+      answer: {
+        es: 'Tarjeta, transferencia o efectivo, y cheque en algunos casos. Para empezar a fabricar se deposita un anticipo del 50 % del total.',
+        en: 'Card, bank transfer or cash, and cheques in some cases. A 50% deposit is paid before fabrication starts.',
       },
     },
     {
