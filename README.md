@@ -34,7 +34,7 @@ set them in the hosting provider's environment settings.
 
 | Variable               | Required | Purpose                                                                                         |
 | ---------------------- | -------- | ----------------------------------------------------------------------------------------------- |
-| `SITE_URL`             | No       | Canonical URLs, hreflang, sitemap, Open Graph. Defaults to `https://vidrieriabonilla.com`.      |
+| `SITE_URL`             | No       | Canonical URLs, hreflang, sitemap, Open Graph. Defaults to `https://vidrieria-bonilla.netlify.app`. |
 | `PUBLIC_FORM_ENDPOINT` | No       | Form delivery endpoint. Without it, the form hands the request to WhatsApp.                     |
 | `PUBLIC_GSC_VERIFICATION` | No    | `content` value of the Google Search Console HTML tag. Adds the verification meta tag.          |
 
@@ -160,7 +160,7 @@ section "encargados"/"processors").
 
 ### Google Search Console
 
-Once the site is deployed on https://vidrieriabonilla.com:
+Once the site is deployed on https://vidrieria-bonilla.netlify.app:
 
 1. Open https://search.google.com/search-console and add a property. The **Domain** type is verified with a DNS
    TXT record at the domain registrar. The **URL prefix** type can use the HTML tag method instead.
@@ -198,29 +198,28 @@ Content sources, checked 2026-09-24:
   A visible vehicle licence plate in one photo was blurred.
 - Glass colours quoted by the business to the project owner on WhatsApp: super gris (dark grey), bronze, blue
   reflective (can be fitted reflective side out). Clear and frosted/textured glass appear in catalog photos.
+- The business's aluminium colour card (walnut, inox, dark bronze, natural, white) and its glass supplier's
+  catalog, Inco: https://inco.com.sv/es/productos/vidrio/ (checked 2026-10-05). The business does not work with PVC.
 - Instagram requires login; only the profile link is used.
 
 Business data to confirm:
 
-- Legal name of the owner or company, and NIT.
-- Whether "Vidriería" (with accent, used on the site) or "Vidrieria" (logo, old site) is the registered name.
-- PVC frames and grey frames: stated by the project owner, not shown in the catalog or photos (flagged in
-  `company.ts` with `pendingConfirmation`). Wood-tone frames are shown because they appear in catalog photos.
-- Availability of each glass colour (the business mentioned super gris running out with its supplier).
-- No own photos of decorative mirrors yet; that product shows a labelled reference drawing.
-- Consent to publish the photo of the staff member repairing a car mirror (face not visible).
-- Production domain (`SITE_URL`) and hosting provider.
+- Availability of each glass colour depends on stock at the supplier, Inco (super gris was out of stock on
+  2026-10-05).
 
 Legal (drafts, not legal advice; review with a lawyer before publishing):
 
-- Privacy policy follows the Ley para la Protección de Datos Personales (DL 144, 2024). Confirm retention period,
-  form provider and hosting provider. The September 2026 reform removing the private-sector data protection
-  officer requirement was passed but its publication in the Diario Oficial was not confirmed.
-- Refund policy: deposit terms, cancellation once fabrication has started, returns of made-to-measure pieces,
-  warranties for installations and car mirror repairs.
-- Terms: responsibility when the customer supplies measurements.
-- The business must issue signed receipts for deferred delivery, itemised invoices and complaint reference numbers
-  (Ley de Protección al Consumidor, reformed by DL 405/2024).
+- Privacy policy follows the Ley para la Protección de Datos Personales (DL 144, 2024). The quote form only hands requests to WhatsApp; if
+  `PUBLIC_FORM_ENDPOINT` is enabled, name its provider in the policy. The site is hosted on Netlify. The September 2026 reform removing the private-sector data protection officer requirement was passed but its publication in the Diario Oficial was not confirmed.
+- Refund policy: deposit, cancellation, returns and warranty terms were confirmed by the business on 2026-10-05.
+  Review the one-week window to report faults against the Consumer Protection Act.
+- The business gives a numbered deposit receipt (comprobante de anticipo: customer, date, job, amount paid,
+  balance due, received by) and, on delivery, a consumer invoice or a tax credit invoice. Complaints and delays are
+  handled on WhatsApp. The Ley de Protección al Consumidor (reformed by DL 405/2024) asks deferred-delivery
+  receipts to also state the delivery date and place, what happens if delivery is late, and the customer's
+  signature; the current receipt does not include them.
+- Refund timeframe: the business returns money by the same payment method but has not set a maximum number of
+  days, so the site no longer promises one.
 - Consider the free Defensoría del Consumidor e-commerce registry; the site does not sell online, so it is
   arguably out of scope.
 

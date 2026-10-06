@@ -1,6 +1,7 @@
 import type { Locale } from '@/i18n/locales';
 import type { QuoteErrorCode } from '@/lib/quote-form';
 import type { LegalPageKey } from '@/i18n/routes';
+import type { ProductCategory } from '@/types/company';
 
 export type SectionId = 'about' | 'products' | 'materials' | 'process' | 'work' | 'faq' | 'contact';
 
@@ -26,7 +27,7 @@ type UiStrings = {
   };
   products: {
     listLabel: string;
-    categories: Record<'windows' | 'doors' | 'mirrors' | 'custom', string>;
+    categories: Record<ProductCategory, string>;
     photoFallback: string;
     showPhoto: (n: number) => string;
     features: string;
@@ -145,7 +146,7 @@ export const UI: Record<Locale, UiStrings> = {
         id: 'colores',
         nav: 'Colores',
         title: 'Marcos y vidrios a su gusto',
-        lede: 'Combine el material y el color del marco con el color del vidrio.',
+        lede: 'Combine el tono del aluminio con el color del vidrio.',
       },
       process: {
         id: 'proceso',
@@ -190,7 +191,6 @@ export const UI: Record<Locale, UiStrings> = {
         windows: 'Ventanas y vidrios',
         doors: 'Puertas',
         mirrors: 'Espejos',
-        custom: 'A la medida',
       },
       photoFallback: 'Dibujo de referencia. Pronto agregaremos fotos de este trabajo.',
       showPhoto: (n) => `Ver foto ${n}`,
@@ -363,7 +363,7 @@ export const UI: Record<Locale, UiStrings> = {
         id: 'colours',
         nav: 'Colours',
         title: 'Frames and glass your way',
-        lede: 'Combine the frame material and colour with the glass colour.',
+        lede: 'Combine the aluminium tone with the glass colour.',
       },
       process: {
         id: 'process',
@@ -408,7 +408,6 @@ export const UI: Record<Locale, UiStrings> = {
         windows: 'Windows and glass',
         doors: 'Doors',
         mirrors: 'Mirrors',
-        custom: 'Made to order',
       },
       photoFallback: 'Reference drawing. Photos of this work are coming soon.',
       showPhoto: (n) => `Show photo ${n}`,

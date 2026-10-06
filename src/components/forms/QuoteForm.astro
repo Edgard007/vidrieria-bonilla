@@ -29,7 +29,7 @@ const form = ui.form;
 const endpoint = PUBLIC_FORM_ENDPOINT ?? '';
 const isEmailDelivery = endpoint.length > 0;
 const consent = form.privacy(COMPANY.name);
-const SERVICE_GROUPS = (['windows', 'doors', 'mirrors', 'custom'] as const)
+const SERVICE_GROUPS = (['windows', 'doors', 'mirrors'] as const)
   .map((category) => ({
     category,
     products: COMPANY.products.filter((product) => product.category === category),

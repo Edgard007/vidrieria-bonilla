@@ -8,12 +8,15 @@
  * - The business's WhatsApp catalog (6 products, descriptions and photos)
  * - The business's Facebook page (service description and photos)
  * - Glass options quoted by the business to the owner of this project over WhatsApp
+ * - The business's aluminium colour card and its glass supplier's catalog (Inco), checked 2026-10-05
  * Anything else is marked `pending` or `pendingConfirmation`.
  */
 import bathDoorBlackFrostedWide from '@/assets/images/work/puerta-bano-aluminio-negro-vidrio-texturizado-toallero.jpg';
 import bathDoorBlackFrosted from '@/assets/images/work/puerta-bano-aluminio-negro-vidrio-texturizado.jpg';
+import bilbaoWindowWoodDarkGlass from '@/assets/images/work/ventana-bilbao-tono-madera-vidrio-oscuro.jpg';
+import customMirrorDarkBronze from '@/assets/images/work/espejo-a-la-medida-marco-bronce-oscuro.jpg';
+import customMirrorWhite from '@/assets/images/work/espejo-a-la-medida-marco-blanco.jpg';
 import bathDoorWhiteFrosted from '@/assets/images/work/puerta-bano-aluminio-blanco-vidrio-esmerilado.jpg';
-import carMirrorRepair from '@/assets/images/work/reparacion-retrovisor-carro.jpg';
 import doorWindowWhiteCombo from '@/assets/images/work/puerta-ventana-aluminio-blanco.jpg';
 import fixedGlassBlackFacade from '@/assets/images/work/vidrios-fijos-fachada-aluminio-negro.jpg';
 import fixedGlassBlackTerrace from '@/assets/images/work/vidrios-fijos-terraza-aluminio-negro.jpg';
@@ -28,7 +31,6 @@ import sashWindowWhiteBlueReflective from '@/assets/images/work/ventana-guilloti
 import sashWindowWhiteClear from '@/assets/images/work/ventana-guillotina-aluminio-blanco.jpg';
 import slidingWindowBlackGreenGlass from '@/assets/images/work/ventana-corrediza-aluminio-negro-cuadricula.jpg';
 import slidingWindowWhiteClear from '@/assets/images/work/ventana-corrediza-aluminio-blanco-vidrio-claro.jpg';
-import slidingWindowWoodDarkGlass from '@/assets/images/work/ventana-corrediza-tono-madera-vidrio-oscuro.jpg';
 import slidingWindowWoodGridDarkGlass from '@/assets/images/work/ventana-tono-madera-cuadricula-vidrio-oscuro.jpg';
 import windowBronzeGlass from '@/assets/images/work/ventana-corrediza-vidrio-bronce.jpg';
 import windowWhiteBlueReflective from '@/assets/images/work/ventana-aluminio-blanco-vidrio-azul-reflectivo.jpg';
@@ -79,11 +81,11 @@ const PHOTOS = {
       en: 'Black aluminium sliding window with grid bars and dark, greenish glass.',
     },
   },
-  slidingWindowWoodDarkGlass: {
-    src: slidingWindowWoodDarkGlass,
+  bilbaoWindowWoodDarkGlass: {
+    src: bilbaoWindowWoodDarkGlass,
     alt: {
-      es: 'Ventana corrediza de dos hojas con marco tono madera y vidrio oscuro.',
-      en: 'Two-panel sliding window with a wood-tone frame and dark glass.',
+      es: 'Ventana Bilbao de dos hojas con marco tono madera y vidrio oscuro.',
+      en: 'Two-panel Bilbao window with a wood-tone frame and dark glass.',
     },
   },
   slidingWindowWoodGridDarkGlass: {
@@ -241,11 +243,18 @@ const PHOTOS = {
       en: 'White aluminium bathroom door with frosted glass, in a bathroom under construction.',
     },
   },
-  carMirrorRepair: {
-    src: carMirrorRepair,
+  customMirrorDarkBronze: {
+    src: customMirrorDarkBronze,
     alt: {
-      es: 'Un trabajador de Vidriería Bonilla repara el retrovisor lateral de un carro.',
-      en: 'A Vidriería Bonilla worker repairs the side mirror of a car.',
+      es: 'Espejo rectangular a la medida con marco de aluminio bronce oscuro, colgado en una pared clara.',
+      en: 'Made-to-measure rectangular mirror with a dark bronze aluminium frame, hung on a light wall.',
+    },
+  },
+  customMirrorWhite: {
+    src: customMirrorWhite,
+    alt: {
+      es: 'Espejo rectangular a la medida con marco de aluminio blanco, colgado en una pared clara.',
+      en: 'Made-to-measure rectangular mirror with a white aluminium frame, hung on a light wall.',
     },
   },
 } satisfies Record<string, Photo>;
@@ -259,8 +268,8 @@ export const COMPANY = {
     en: 'Quality and trust in glass and aluminium',
   } satisfies Localized,
   description: {
-    es: 'Vidriería en Jayaque, La Libertad: ventanas, puertas de jardín y baño, vidrios fijos y espejos a la medida, con instalación. Reparamos retrovisores.',
-    en: 'Glass shop in Jayaque, El Salvador: made-to-measure windows, garden and bathroom doors, fixed glass and mirrors, installed. Car mirror repair too.',
+    es: 'Vidriería en Jayaque, La Libertad: ventanas de diferentes estilos, puertas de jardín y baño, vidrios fijos y espejos a la medida, con instalación en todo El Salvador.',
+    en: 'Glass shop in Jayaque, El Salvador: windows in different styles, garden and bathroom doors, fixed glass and made-to-measure mirrors, installed across El Salvador.',
   } satisfies Localized,
 
   contact: {
@@ -318,15 +327,15 @@ export const COMPANY = {
   /** Short answer to what a visitor is looking for, shown right after the hero. */
   summary: {
     intro: {
-      es: 'Vidriería Bonilla fabrica e instala ventanas, puertas, vidrios fijos y espejos a la medida en Jayaque, La Libertad, y repara espejos de carro.',
-      en: 'Vidriería Bonilla makes and installs made-to-measure windows, doors, fixed glass and mirrors in Jayaque, La Libertad, and repairs car mirrors.',
+      es: 'Vidriería Bonilla fabrica e instala ventanas de diferentes estilos, puertas de vidrio para jardín y baños, vidrios fijos y más. Desde Jayaque, La Libertad, para todo El Salvador.',
+      en: 'Vidriería Bonilla makes and installs windows in different styles, glass doors for gardens and bathrooms, fixed glass and more. From Jayaque, La Libertad, to all of El Salvador.',
     } satisfies Localized,
     points: [
       {
         section: 'products',
         text: {
-          es: 'Ventanas francesas, corredizas y guillotina, vidrios fijos, puertas de jardín y de baño, y espejos decorativos.',
-          en: 'French, sliding and sash windows, fixed glass, garden and bathroom doors, and decorative mirrors.',
+          es: 'Ventanas francesas, Bilbao y guillotina, vidrios fijos, puertas de jardín abatibles y corredizas, puertas de baño y espejos a la medida.',
+          en: 'French, Bilbao and sash windows, fixed glass, hinged and sliding garden doors, bathroom doors and made-to-measure mirrors.',
         },
       },
       {
@@ -339,8 +348,8 @@ export const COMPANY = {
       {
         section: 'materials',
         text: {
-          es: 'Marcos blancos, negros, grises o tono madera; vidrio claro, gris oscuro, azul reflectivo, bronce o esmerilado.',
-          en: 'White, black, grey or wood-tone frames; clear, dark grey, blue reflective, bronze or frosted glass.',
+          es: 'Aluminio nogal, inox, bronce oscuro, natural o blanco; vidrio claro, gris, super gris, bronce, verde, reflectivo, control solar, laminado o esmerilado.',
+          en: 'Walnut, inox, dark bronze, natural or white aluminium; clear, grey, super grey, bronze, green, reflective, solar control, laminated or frosted glass.',
         },
       },
       {
@@ -421,20 +430,21 @@ export const COMPANY = {
       },
       photos: [
         PHOTOS.frenchWindowBlack,
+        PHOTOS.frenchWindowBlackWorkshop,
+        PHOTOS.frenchWindowWhite,
         PHOTOS.slidingWindowBlackGreenGlass,
         PHOTOS.slidingWindowWoodGridDarkGlass,
-        PHOTOS.slidingWindowWoodDarkGlass,
       ],
       elevation: 'window',
     },
     {
-      id: 'sliding-window',
+      id: 'bilbao-window',
       category: 'windows',
-      name: { es: 'Ventana corrediza', en: 'Sliding window' },
+      name: { es: 'Ventana Bilbao', en: 'Bilbao window' },
       label: { es: 'Económica', en: 'Budget' },
       summary: {
-        es: 'La opción práctica y accesible para cuartos y baños.',
-        en: 'The practical, affordable choice for bedrooms and bathrooms.',
+        es: 'Ventana corrediza de línea Bilbao, práctica y accesible para cuartos y baños.',
+        en: 'Bilbao-line sliding window, the practical, affordable choice for bedrooms and bathrooms.',
       },
       features: {
         es: [
@@ -450,12 +460,7 @@ export const COMPANY = {
           'Suited to bedrooms and bathrooms',
         ],
       },
-      photos: [
-        PHOTOS.windowWhiteGridArches,
-        PHOTOS.slidingWindowWhiteClear,
-        PHOTOS.windowWhiteGridBlueSky,
-        PHOTOS.frenchWindowWhite,
-      ],
+      photos: [PHOTOS.bilbaoWindowWoodDarkGlass],
       elevation: 'window',
     },
     {
@@ -512,17 +517,25 @@ export const COMPANY = {
     {
       id: 'garden-door',
       category: 'doors',
-      name: { es: 'Puerta de jardín', en: 'Garden door' },
+      name: {
+        es: 'Puertas de jardín (abatibles y corredizas)',
+        en: 'Garden doors (hinged and sliding)',
+      },
       label: { es: 'Elegante', en: 'Elegant' },
       summary: {
-        es: 'Puerta corrediza que conecta la casa con el patio o la terraza.',
-        en: 'Sliding door that connects your home with the patio or terrace.',
+        es: 'Puertas abatibles o corredizas que conectan la casa con el patio o la terraza.',
+        en: 'Hinged or sliding doors that connect your home with the patio or terrace.',
       },
       features: {
-        es: ['Más luz natural', 'Fácil apertura', 'Diseño moderno', 'Ideal para patio o terraza'],
+        es: [
+          'Abatibles o corredizas',
+          'Más luz natural',
+          'Diseño moderno',
+          'Ideal para patio o terraza',
+        ],
         en: [
+          'Hinged or sliding',
           'More natural light',
-          'Opens easily',
           'Modern design',
           'Suited to patios and terraces',
         ],
@@ -538,7 +551,7 @@ export const COMPANY = {
     {
       id: 'bathroom-door',
       category: 'doors',
-      name: { es: 'Puerta de baño', en: 'Bathroom door' },
+      name: { es: 'Puertas de baño', en: 'Bathroom doors' },
       label: { es: 'Elegante', en: 'Elegant' },
       summary: {
         es: 'Puerta de aluminio con vidrio texturizado o esmerilado para baños y duchas.',
@@ -556,53 +569,19 @@ export const COMPANY = {
       elevation: 'door',
     },
     {
-      id: 'decorative-mirrors',
+      id: 'custom-mirrors',
       category: 'mirrors',
-      name: { es: 'Espejos decorativos', en: 'Decorative mirrors' },
+      name: { es: 'Espejos a la medida', en: 'Made-to-measure mirrors' },
       summary: {
         es: 'Espejos cortados a la medida de la pared donde van, para su casa o su negocio.',
         en: 'Mirrors cut to fit the wall they go on, for your home or business.',
       },
       features: {
-        es: ['Cortados a la medida', 'Para casa o negocio'],
-        en: ['Cut to size', 'For homes or businesses'],
+        es: ['Cortados a la medida', 'Marco de aluminio en varios tonos', 'Para casa o negocio'],
+        en: ['Cut to size', 'Aluminium frame in several tones', 'For homes or businesses'],
       },
-      photos: [],
+      photos: [PHOTOS.customMirrorDarkBronze, PHOTOS.customMirrorWhite],
       elevation: 'mirror',
-    },
-    {
-      id: 'car-mirrors',
-      category: 'mirrors',
-      name: { es: 'Espejos de carro', en: 'Car mirrors' },
-      summary: {
-        es: 'Reparamos retrovisores y cambiamos el vidrio del espejo de su carro.',
-        en: 'We repair side mirrors and replace the mirror glass on your car.',
-      },
-      features: {
-        es: ['Reparación de retrovisores', 'Cambio de vidrio'],
-        en: ['Side mirror repair', 'Glass replacement'],
-      },
-      photos: [PHOTOS.carMirrorRepair],
-      elevation: 'car-mirror',
-    },
-    {
-      id: 'custom-work',
-      category: 'custom',
-      name: { es: 'Fabricación personalizada', en: 'Custom fabrication' },
-      summary: {
-        es: 'Si lo que necesita en vidrio o aluminio no aparece aquí, envíenos las medidas y lo cotizamos.',
-        en: 'If the glass or aluminium piece you need is not listed, send us the measurements and we will quote it.',
-      },
-      features: {
-        es: ['Combinaciones de puerta y ventana', 'Ventanas con fijo superior', 'Piezas a pedido'],
-        en: ['Door and window combinations', 'Windows with fixed upper panes', 'Made to order'],
-      },
-      photos: [
-        PHOTOS.doorWindowWhiteCombo,
-        PHOTOS.windowWhiteSlidingTransom,
-        PHOTOS.frenchWindowBlackWorkshop,
-      ],
-      elevation: 'custom',
     },
   ] satisfies Product[],
 
@@ -612,42 +591,45 @@ export const COMPANY = {
         id: 'aluminium',
         name: { es: 'Aluminio', en: 'Aluminium' },
         description: {
-          es: 'Liviano y resistente a la humedad. Es el material de la mayoría de nuestros trabajos.',
-          en: 'Light and moisture resistant. It is the material of most of our work.',
-        },
-      },
-      {
-        id: 'pvc',
-        name: { es: 'PVC', en: 'PVC' },
-        description: {
-          es: 'Otra opción de marco para ventanas y puertas. Consúltenos disponibilidad.',
-          en: 'Another frame option for windows and doors. Ask us about availability.',
-        },
-        pendingConfirmation: {
-          es: 'Marcos de PVC: los indicó el propietario del proyecto; no aparecen en el catálogo ni en fotos publicadas.',
-          en: 'PVC frames: stated by the project owner; not shown in the catalog or published photos.',
+          es: 'Liviano y resistente a la humedad. Es el material de todos nuestros trabajos.',
+          en: 'Light and moisture resistant. It is the material of all our work.',
         },
       },
     ] satisfies FrameMaterial[],
+    /** Aluminium tones from the colour card the business sends to customers. */
     frameColors: [
-      { id: 'white', name: { es: 'Blanco', en: 'White' }, hex: '#F3F4F1' },
-      { id: 'black', name: { es: 'Negro', en: 'Black' }, hex: '#1D1F22' },
       {
-        id: 'grey',
-        name: { es: 'Gris', en: 'Grey' },
-        hex: '#8B9096',
-        pendingConfirmation: {
-          es: 'Marco gris: lo indicó el propietario del proyecto; no aparece en fotos publicadas.',
-          en: 'Grey frame: stated by the project owner; not shown in published photos.',
-        },
+        id: 'walnut',
+        name: { es: 'Nogal', en: 'Walnut' },
+        hex: '#6B3A2C',
+        note: { es: 'Texturado', en: 'Textured' },
       },
       {
-        id: 'wood',
-        name: { es: 'Tono madera', en: 'Wood tone' },
-        hex: '#8A5A35',
-        note: { es: 'Visto en trabajos del catálogo', en: 'Seen in catalog work' },
+        id: 'inox',
+        name: { es: 'Inox', en: 'Inox' },
+        hex: '#6E716C',
+        note: { es: 'Anodizado', en: 'Anodised' },
+      },
+      {
+        id: 'dark-bronze',
+        name: { es: 'Bronce oscuro', en: 'Dark bronze' },
+        hex: '#2B1B18',
+        note: { es: 'Anodizado', en: 'Anodised' },
+      },
+      {
+        id: 'natural',
+        name: { es: 'Natural', en: 'Natural' },
+        hex: '#8D9094',
+        note: { es: 'Anodizado', en: 'Anodised' },
+      },
+      {
+        id: 'white',
+        name: { es: 'Blanco', en: 'White' },
+        hex: '#F3F4F1',
+        note: { es: 'Lacado', en: 'Lacquered' },
       },
     ] satisfies Swatch[],
+    /** Glass from the business's supplier, Inco (https://inco.com.sv/es/productos/vidrio/). */
     glassColors: [
       {
         id: 'clear',
@@ -659,13 +641,34 @@ export const COMPANY = {
         },
       },
       {
-        id: 'dark-grey',
-        name: { es: 'Gris oscuro', en: 'Dark grey' },
+        id: 'grey',
+        name: { es: 'Gris', en: 'Grey' },
+        hex: '#5E646B',
+        note: { es: 'Reduce el brillo del sol.', en: 'Cuts sun glare.' },
+      },
+      {
+        id: 'super-grey',
+        name: { es: 'Super gris', en: 'Super grey' },
         hex: '#2C3036',
         note: {
-          es: 'También llamado super gris. Da privacidad y reduce el brillo.',
-          en: 'Also called super grey. Gives privacy and cuts glare.',
+          es: 'Liso o reflectivo. Da privacidad y reduce el brillo.',
+          en: 'Plain or reflective. Gives privacy and cuts glare.',
         },
+      },
+      {
+        id: 'bronze',
+        name: { es: 'Bronce', en: 'Bronze' },
+        hex: '#8A7258',
+        note: {
+          es: 'Liso o reflectivo. Tono cálido que suaviza la luz.',
+          en: 'Plain or reflective. A warm tone that softens the light.',
+        },
+      },
+      {
+        id: 'green',
+        name: { es: 'Verde', en: 'Green' },
+        hex: '#9DBFA8',
+        note: { es: 'Tono verde suave.', en: 'A soft green tint.' },
       },
       {
         id: 'blue-reflective',
@@ -677,10 +680,22 @@ export const COMPANY = {
         },
       },
       {
-        id: 'bronze',
-        name: { es: 'Bronce', en: 'Bronze' },
-        hex: '#8A7258',
-        note: { es: 'Tono cálido que suaviza la luz.', en: 'A warm tone that softens the light.' },
+        id: 'solar-control',
+        name: { es: 'Control solar', en: 'Solar control' },
+        hex: '#24497F',
+        note: {
+          es: 'Reduce el calor que entra por la ventana.',
+          en: 'Reduces the heat coming in through the window.',
+        },
+      },
+      {
+        id: 'laminated',
+        name: { es: 'Laminado', en: 'Laminated' },
+        hex: '#E4ECEF',
+        note: {
+          es: 'Vidrio de seguridad en claro, blanco, bronce, gris o hielo.',
+          en: 'Safety glass in clear, white, bronze, grey or ice.',
+        },
       },
       {
         id: 'frosted',
@@ -765,11 +780,6 @@ export const COMPANY = {
       },
     },
     {
-      ...PHOTOS.carMirrorRepair,
-      category: 'mirrors',
-      caption: { es: 'Reparación de retrovisor', en: 'Side mirror repair' },
-    },
-    {
       ...PHOTOS.windowWhiteGridBlueSky,
       category: 'windows',
       caption: { es: 'Ventana blanca de cuatro hojas', en: 'Four-panel white window' },
@@ -791,7 +801,7 @@ export const COMPANY = {
     },
     {
       ...PHOTOS.doorWindowWhiteCombo,
-      category: 'custom',
+      category: 'doors',
       caption: { es: 'Puerta y ventana en aluminio blanco', en: 'White aluminium door and window' },
     },
     {
@@ -833,8 +843,13 @@ export const COMPANY = {
       caption: { es: 'Puerta corrediza hacia el patio', en: 'Sliding door to the patio' },
     },
     {
+      ...PHOTOS.customMirrorDarkBronze,
+      category: 'mirrors',
+      caption: { es: 'Espejo con marco bronce oscuro', en: 'Mirror with a dark bronze frame' },
+    },
+    {
       ...PHOTOS.windowWhiteSlidingTransom,
-      category: 'custom',
+      category: 'windows',
       caption: { es: 'Ventana con fijo superior', en: 'Window with fixed upper pane' },
     },
     {
@@ -858,9 +873,9 @@ export const COMPANY = {
       caption: { es: 'Ventana de aluminio blanco', en: 'White aluminium window' },
     },
     {
-      ...PHOTOS.slidingWindowWoodDarkGlass,
+      ...PHOTOS.bilbaoWindowWoodDarkGlass,
       category: 'windows',
-      caption: { es: 'Ventana corrediza tono madera', en: 'Wood-tone sliding window' },
+      caption: { es: 'Ventana Bilbao tono madera', en: 'Wood-tone Bilbao window' },
     },
   ] satisfies GalleryItem[],
 
@@ -892,8 +907,15 @@ export const COMPANY = {
         en: 'Which frame and glass colours do you offer?',
       },
       answer: {
-        es: 'Marcos en blanco, negro, gris y tono madera. Vidrio claro, gris oscuro, azul reflectivo, bronce, y esmerilado o texturizado para baños. Pregúntenos por la disponibilidad al cotizar.',
-        en: 'Frames in white, black, grey and wood tone. Clear, dark grey, blue reflective and bronze glass, plus frosted or textured glass for bathrooms. Ask us about availability when you request a quote.',
+        es: 'Trabajamos solo con aluminio, en tono nogal, inox, bronce oscuro, natural o blanco. El vidrio viene de nuestro proveedor Inco: claro, gris, super gris, bronce, verde, azul reflectivo, control solar y laminado, además de esmerilado o texturizado para baños. Pregúntenos por la disponibilidad al cotizar.',
+        en: 'We only work with aluminium, in walnut, inox, dark bronze, natural or white. Our glass comes from our supplier Inco: clear, grey, super grey, bronze, green, blue reflective, solar control and laminated, plus frosted or textured glass for bathrooms. Ask us about availability when you request a quote.',
+      },
+    },
+    {
+      question: { es: '¿Qué formas de pago aceptan?', en: 'How can I pay?' },
+      answer: {
+        es: 'Tarjeta, transferencia o efectivo, y cheque en algunos casos. Para empezar a fabricar se deposita un anticipo del 50 % del total.',
+        en: 'Card, bank transfer or cash, and cheques in some cases. A 50% deposit is paid before fabrication starts.',
       },
     },
     {
@@ -903,48 +925,34 @@ export const COMPANY = {
         en: `Message us on WhatsApp or call ${PHONE_DISPLAY}, send an email or fill in the form on this page. If you already have measurements or a photo of the space, include them.`,
       },
     },
-    {
-      question: { es: '¿Reparan espejos de carro?', en: 'Do you repair car mirrors?' },
-      answer: {
-        es: 'Sí, reparamos retrovisores y cambiamos el vidrio del espejo. Escríbanos la marca, el modelo y qué lado necesita.',
-        en: 'Yes, we repair side mirrors and replace mirror glass. Send us the make, model and which side you need.',
-      },
-    },
   ] satisfies FaqItem[],
 
   legal: {
-    legalName: {
-      pending: {
-        es: 'Nombre legal del titular o razón social',
-        en: 'Registered name of the owner or company',
-      },
-    },
-    taxId: { pending: { es: 'NIT del titular', en: 'Owner’s tax ID (NIT)' } },
-    lastUpdated: '2026-09-24',
+    legalName: 'Cristian Alejandro Vides Corea',
+    partner: 'Oscar Alexander Bonilla Pineda',
+    taxId: '04820097-9',
+    taxpayerNumber: '305887-3',
+    lastUpdated: '2026-10-05',
     retention: {
-      pending: {
-        es: 'Plazo de conservación de las solicitudes de cotización (por ejemplo, 12 meses desde el último contacto)',
-        en: 'How long quote requests are kept (for example, 12 months after last contact)',
-      },
+      es: 'un mes desde el último contacto',
+      en: 'one month after last contact',
     },
     refunds: {
       deposit: {
-        pending: {
-          es: 'Si se pide anticipo, qué porcentaje y en qué casos se devuelve',
-          en: 'Whether a deposit is required, how much, and when it is returned',
-        },
+        es: 'para empezar a fabricar se deposita un anticipo del 50 % del total del proyecto',
+        en: 'a deposit of 50% of the project total is paid before fabrication starts',
+      },
+      cancellation: {
+        es: 'puede cancelar, pero se cobrará todo lo invertido hasta el momento de la cancelación (materiales cortados o comprados y mano de obra)',
+        en: 'you can cancel, but you will be charged for everything already invested at the time of cancellation (materials cut or bought and labour)',
+      },
+      returns: {
+        es: 'solo se aceptan si el defecto es nuestro, es decir, si cometimos un error en la cotización o al fabricar',
+        en: 'they are only accepted if the defect is ours, that is, if we made a mistake in the quote or during fabrication',
       },
       warranty: {
-        pending: {
-          es: 'Si se ofrece garantía en ventanas, puertas y espejos, su plazo y qué cubre',
-          en: 'Whether windows, doors and mirrors carry a warranty, its term and what it covers',
-        },
-      },
-      carMirrorWarranty: {
-        pending: {
-          es: 'Si se ofrece garantía en reparaciones de retrovisores, su plazo y qué cubre',
-          en: 'Whether car mirror repairs carry a warranty, its term and what it covers',
-        },
+        es: 'cubre solo defectos de fábrica y de nuestra instalación. No aplica si el cliente dio mal las medidas ni si la instalación no la hicimos nosotros. Debe reportar la falla en un plazo máximo de 1 semana desde la entrega',
+        en: 'covers only manufacturing defects and our own installation. It does not apply if the customer gave the wrong measurements or if we did not do the installation. Any fault must be reported within 1 week of delivery',
       },
     },
   } satisfies LegalFacts,
