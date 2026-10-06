@@ -202,22 +202,19 @@ Content sources, checked 2026-09-24:
 
 Business data to confirm:
 
-- Legal name of the owner or company, and NIT.
 - Whether "Vidriería" (with accent, used on the site) or "Vidrieria" (logo, old site) is the registered name.
 - PVC frames and grey frames: stated by the project owner, not shown in the catalog or photos (flagged in
   `company.ts` with `pendingConfirmation`). Wood-tone frames are shown because they appear in catalog photos.
 - Availability of each glass colour (the business mentioned super gris running out with its supplier).
-- No own photos of decorative mirrors yet; that product shows a labelled reference drawing.
-- Consent to publish the photo of the staff member repairing a car mirror (face not visible).
+- No own photos of made-to-measure mirrors yet; that product shows a labelled reference drawing.
 - Production domain (`SITE_URL`) and hosting provider.
 
 Legal (drafts, not legal advice; review with a lawyer before publishing):
 
-- Privacy policy follows the Ley para la Protección de Datos Personales (DL 144, 2024). Confirm retention period,
-  form provider and hosting provider. The September 2026 reform removing the private-sector data protection
-  officer requirement was passed but its publication in the Diario Oficial was not confirmed.
-- Refund policy: deposit terms, cancellation once fabrication has started, returns of made-to-measure pieces,
-  warranties for installations and car mirror repairs.
+- Privacy policy follows the Ley para la Protección de Datos Personales (DL 144, 2024). Confirm form provider
+  and hosting provider. The September 2026 reform removing the private-sector data protection officer requirement was passed but its publication in the Diario Oficial was not confirmed.
+- Refund policy: deposit, cancellation, returns and warranty terms were confirmed by the business on 2026-10-05.
+  Review the one-week window to report faults against the Consumer Protection Act.
 - Terms: responsibility when the customer supplies measurements.
 - The business must issue signed receipts for deferred delivery, itemised invoices and complaint reference numbers
   (Ley de Protección al Consumidor, reformed by DL 405/2024).

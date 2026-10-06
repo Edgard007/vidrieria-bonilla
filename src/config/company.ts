@@ -12,8 +12,8 @@
  */
 import bathDoorBlackFrostedWide from '@/assets/images/work/puerta-bano-aluminio-negro-vidrio-texturizado-toallero.jpg';
 import bathDoorBlackFrosted from '@/assets/images/work/puerta-bano-aluminio-negro-vidrio-texturizado.jpg';
+import bilbaoWindowWoodDarkGlass from '@/assets/images/work/ventana-bilbao-tono-madera-vidrio-oscuro.jpg';
 import bathDoorWhiteFrosted from '@/assets/images/work/puerta-bano-aluminio-blanco-vidrio-esmerilado.jpg';
-import carMirrorRepair from '@/assets/images/work/reparacion-retrovisor-carro.jpg';
 import doorWindowWhiteCombo from '@/assets/images/work/puerta-ventana-aluminio-blanco.jpg';
 import fixedGlassBlackFacade from '@/assets/images/work/vidrios-fijos-fachada-aluminio-negro.jpg';
 import fixedGlassBlackTerrace from '@/assets/images/work/vidrios-fijos-terraza-aluminio-negro.jpg';
@@ -28,7 +28,6 @@ import sashWindowWhiteBlueReflective from '@/assets/images/work/ventana-guilloti
 import sashWindowWhiteClear from '@/assets/images/work/ventana-guillotina-aluminio-blanco.jpg';
 import slidingWindowBlackGreenGlass from '@/assets/images/work/ventana-corrediza-aluminio-negro-cuadricula.jpg';
 import slidingWindowWhiteClear from '@/assets/images/work/ventana-corrediza-aluminio-blanco-vidrio-claro.jpg';
-import slidingWindowWoodDarkGlass from '@/assets/images/work/ventana-corrediza-tono-madera-vidrio-oscuro.jpg';
 import slidingWindowWoodGridDarkGlass from '@/assets/images/work/ventana-tono-madera-cuadricula-vidrio-oscuro.jpg';
 import windowBronzeGlass from '@/assets/images/work/ventana-corrediza-vidrio-bronce.jpg';
 import windowWhiteBlueReflective from '@/assets/images/work/ventana-aluminio-blanco-vidrio-azul-reflectivo.jpg';
@@ -79,11 +78,11 @@ const PHOTOS = {
       en: 'Black aluminium sliding window with grid bars and dark, greenish glass.',
     },
   },
-  slidingWindowWoodDarkGlass: {
-    src: slidingWindowWoodDarkGlass,
+  bilbaoWindowWoodDarkGlass: {
+    src: bilbaoWindowWoodDarkGlass,
     alt: {
-      es: 'Ventana corrediza de dos hojas con marco tono madera y vidrio oscuro.',
-      en: 'Two-panel sliding window with a wood-tone frame and dark glass.',
+      es: 'Ventana Bilbao de dos hojas con marco tono madera y vidrio oscuro.',
+      en: 'Two-panel Bilbao window with a wood-tone frame and dark glass.',
     },
   },
   slidingWindowWoodGridDarkGlass: {
@@ -241,13 +240,6 @@ const PHOTOS = {
       en: 'White aluminium bathroom door with frosted glass, in a bathroom under construction.',
     },
   },
-  carMirrorRepair: {
-    src: carMirrorRepair,
-    alt: {
-      es: 'Un trabajador de Vidriería Bonilla repara el retrovisor lateral de un carro.',
-      en: 'A Vidriería Bonilla worker repairs the side mirror of a car.',
-    },
-  },
 } satisfies Record<string, Photo>;
 
 export const COMPANY = {
@@ -259,8 +251,8 @@ export const COMPANY = {
     en: 'Quality and trust in glass and aluminium',
   } satisfies Localized,
   description: {
-    es: 'Vidriería en Jayaque, La Libertad: ventanas, puertas de jardín y baño, vidrios fijos y espejos a la medida, con instalación. Reparamos retrovisores.',
-    en: 'Glass shop in Jayaque, El Salvador: made-to-measure windows, garden and bathroom doors, fixed glass and mirrors, installed. Car mirror repair too.',
+    es: 'Vidriería en Jayaque, La Libertad: ventanas de diferentes estilos, puertas de jardín y baño, vidrios fijos y espejos a la medida, con instalación en todo El Salvador.',
+    en: 'Glass shop in Jayaque, El Salvador: windows in different styles, garden and bathroom doors, fixed glass and made-to-measure mirrors, installed across El Salvador.',
   } satisfies Localized,
 
   contact: {
@@ -318,15 +310,15 @@ export const COMPANY = {
   /** Short answer to what a visitor is looking for, shown right after the hero. */
   summary: {
     intro: {
-      es: 'Vidriería Bonilla fabrica e instala ventanas, puertas, vidrios fijos y espejos a la medida en Jayaque, La Libertad, y repara espejos de carro.',
-      en: 'Vidriería Bonilla makes and installs made-to-measure windows, doors, fixed glass and mirrors in Jayaque, La Libertad, and repairs car mirrors.',
+      es: 'Vidriería Bonilla fabrica e instala ventanas de diferentes estilos, puertas de vidrio para jardín y baños, vidrios fijos y más. Desde Jayaque, La Libertad, para todo El Salvador.',
+      en: 'Vidriería Bonilla makes and installs windows in different styles, glass doors for gardens and bathrooms, fixed glass and more. From Jayaque, La Libertad, to all of El Salvador.',
     } satisfies Localized,
     points: [
       {
         section: 'products',
         text: {
-          es: 'Ventanas francesas, corredizas y guillotina, vidrios fijos, puertas de jardín y de baño, y espejos decorativos.',
-          en: 'French, sliding and sash windows, fixed glass, garden and bathroom doors, and decorative mirrors.',
+          es: 'Ventanas francesas, Bilbao y guillotina, vidrios fijos, puertas de jardín abatibles y corredizas, puertas de baño y espejos a la medida.',
+          en: 'French, Bilbao and sash windows, fixed glass, hinged and sliding garden doors, bathroom doors and made-to-measure mirrors.',
         },
       },
       {
@@ -421,20 +413,21 @@ export const COMPANY = {
       },
       photos: [
         PHOTOS.frenchWindowBlack,
+        PHOTOS.frenchWindowBlackWorkshop,
+        PHOTOS.frenchWindowWhite,
         PHOTOS.slidingWindowBlackGreenGlass,
         PHOTOS.slidingWindowWoodGridDarkGlass,
-        PHOTOS.slidingWindowWoodDarkGlass,
       ],
       elevation: 'window',
     },
     {
-      id: 'sliding-window',
+      id: 'bilbao-window',
       category: 'windows',
-      name: { es: 'Ventana corrediza', en: 'Sliding window' },
+      name: { es: 'Ventana Bilbao', en: 'Bilbao window' },
       label: { es: 'Económica', en: 'Budget' },
       summary: {
-        es: 'La opción práctica y accesible para cuartos y baños.',
-        en: 'The practical, affordable choice for bedrooms and bathrooms.',
+        es: 'Ventana corrediza de línea Bilbao, práctica y accesible para cuartos y baños.',
+        en: 'Bilbao-line sliding window, the practical, affordable choice for bedrooms and bathrooms.',
       },
       features: {
         es: [
@@ -450,12 +443,7 @@ export const COMPANY = {
           'Suited to bedrooms and bathrooms',
         ],
       },
-      photos: [
-        PHOTOS.windowWhiteGridArches,
-        PHOTOS.slidingWindowWhiteClear,
-        PHOTOS.windowWhiteGridBlueSky,
-        PHOTOS.frenchWindowWhite,
-      ],
+      photos: [PHOTOS.bilbaoWindowWoodDarkGlass],
       elevation: 'window',
     },
     {
@@ -512,17 +500,25 @@ export const COMPANY = {
     {
       id: 'garden-door',
       category: 'doors',
-      name: { es: 'Puerta de jardín', en: 'Garden door' },
+      name: {
+        es: 'Puertas de jardín (abatibles y corredizas)',
+        en: 'Garden doors (hinged and sliding)',
+      },
       label: { es: 'Elegante', en: 'Elegant' },
       summary: {
-        es: 'Puerta corrediza que conecta la casa con el patio o la terraza.',
-        en: 'Sliding door that connects your home with the patio or terrace.',
+        es: 'Puertas abatibles o corredizas que conectan la casa con el patio o la terraza.',
+        en: 'Hinged or sliding doors that connect your home with the patio or terrace.',
       },
       features: {
-        es: ['Más luz natural', 'Fácil apertura', 'Diseño moderno', 'Ideal para patio o terraza'],
+        es: [
+          'Abatibles o corredizas',
+          'Más luz natural',
+          'Diseño moderno',
+          'Ideal para patio o terraza',
+        ],
         en: [
+          'Hinged or sliding',
           'More natural light',
-          'Opens easily',
           'Modern design',
           'Suited to patios and terraces',
         ],
@@ -538,7 +534,7 @@ export const COMPANY = {
     {
       id: 'bathroom-door',
       category: 'doors',
-      name: { es: 'Puerta de baño', en: 'Bathroom door' },
+      name: { es: 'Puertas de baño', en: 'Bathroom doors' },
       label: { es: 'Elegante', en: 'Elegant' },
       summary: {
         es: 'Puerta de aluminio con vidrio texturizado o esmerilado para baños y duchas.',
@@ -556,9 +552,9 @@ export const COMPANY = {
       elevation: 'door',
     },
     {
-      id: 'decorative-mirrors',
+      id: 'custom-mirrors',
       category: 'mirrors',
-      name: { es: 'Espejos decorativos', en: 'Decorative mirrors' },
+      name: { es: 'Espejos a la medida', en: 'Made-to-measure mirrors' },
       summary: {
         es: 'Espejos cortados a la medida de la pared donde van, para su casa o su negocio.',
         en: 'Mirrors cut to fit the wall they go on, for your home or business.',
@@ -569,40 +565,6 @@ export const COMPANY = {
       },
       photos: [],
       elevation: 'mirror',
-    },
-    {
-      id: 'car-mirrors',
-      category: 'mirrors',
-      name: { es: 'Espejos de carro', en: 'Car mirrors' },
-      summary: {
-        es: 'Reparamos retrovisores y cambiamos el vidrio del espejo de su carro.',
-        en: 'We repair side mirrors and replace the mirror glass on your car.',
-      },
-      features: {
-        es: ['Reparación de retrovisores', 'Cambio de vidrio'],
-        en: ['Side mirror repair', 'Glass replacement'],
-      },
-      photos: [PHOTOS.carMirrorRepair],
-      elevation: 'car-mirror',
-    },
-    {
-      id: 'custom-work',
-      category: 'custom',
-      name: { es: 'Fabricación personalizada', en: 'Custom fabrication' },
-      summary: {
-        es: 'Si lo que necesita en vidrio o aluminio no aparece aquí, envíenos las medidas y lo cotizamos.',
-        en: 'If the glass or aluminium piece you need is not listed, send us the measurements and we will quote it.',
-      },
-      features: {
-        es: ['Combinaciones de puerta y ventana', 'Ventanas con fijo superior', 'Piezas a pedido'],
-        en: ['Door and window combinations', 'Windows with fixed upper panes', 'Made to order'],
-      },
-      photos: [
-        PHOTOS.doorWindowWhiteCombo,
-        PHOTOS.windowWhiteSlidingTransom,
-        PHOTOS.frenchWindowBlackWorkshop,
-      ],
-      elevation: 'custom',
     },
   ] satisfies Product[],
 
@@ -765,11 +727,6 @@ export const COMPANY = {
       },
     },
     {
-      ...PHOTOS.carMirrorRepair,
-      category: 'mirrors',
-      caption: { es: 'Reparación de retrovisor', en: 'Side mirror repair' },
-    },
-    {
       ...PHOTOS.windowWhiteGridBlueSky,
       category: 'windows',
       caption: { es: 'Ventana blanca de cuatro hojas', en: 'Four-panel white window' },
@@ -791,7 +748,7 @@ export const COMPANY = {
     },
     {
       ...PHOTOS.doorWindowWhiteCombo,
-      category: 'custom',
+      category: 'doors',
       caption: { es: 'Puerta y ventana en aluminio blanco', en: 'White aluminium door and window' },
     },
     {
@@ -834,7 +791,7 @@ export const COMPANY = {
     },
     {
       ...PHOTOS.windowWhiteSlidingTransom,
-      category: 'custom',
+      category: 'windows',
       caption: { es: 'Ventana con fijo superior', en: 'Window with fixed upper pane' },
     },
     {
@@ -858,9 +815,9 @@ export const COMPANY = {
       caption: { es: 'Ventana de aluminio blanco', en: 'White aluminium window' },
     },
     {
-      ...PHOTOS.slidingWindowWoodDarkGlass,
+      ...PHOTOS.bilbaoWindowWoodDarkGlass,
       category: 'windows',
-      caption: { es: 'Ventana corrediza tono madera', en: 'Wood-tone sliding window' },
+      caption: { es: 'Ventana Bilbao tono madera', en: 'Wood-tone Bilbao window' },
     },
   ] satisfies GalleryItem[],
 
@@ -903,48 +860,34 @@ export const COMPANY = {
         en: `Message us on WhatsApp or call ${PHONE_DISPLAY}, send an email or fill in the form on this page. If you already have measurements or a photo of the space, include them.`,
       },
     },
-    {
-      question: { es: '¿Reparan espejos de carro?', en: 'Do you repair car mirrors?' },
-      answer: {
-        es: 'Sí, reparamos retrovisores y cambiamos el vidrio del espejo. Escríbanos la marca, el modelo y qué lado necesita.',
-        en: 'Yes, we repair side mirrors and replace mirror glass. Send us the make, model and which side you need.',
-      },
-    },
   ] satisfies FaqItem[],
 
   legal: {
-    legalName: {
-      pending: {
-        es: 'Nombre legal del titular o razón social',
-        en: 'Registered name of the owner or company',
-      },
-    },
-    taxId: { pending: { es: 'NIT del titular', en: 'Owner’s tax ID (NIT)' } },
-    lastUpdated: '2026-09-24',
+    legalName: 'Cristian Alejandro Vides Corea',
+    partner: 'Oscar Alexander Bonilla Pineda',
+    taxId: '04820097-9',
+    taxpayerNumber: '305887-3',
+    lastUpdated: '2026-10-05',
     retention: {
-      pending: {
-        es: 'Plazo de conservación de las solicitudes de cotización (por ejemplo, 12 meses desde el último contacto)',
-        en: 'How long quote requests are kept (for example, 12 months after last contact)',
-      },
+      es: 'un mes desde el último contacto',
+      en: 'one month after last contact',
     },
     refunds: {
       deposit: {
-        pending: {
-          es: 'Si se pide anticipo, qué porcentaje y en qué casos se devuelve',
-          en: 'Whether a deposit is required, how much, and when it is returned',
-        },
+        es: 'para empezar a fabricar se deposita un anticipo del 50 % del total del proyecto',
+        en: 'a deposit of 50% of the project total is paid before fabrication starts',
+      },
+      cancellation: {
+        es: 'puede cancelar, pero se cobrará todo lo invertido hasta el momento de la cancelación (materiales cortados o comprados y mano de obra)',
+        en: 'you can cancel, but you will be charged for everything already invested at the time of cancellation (materials cut or bought and labour)',
+      },
+      returns: {
+        es: 'solo se aceptan si el defecto es nuestro, es decir, si cometimos un error en la cotización o al fabricar',
+        en: 'they are only accepted if the defect is ours, that is, if we made a mistake in the quote or during fabrication',
       },
       warranty: {
-        pending: {
-          es: 'Si se ofrece garantía en ventanas, puertas y espejos, su plazo y qué cubre',
-          en: 'Whether windows, doors and mirrors carry a warranty, its term and what it covers',
-        },
-      },
-      carMirrorWarranty: {
-        pending: {
-          es: 'Si se ofrece garantía en reparaciones de retrovisores, su plazo y qué cubre',
-          en: 'Whether car mirror repairs carry a warranty, its term and what it covers',
-        },
+        es: 'cubre solo defectos de fábrica y de nuestra instalación. No aplica si el cliente dio mal las medidas ni si la instalación no la hicimos nosotros. Debe reportar la falla en un plazo máximo de 1 semana desde la entrega',
+        en: 'covers only manufacturing defects and our own installation. It does not apply if the customer gave the wrong measurements or if we did not do the installation. Any fault must be reported within 1 week of delivery',
       },
     },
   } satisfies LegalFacts,

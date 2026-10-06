@@ -30,6 +30,8 @@ const controller: LegalDocument['sections'][number] = {
           ['Trade name', name],
           ['Owner', fact(legal.legalName, L)],
           ['Tax ID (NIT)', fact(legal.taxId, L)],
+          ['Taxpayer registration number (NRC)', legal.taxpayerNumber],
+          ['Partner', legal.partner],
           ['Address', fullAddress()],
           ['Email', email],
           ['Phone and WhatsApp', phone],
@@ -482,24 +484,24 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
     summary:
       'Because almost everything is made to measure, we start once you accept the written quote and we respond if the work is defective or does not match the quote.',
     keyPoints: [
-      ['We start fabrication once you accept the written quote.'],
-      ['You can cancel by telling us in writing.'],
+      ['We start fabrication once you accept the written quote and pay a 50% deposit.'],
+      ['You can cancel by telling us in writing; we charge for what has been invested so far.'],
       [
         'If you hired us at a distance, you may withdraw within eight days if work has not started.',
       ],
-      ['We repair or replace defects that are ours at no cost.'],
+      ['We repair or replace defects that are ours at no cost, if reported within 1 week.'],
       ['Refunds are paid by the same method within 15 days.'],
     ],
     faq: [
       {
         question: 'Can I cancel an order?',
         answer:
-          'Yes, by telling us in writing. If you hired us entirely at a distance, you may withdraw within the following eight days unless the service has already started.',
+          'Yes, by telling us in writing, but you will be charged for everything already invested at the time of cancellation. If you hired us entirely at a distance, you may withdraw within the following eight days unless the service has already started.',
       },
       {
         question: 'What happens if the work is defective?',
         answer:
-          'We inspect it and repair or replace it at no cost if the defect is ours. If the repair does not solve it, you choose a replacement, a price reduction or a refund.',
+          'Tell us within 1 week. We inspect it and repair or replace it at no cost if the defect is ours. If the repair does not solve it, you choose a replacement, a price reduction or a refund.',
       },
       {
         question: 'How long does a refund take?',
@@ -513,7 +515,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'It applies to made-to-measure products (windows, glass doors, mirrors and custom pieces) and to repair services, such as replacing car mirror glass.',
+              'It applies to made-to-measure products: windows, glass doors, fixed glass and mirrors.',
             ],
           },
         ],
@@ -543,12 +545,7 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
           {
             paragraph: [
               'Cancellation once fabrication has started: ',
-              {
-                pending: {
-                  es: 'Qué parte del anticipo se reintegra si la pieza ya se cortó o fabricó (revisar con asesoría legal)',
-                  en: 'How much of the deposit is returned once the piece has been cut or made (review with legal counsel)',
-                },
-              },
+              fact(legal.refunds.cancellation, L),
               '.',
             ],
           },
@@ -560,13 +557,8 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Returns of a made-to-measure piece because you changed your mind: ',
-              {
-                pending: {
-                  es: 'Si se aceptan o no, y en qué condiciones',
-                  en: 'Whether they are accepted, and on what terms',
-                },
-              },
+              'Returns of a piece already made to measure: ',
+              fact(legal.refunds.returns, L),
               '. In every case we respond when the work does not match the quote or is defective:',
             ],
           },
@@ -588,7 +580,6 @@ export const LEGAL_EN: Record<LegalPageKey, LegalDocument> = {
         heading: 'Warranty',
         blocks: [
           { paragraph: ['Windows, doors and mirrors: ', fact(legal.refunds.warranty, L), '.'] },
-          { paragraph: ['Car mirror repair: ', fact(legal.refunds.carMirrorWarranty, L), '.'] },
           {
             paragraph: [
               'Any warranty we offer will be stated in writing on the quote or invoice, with its term and what it covers.',

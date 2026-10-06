@@ -2,21 +2,19 @@ import type { ImageMetadata } from 'astro';
 
 import type { Localized } from '@/i18n/locales';
 
-export type ProductCategory = 'windows' | 'doors' | 'mirrors' | 'custom';
+export type ProductCategory = 'windows' | 'doors' | 'mirrors';
 
 export type ProductId =
   | 'french-window-black'
-  | 'sliding-window'
+  | 'bilbao-window'
   | 'sash-window'
   | 'fixed-glass'
   | 'garden-door'
   | 'bathroom-door'
-  | 'decorative-mirrors'
-  | 'car-mirrors'
-  | 'custom-work';
+  | 'custom-mirrors';
 
 /** Which line drawing represents a product when no own photo exists. */
-export type ElevationKind = 'window' | 'door' | 'mirror' | 'car-mirror' | 'custom';
+export type ElevationKind = 'window' | 'door' | 'mirror' | 'custom';
 
 export type Photo = {
   src: ImageMetadata;
@@ -98,13 +96,18 @@ export type Pending = { pending: Localized };
 export type LegalFacts = {
   /** Registered name of the person or company responsible. */
   legalName: string | Pending;
+  /** Partner who runs the business with the legal owner. */
+  partner: string;
   /** Tax ID (NIT). Recommended by the consumer protection law for online commerce. */
   taxId: string | Pending;
+  /** Taxpayer registration number (NRC). */
+  taxpayerNumber: string;
   lastUpdated: string;
   retention: Localized | Pending;
   refunds: {
     deposit: Localized | Pending;
+    cancellation: Localized | Pending;
+    returns: Localized | Pending;
     warranty: Localized | Pending;
-    carMirrorWarranty: Localized | Pending;
   };
 };

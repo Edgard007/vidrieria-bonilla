@@ -22,6 +22,8 @@ const controller: LegalDocument['sections'][number] = {
           ['Nombre comercial', name],
           ['Titular', fact(legal.legalName, L)],
           ['NIT', fact(legal.taxId, L)],
+          ['NRC', legal.taxpayerNumber],
+          ['Socio', legal.partner],
           ['Dirección', fullAddress()],
           ['Correo', email],
           ['Teléfono y WhatsApp', phone],
@@ -480,22 +482,24 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
     summary:
       'Como casi todo se fabrica a la medida, fabricamos cuando usted acepta la cotización escrita y respondemos si el trabajo tiene defectos o no coincide con lo cotizado.',
     keyPoints: [
-      ['Empezamos a fabricar cuando usted acepta la cotización escrita.'],
-      ['Puede cancelar avisándonos por escrito.'],
+      [
+        'Empezamos a fabricar cuando usted acepta la cotización escrita y deposita el 50 % de anticipo.',
+      ],
+      ['Puede cancelar avisándonos por escrito; se cobra lo invertido hasta ese momento.'],
       ['Si contrató a distancia, puede retractarse en ocho días si el servicio no ha comenzado.'],
-      ['Reparamos o cambiamos sin costo los defectos que sean nuestros.'],
+      ['Reparamos o cambiamos sin costo los defectos que sean nuestros, reportados en 1 semana.'],
       ['Los reembolsos se pagan por el mismo medio, en un máximo de 15 días.'],
     ],
     faq: [
       {
         question: '¿Puedo cancelar un pedido?',
         answer:
-          'Sí, avisándonos por escrito. Si contrató completamente a distancia, puede retractarse en los ocho días siguientes, salvo que el servicio ya haya comenzado.',
+          'Sí, avisándonos por escrito, pero se cobrará todo lo invertido hasta el momento de la cancelación. Si contrató completamente a distancia, puede retractarse en los ocho días siguientes, salvo que el servicio ya haya comenzado.',
       },
       {
         question: '¿Qué pasa si el trabajo tiene defectos?',
         answer:
-          'Revisamos el trabajo y lo reparamos o cambiamos sin costo si el defecto es nuestro. Si la reparación no lo resuelve, usted elige entre cambio, rebaja o devolución.',
+          'Avísenos en un máximo de 1 semana. Revisamos el trabajo y lo reparamos o cambiamos sin costo si el defecto es nuestro. Si la reparación no lo resuelve, usted elige entre cambio, rebaja o devolución.',
       },
       {
         question: '¿Cuánto tarda un reembolso?',
@@ -510,7 +514,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Se aplica a los productos fabricados a la medida (ventanas, puertas de vidrio, espejos y piezas personalizadas) y a los servicios de reparación, como el cambio de vidrio de retrovisores.',
+              'Se aplica a los productos fabricados a la medida: ventanas, puertas de vidrio, vidrios fijos y espejos.',
             ],
           },
         ],
@@ -540,12 +544,7 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
           {
             paragraph: [
               'Condiciones de cancelación una vez iniciada la fabricación: ',
-              {
-                pending: {
-                  es: 'Qué parte del anticipo se reintegra si la pieza ya se cortó o fabricó (revisar con asesoría legal)',
-                  en: 'How much of the deposit is returned once the piece has been cut or made (review with legal counsel)',
-                },
-              },
+              fact(legal.refunds.cancellation, L),
               '.',
             ],
           },
@@ -557,13 +556,8 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         blocks: [
           {
             paragraph: [
-              'Devoluciones por cambio de opinión de una pieza ya fabricada a la medida: ',
-              {
-                pending: {
-                  es: 'Si se aceptan o no, y en qué condiciones',
-                  en: 'Whether they are accepted, and on what terms',
-                },
-              },
+              'Devoluciones de una pieza ya fabricada a la medida: ',
+              fact(legal.refunds.returns, L),
               '. En todos los casos respondemos cuando el trabajo no coincide con lo cotizado o tiene defectos:',
             ],
           },
@@ -585,13 +579,6 @@ export const LEGAL_ES: Record<LegalPageKey, LegalDocument> = {
         heading: 'Garantía',
         blocks: [
           { paragraph: ['Ventanas, puertas y espejos: ', fact(legal.refunds.warranty, L), '.'] },
-          {
-            paragraph: [
-              'Reparación de retrovisores: ',
-              fact(legal.refunds.carMirrorWarranty, L),
-              '.',
-            ],
-          },
           {
             paragraph: [
               'Cualquier garantía que ofrezcamos constará por escrito en la cotización o la factura, con su plazo y lo que cubre.',
